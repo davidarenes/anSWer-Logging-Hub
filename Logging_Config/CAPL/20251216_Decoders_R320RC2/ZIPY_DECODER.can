@@ -1,0 +1,473 @@
+/*@!Encoding:1252*/
+includes
+{
+  #include "serl_dstd.can"
+  #include "volvo_serl_decode.can"
+}
+
+variables
+{
+      dword max_zipy_stream_size = 36000;
+      byte g_buffer[36000];
+      byte g_frag_buff[1500];
+      dword rcvd=0;
+      dword index=0;
+      dword Layer2_header_length = 14;
+      dword Layer3_header_length = 20;
+      dword ZipyHeader_Length = 17;
+      dword g_payLoad_length = 0;
+
+      const dword SPOC = 2000;
+      const dword CAFC_collision_target_S = 1041;
+      const dword CAFC_brake_control_S = 1042;
+      const dword CAFC_alert_status_S = 604;
+      const dword ADSC_bus_input_S = 601;
+      const dword ADSC_longitud_control_S = 602;
+      const dword ADSC_lat_control_S = 603;
+      const dword CASP_latfunc_failsafe_S = 605;
+      const dword CASP_veh_input_signals_S = 606;
+      const dword CASP_driver_hmi_input_S = 607;
+      const dword CASP_lot_torque_input_S = 608;
+      const dword CASP_lot_fusa_input_S = 609;
+      const dword CASP_lot_fusa_input_crc_S = 610;
+      const dword CASP_bsd_generic_input_S = 611;
+      const dword CASP_ext_aeb_ess_input_S = 612;
+      const dword CASP_ext_aeb_input_signals_S = 613;
+      const dword CASP_generic_lateral_input_S = 614;
+      const dword CASP_accf_generic_input_S = 615;
+      const dword CASP_me4_ext_object_info_list_S = 616;
+      const dword CASP_me4_common_signals_S = 617;
+      const dword CASP_gen_dynamic_object_list_S = 618;
+      const dword CASP_gen_lane_boundaries_S = 619;
+      const dword CASP_longitud_control_S = 640;
+      const dword CASP_lot_torque_control_S = 641;
+      const dword CASP_lat_control_S = 642;
+      const dword CASP_lot_fusa_output_S = 643;
+      const dword CASP_lot_fusa_output_crc_S = 644;
+      const dword CASP_acc_speed_distance_info_S = 645;
+      const dword CASP_acc_state_hmi_S = 646;
+      const dword CASP_lat_func_S = 647;
+      const dword ODOC_input_S = 11;
+      const dword ODOC_ext_input_S = 12;
+      const dword ODOC_output_S = 1001;
+      const dword OOCC_swof_nvm_data_S = 1049;
+      const dword OOCC_wcca_nvm_data_S = 1050;
+      const dword OOCC_swof_nvm_data_crc_S = 1902;
+      const dword OOCC_wcca_nvm_data_crc_S = 1903;
+      const dword OBJC_rad_raw_data_S = 204;
+      const dword OBJC_veo_rad_raw_data_S = 205;
+      const dword OBJC_lode_inp_map_S = 206;
+      const dword OBJC_cam_lm_inp_S = 311;
+      const dword OBJC_me4_front_cam_input_S = 312;
+      const dword FCIH_inp_zpy_can_pack_S = 553;
+      const dword FCIH_inp_zpy_can_fd_pack_S = 554;
+      const dword DGPS_ich_buffer_S = 701;
+      const dword OBJC_zpy_stat_map_clusters_S = 1002;
+      const dword OBJC_zpy_stat_map_features_S = 1003;
+      const dword OBJC_zpy_dyn_map_features_S = 1004;
+      const dword OBJC_zpy_road_mark_features_S = 1005;
+      const dword OBJC_slm_zpy_data_S = 1016;
+      const dword OBJC_zpy_data_S = 1018;
+      const dword OBJC_zpy_fsgm_main_S = 1022;
+      const dword OBJC_zpy_kool_data_S = 1027;
+      const dword OBJC_zpy_fsgm_analysis_S = 1028;
+      const dword OBJC_zpy_static_map_S = 1035;
+      const dword OBJC_zpy_tracked_dyn_objects_S = 1036;
+      const dword OBJC_lane_boundaries_S = 1048;
+      const dword OBJM_vloc_zpy_data_S = 1054;
+      const dword OBJC_ext_dyn_objects_S = 1055;
+      const dword OBJC_pedestrians_S = 1056;
+      const dword PTP_dbg_info_msg_S = 8002;
+      const dword OBJC_cam_inp_pack_3dod_static_S = 301;
+      const dword OBJC_cam_inp_3dod_dynamic_S = 302;
+      const dword OBJC_cam_inp_pd_S = 303;
+      const dword OBJC_cam_inp_psmd_S = 304;
+      const dword OBJC_slm_vslam_input_S = 305;
+      const dword OBJC_slm_vslam_output_S = 306;
+      const dword OBJC_cam_v3_inp_pack_nform_static_S = 307;
+      const dword OBJC_cam_v3_inp_pack_movable_S = 308;
+      const dword OBJC_cam_v3_inp_pack_psmd_S = 309;
+      const dword OBJC_cam_v3_inp_pack_cnn_curb_S = 310;
+      const dword OBJC_cam_slot_input_S = 313;
+      const dword OBJC_cam_obj_box_input_S = 314;
+      const dword OBJC_cam_road_line_input_S = 315;
+      const dword OBJC_cam_sem_map_input_S = 316;
+      const dword OBJC_cam_height_map_input_S = 317;
+      const dword OBJC_cam_gnd_mrk_box_input_S = 318;
+      const dword OBJC_cam_gnd_feat_input_S = 319;
+      const dword OBJC_cam_nform_raw_input_S = 320;
+      const dword ULFC_feature_freespace_S = 2;
+      const dword DAPM_uls_output_obj_S = 3;
+      const dword ULSC_zpy_ak_devid_rawdata_S = 1009;
+      const dword ULFC_zpy_data_S = 1021;
+      const dword ULSC_zpy_upac_data_S = 1024;
+      const dword ULSC_zpy_upad_data_S = 1025;
+      const dword ULSC_zpy_ext_upad_data_S = 1026;
+      const dword ULSC_zpy_upad_fl_data_S = 1031;
+      const dword ULSC_zpy_upad_fl_ext_data_S = 1032;
+      const dword ULSC_read_write_cfg_mem_S = 5002;
+      const dword ULSC_zpy_hpfl_sensors_params_S = 5003;
+      const dword USVC_mes_S = 5004;
+      const dword USVC_dgc_S = 5005;
+      const dword USVC_zpy_usv_ext_data_S = 5006;
+      const dword USVC_zpy_sens_temp_data_S = 5007;
+      const dword USVC_zpy_sens_nvm_data_S = 5009;
+      const dword USFC_zpy_sgws_S = 5010;
+      const dword USFC_sdi_S = 5011;
+      const dword ULSC_min_zpy_upda_fl_data_S = 5012;
+      const dword DAPM_uls_diag_err_S = 5013;
+      const dword USVC_test_seq_config_S = 5014;
+      const dword USVC_test_mode_cfg_S = 5015;
+      const dword DIUS_zpy_diag_err_S = 5016;
+      const dword USFC_zpy_usf_diag_S = 5017;
+      const dword USFC_zpy_usv_raw_data_S = 5018;
+      const dword USVC_zpy_sens_otc_data_S = 5020;
+      const dword USVC_zpy_sens_lpse_data_S = 5021;
+      const dword DAPM_uls_itg_checklist_S = 5022;
+      const dword DIUS_zpy_diag_err_usv2_S = 5024;
+      const dword DAPM_veh_input_S = 1;
+      const dword DAPM_fun_out_uls_in_S = 8;
+      const dword DAPM_fun_out_vct_in_S = 9;
+      const dword DAPM_vct_output_obj_S = 10;
+      const dword VTRC_me_slam_input_S = 400;
+      const dword VTRC_me_slam_output_S = 401;
+      const dword DAPM_zpy_version_S = 1000;
+      const dword MOPC_zpy_data_S = 1006;
+      const dword FILC_zpy_data_S = 1007;
+      const dword VCTC_zpy_data_S = 1008;
+      const dword DIDH_uls_raw_data_dev_id_S = 1009;
+      const dword COLC_zpy_brk_data_S = 1010;
+      const dword COLC_zpy_exp_data_S = 1011;
+      const dword COLC_zpy_pfl_data_S = 1012;
+      const dword DAPM_zpy_fun_data_S = 1014;
+      const dword GMPM_zpy_data_S = 1017;
+      const dword DAPM_zpy_uls_data_S = 1019;
+      const dword DAPM_zpy_vct_data_S = 1020;
+      const dword COLC_zpy_iebm_data_S = 1029;
+      const dword TRAC_zpy_data_S = 1037;
+      const dword VTRM_zpy_data_S = 1038;
+      const dword MOPC_zpy_bezier_data_S = 1040;
+      const dword VDIC_vdm_sct_input_zpy_data_S = 1043;
+      const dword VDIC_sct_zpy_data_S = 1044;
+      const dword VDIC_tcdw_zipy_data_S = 1045;
+      const dword HMIC_zpy_data_S = 1046;
+      const dword GMPM_zpy_input_data_S = 1047;
+      const dword DAPM_zpy_bsd_data_S = 1051;
+      const dword DSFC_zpy_data_S = 1052;
+      const dword COLC_zpy_adv_exp_data_S = 1053;
+      const dword FILC_psl_pout_nvm_data_S = 1900;
+      const dword TRAC_tra_est_nvm_data_crc_S = 1901;
+      const dword VTRC_bda_nvm_odom_data_S = 1904;
+      const dword VTRC_bda_nvm_slam_data_S = 1905;
+      const dword VTRC_p4uhome_nvm_trajectory_S = 1906;
+      const dword VTRC_p4uhome_nvm_status_crc_S = 1907;
+      const dword DIDH_odo_p4u_dev_id_S = 2001;
+      const dword DIDH_fun_p4u_dev_id_S = 2002;
+      const dword DIDH_fun_col_mit_dev_id_S = 2003;
+      const dword DIDH_fun_map_data_dev_id_S = 2004;
+      const dword DIDH_fun_ops_dev_id_S = 2005;
+      const dword ZPYC_errt_data_S = 2100;
+      const dword ZPYC_sect_data_S = 2101;
+      const dword ZPYC_vctl_data_S = 2102;
+      const dword ZPYC_maneuver_operator_data_S = 2103;
+      const dword ZPYC_dapm_fun_data_S = 2104;
+      const dword ZPYC_odot_output_S = 2105;
+      const dword ZPYC_odot_ext_input_S = 2106;
+      const dword ZPYC_odot_input_S = 2107;
+      const dword ZPYC_tras_data_S = 2108;
+      const dword ZPYC_vtrm_data_S = 2109;
+      const dword ZPYC_iebm_data_S = 2110;
+      const dword ZPYC_ebm_data_S = 2111;
+      const dword ZPYC_cbr_data_S = 2112;
+      const dword ZPYC_path_follow_data_S = 2113;
+      const dword ZPYC_exploration_data_S = 2114;
+      const dword ZPYC_active_parking_data_S = 2115;
+      const dword ZPYC_parkout_pok_data_S = 2116;
+      const dword ZPYC_parkin_pok_data_S = 2117;
+      const dword ZPYC_line_parking_data_S = 2118;
+      const dword ZPYC_slot_data_S = 2119;
+      const dword ZPYC_map_dbg_data_S = 2120;
+      const dword ZPYC_dynamic_map_feature_S = 2121;
+      const dword ZPYC_bda2_p4uh_data_S = 2122;
+      const dword ZPYC_dsfe_data_S = 2123;
+      const dword ZPYC_safe_slot_data_S = 2124;
+      const dword ZPYC_park_out_nvm_data_S = 2125;
+      const dword ZPYC_das_version_S = 2126;
+      const dword IMAP_parking_infrastructure_S = 3001;
+      const dword IMAP_park_slot_S = 3002;
+      const dword ME_SPI_Application_Message = 560;
+      const dword ME_SPI_Calibration_Dynamic = 561;
+      const dword ME_SPI_Calibration_SPC = 562;
+      const dword ME_SPI_Calibration_Static = 563;
+      const dword ME_SPI_Common = 564;
+      const dword ME_SPI_FCF_CV_DYN = 565;
+      const dword ME_SPI_FCF_VD_DYN = 566;
+      const dword ME_SPI_FCF_VRU_DYN = 567;
+      const dword ME_SPI_Fail_Safe = 568;
+      const dword ME_SPI_Light_Scene_VCL = 569;
+      const dword ME_SPI_Objects = 570;
+      const dword ME_SPI_Safety_Diagnostics = 571;
+      const dword ME_SPI_Car_Sensor = 572;
+      const dword ME_SPI_Boot_Diagnostics = 573;
+      const dword ME_SPI_DS_Traffic_Signs = 574;
+      const dword ME_SPI_Debug = 575;
+      const dword ME_SPI_Lanes_Adjacent = 576;
+      const dword ME_SPI_Lanes_Host = 577;
+      const dword ME_SPI_Lanes_Road_Edge = 578;
+      const dword ME_SPI_Light_Scene_RFL = 579;
+      const dword ME_SPI_MTFV = 580;
+      const dword ME_SPI_Environment_Init = 581;
+      const dword PASP_veh_signals_input_S = 2030;
+      const dword PASP_veh_signals_output_S = 2031;
+      const dword PASP_vcc_veh_rx_signals_S = 2032;
+      const dword PASP_vcc_veh_tx_signals_S = 2033;
+      const dword PASP_arbit_feedback_data_S = 2034;
+      const dword PASP_acc_veh_signals_output_S = 2035;
+      const dword PASP_sla_veh_signals_output_S = 2036;
+      const dword PASP_csa_veh_signals_output_S = 2037;
+      const dword PASP_mrm_veh_signals_output_S = 2038;
+      const dword PASP_rcw_veh_signals_output_S = 2039;
+      const dword PASP_lcs_veh_signals_output_S = 2050;
+      const dword PASP_xlka_veh_signals_output_S = 2051;
+      const dword PASP_slca_veh_signals_output_S = 2052;
+      const dword PASP_bsis_veh_signals_output_S = 2053;
+      const dword PASP_faeb_veh_signals_output_S = 2054;
+      const dword PASP_rctx_veh_signals_output_S = 2055;
+      const dword PASP_dow_veh_signals_output_S = 2056;
+      const dword PASP_sv_veh_signals_output_S = 2057;
+      const dword PASP_lcs_pre_upd_fb_S = 2040;
+      const dword PASP_acc_pos_upd_fb_S = 2041;
+      const dword ACC_dbg_data_S = 2042;
+      const dword SLCA_dbg_data_S = 2043;
+      const dword LCS_dbg_data_S = 2044;
+      const dword XLKA_dbg_data_S = 2045;
+      const dword RCW_dbg_data_S = 2046;
+      const dword MRM_dbg_data_S = 2047;
+      const dword ARBIT_dbg_data_S = 2048;
+      const dword FAEB_dbg_data_S = 2049;
+      const dword BSIS_dbg_data_S = 2058;
+      const dword DOW_dbg_data_S = 2059;
+      const dword PASP_vcc_carconfig_S = 2060;
+      const dword PASP_ext_func_data_S = 2061;
+      const dword DASI_dbg_monitor_status_S = 2062;
+      const dword RTD_dbg_data_S = 2063;
+      const dword PASP_Qm2AsilB_ProtectedBuffer_S = 2064;
+      const dword PASP_AsilB2Qm_ProtectedBuffer_S = 2065;
+      const dword DASI_monitors_cyclics_S = 2066;
+      const dword DASI_monitors_status_S = 2067;
+      const dword DASI_monitors_timestamps_S = 2068;
+      const dword SV_dbg_data_S = 2069;
+
+}
+
+on ethernetPacket *
+{
+  dword ipHeaderLength;
+  byte ipProtocol;
+  byte isMoreFragFlag=0;
+  word fragOffset=0;
+  word payloadLength=0;
+  byte skipMessageFlag = 0;
+
+  ipHeaderLength = (this.Byte(0) & 0x0F) * 4;
+  isMoreFragFlag = ((this.Byte(6) & 0x70) >> 5) & 1;
+  fragOffset = (swapWord(this.word(6)) & 0x1F);
+  ipProtocol = this.Byte(9);
+
+  if(ipProtocol == 17)
+  {    
+    byte buffer[1600];
+    dword i;
+    i=0;
+    payloadLength = HandleUDP( this, ipHeaderLength, swapWord(this.Word(ipHeaderLength)), swapWord(this.Word(ipHeaderLength+2)),buffer);
+    if((g_payLoad_length + payloadLength) < max_zipy_stream_size && (g_payLoad_length + payloadLength) > 0)
+    {
+      for(;i<payloadLength;i++)
+      {
+        g_buffer[index + i] = buffer[i];
+      }
+      index = index + i;
+      g_payLoad_length += payloadLength;
+    }
+    else
+    {
+      g_payLoad_length += payloadLength;
+      write("Packet size is too big. max_size = %d, current_size = %d,",max_zipy_stream_size,g_payLoad_length);
+    }
+
+    if(!isMoreFragFlag && !skipMessageFlag)
+    {
+      dword i;
+      dword offset;
+      word structLen;
+      word structId;
+      byte structVersion;
+      byte zipyHeaderZise = 5;
+      dword structId_notFound;
+      dword overall_stream_length = 0;
+      overall_stream_length = g_payLoad_length;
+      g_payLoad_length = 0;
+      structId_notFound=0;
+      index = 0;
+      i=0;
+      offset = 8;
+      structLen = 0;
+      structId = 0;
+      structVersion = 0;
+      
+      @sysvar::ZIPY_STREAM_P1::id = (g_buffer[8]) & 0x0F;
+      @sysvar::ZIPY_STREAM_P1::counter = g_buffer[9];
+      @sysvar::ZIPY_STREAM_P1::length = interpretAsDword(getDwordFromByteBuffer(g_buffer,13));
+      offset = ZipyHeader_Length;
+      while(offset < overall_stream_length)
+      {
+            structId = getWordFromByteBuffer(g_buffer,offset);
+            offset += 2;
+            structLen =  getWordFromByteBuffer(g_buffer,offset);
+            offset += 2;
+            structVersion = getByteFromByteBuffer(g_buffer,offset);
+            offset += 1;
+            if ((offset + structLen - 5) > overall_stream_length)
+            {
+                  write("Bad message Length %d for ID %d. current offset %d. overall length %d",structLen,structId,offset,overall_stream_length);
+                  overall_stream_length = 0;
+                  return;
+            }
+            if (structId_notFound != 0)
+            {
+                  write("No decoder for message ID %d", structId);
+                  return;
+            }
+            if (structId == DAPM_zpy_version_S)
+            {
+                  break;
+            }
+            switch(structId)
+            {
+                case PASP_veh_signals_input_S:
+                decode_PASP_veh_signals_input_S(g_buffer,offset);
+                break;
+                case PASP_veh_signals_output_S:
+                decode_PASP_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_vcc_veh_rx_signals_S:
+                decode_PASP_vcc_veh_rx_signals_S(g_buffer,offset);
+                break;
+                case PASP_vcc_veh_tx_signals_S:
+                decode_PASP_vcc_veh_tx_signals_S(g_buffer,offset);
+                break;
+                case PASP_arbit_feedback_data_S:
+                decode_PASP_arbit_feedback_data_S(g_buffer,offset);
+                break;
+                case PASP_acc_veh_signals_output_S:
+                decode_PASP_acc_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_sla_veh_signals_output_S:
+                decode_PASP_sla_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_csa_veh_signals_output_S:
+                decode_PASP_csa_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_mrm_veh_signals_output_S:
+                decode_PASP_mrm_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_rcw_veh_signals_output_S:
+                decode_PASP_rcw_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_lcs_veh_signals_output_S:
+                decode_PASP_lcs_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_xlka_veh_signals_output_S:
+                decode_PASP_xlka_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_slca_veh_signals_output_S:
+                decode_PASP_slca_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_bsis_veh_signals_output_S:
+                decode_PASP_bsis_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_faeb_veh_signals_output_S:
+                decode_PASP_faeb_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_rctx_veh_signals_output_S:
+                decode_PASP_rctx_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_dow_veh_signals_output_S:
+                decode_PASP_dow_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_sv_veh_signals_output_S:
+                decode_PASP_sv_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_lcs_pre_upd_fb_S:
+                decode_PASP_lcs_pre_upd_fb_S(g_buffer,offset);
+                break;
+                case PASP_acc_pos_upd_fb_S:
+                decode_PASP_acc_pos_upd_fb_S(g_buffer,offset);
+                break;
+                case ACC_dbg_data_S:
+                decode_ACC_dbg_data_S(g_buffer,offset);
+                break;
+                case SLCA_dbg_data_S:
+                decode_SLCA_dbg_data_S(g_buffer,offset);
+                break;
+                case LCS_dbg_data_S:
+                decode_LCS_dbg_data_S(g_buffer,offset);
+                break;
+                case XLKA_dbg_data_S:
+                decode_XLKA_dbg_data_S(g_buffer,offset);
+                break;
+                case RCW_dbg_data_S:
+                decode_RCW_dbg_data_S(g_buffer,offset);
+                break;
+                case MRM_dbg_data_S:
+                decode_MRM_dbg_data_S(g_buffer,offset);
+                break;
+                case ARBIT_dbg_data_S:
+                decode_ARBIT_dbg_data_S(g_buffer,offset);
+                break;
+                case FAEB_dbg_data_S:
+                decode_FAEB_dbg_data_S(g_buffer,offset);
+                break;
+                case BSIS_dbg_data_S:
+                decode_BSIS_dbg_data_S(g_buffer,offset);
+                break;
+                case DOW_dbg_data_S:
+                decode_DOW_dbg_data_S(g_buffer,offset);
+                break;
+                case PASP_vcc_carconfig_S:
+                decode_PASP_vcc_carconfig_S(g_buffer,offset);
+                break;
+                case PASP_ext_func_data_S:
+                decode_PASP_ext_func_data_S(g_buffer,offset);
+                break;
+                case DASI_dbg_monitor_status_S:
+                decode_DASI_dbg_monitor_status_S(g_buffer,offset);
+                break;
+                case RTD_dbg_data_S:
+                decode_RTD_dbg_data_S(g_buffer,offset);
+                break;
+                case SV_dbg_data_S:
+                decode_SV_dbg_data_S(g_buffer,offset);
+                break;
+                default:
+                // unknown struct break from loop.
+                structId_notFound = 1;
+                break;
+            }
+            offset = offset + structLen - zipyHeaderZise;
+      }
+    }
+    else if(!isMoreFragFlag && skipMessageFlag)
+    {
+      // The Large UDP packet has ended, clear the flag.
+      skipMessageFlag = 0;
+    }
+  }
+}
+
+word HandleUDP(ethernetPacket * pkt, word udpDataOffset, word srcPort, word dstPort, byte buffer[])
+{
+  word length = 0;
+  length = pkt.GetData( udpDataOffset, buffer, elcount(buffer)-1);
+  return length;
+}

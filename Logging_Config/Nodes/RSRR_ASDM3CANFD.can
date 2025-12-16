@@ -1,0 +1,293 @@
+includes
+{
+  // Import required CAPL include files
+  //--- begin generated part --- Block start #Hdr_Includes#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_Includes#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_Includes#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_Includes#; do not delete this line! Add application code below this line.
+}
+
+variables
+{
+  // Define global variables for this CAPL file
+
+  /*--- #GenHeader Begin# --- begin generated comment ---
+  | Generated on Monday, July 28, 2025, 00:01:30
+  | By ModelGenerator for Vector 1.5.4.10, ModelGeneratorVectorDLL 1.5.4.41
+  | Package Vector 4.0.21
+  | Target Bus: ASDM3CANFD; Channel: CAN3; DB Cluster: SPA8110_ConfigurationsSPA3d2_ASDM3CANFD_250522_NewModified;
+  | From Database: SPA8110_ConfigurationsSPA3d2_ASDM3CANFD_250522_NewModified.dbc
+  | CANoe Version 15.3.89.0
+    --- #GenHeader End  # --- end generated comment --- */
+
+  char gECU[256] = "RSRR";
+  //--- begin generated part --- Block start #Hdr_GlobalVariables#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  dword gILCAN3_BusContext = 0;
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_GlobalVariables#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_GlobalVariables#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  char gCAN3BusName[256] = "ASDM3CANFD";
+  int gCAN3Channel = 3; //// The channel the bus is attached to
+  int gCAN3TXEnable = 1; //// enable/disable TX of application messages
+
+  long gCAN3DisturbanceMode;
+  long gCAN3DisturbanceCount;
+  long gCAN3DisturbanceValue;
+  long gCAN3DisturbanceContinueMode;
+  double gCAN3DisturbancePeriod;
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_GlobalVariables#; do not delete this line! Add application code below this line.
+}
+
+on preStart
+{
+  // Initialize CAPL includes and node's modules/DLLs
+  //--- begin generated part --- Block start #Hdr_OnInit#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_OnInit#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnInit#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  gILCAN3_BusContext = GetBusNameContext(gCAN3BusName);
+  if (gILCAN3_BusContext == 0)
+  {
+    write("[%.6f %NODE_NAME%] ERROR: cannot determine bus context of Ethernet bus '%s'!", TimeNowNS()/1e9, gCAN3BusName);
+  }
+  if (@sysvar::IL::Klemme15 == 0)
+  {
+    ILCAN3_StartStop(0);
+  }
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_OnInit#; do not delete this line! Add application code below this line.
+}
+
+on start
+{
+  // Start CAPL includes and node's modules/DLLs
+  //--- begin generated part --- Block start #Hdr_OnStart#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_OnStart#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnStart#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  if ((@sysvar::IL::Klemme15 != 0) && (@sysvar::IL::Klemme30 != 0))
+  {
+    ILCAN3_StartStop(1);
+  }
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_OnStart#; do not delete this line! Add application code below this line.
+}
+
+on preStop
+{
+  // Prepare stopping
+  //--- begin generated part --- Block start #Hdr_OnStopping#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_OnStopping#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnStopping#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_OnStopping#; do not delete this line! Add application code below this line.
+}
+
+on stopMeasurement
+{
+  // Stop actions
+  //--- begin generated part --- Block start #Hdr_OnStop#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_OnStop#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnStop#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_OnStop#; do not delete this line! Add application code below this line.
+}
+
+void StartSim(dword busContext, int busActive, int mode)
+{
+  // Called when ... due to ...
+  //   mode == 1: ILControlResume
+  //   mode == 2: ILControlStart
+  //   mode == 3: ILControlSimulationOn
+  //--- begin generated part --- Block start #Hdr_StartSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_StartSim#; do not delete this line! Add application code below this line.
+  //write("[%.6f %NODE_NAME%] StartSim(0x%X, %d, %d)", TimeNowNS()/1e9, busContext, busActive, mode);
+  //--- begin generated part --- Block start #Body_StartSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_StartSim#; do not delete this line! Add application code below this line.
+}
+
+void StopSim(dword busContext, int busActive, int mode)
+{
+  // Called when ... due to ...
+  //   mode == 1: ILControlWait
+  //   mode == 2: ILControlStop
+  //   mode == 3: ILControlSimulationOff
+  //--- begin generated part --- Block start #Hdr_StopSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_StopSim#; do not delete this line! Add application code below this line.
+  //write("[%.6f %NODE_NAME%] StopSim(0x%X, %d, %d)", TimeNowNS()/1e9, busContext, busActive, mode);
+  //--- begin generated part --- Block start #Body_StopSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_StopSim#; do not delete this line! Add application code below this line.
+}
+
+on sysvar_update sysvar::IL::Klemme15
+{
+  // Handle system state variable
+  //--- begin generated part --- Block start #Hdr_KL15_Klemme15#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_KL15_Klemme15#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_KL15_Klemme15#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  ILCAN3_OnEnvKlemme15(@this);
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_KL15_Klemme15#; do not delete this line! Add application code below this line.
+}
+
+on sysvar_update sysvar::IL::Klemme30
+{
+  // Handle system state variable
+  //--- begin generated part --- Block start #Hdr_KL30_Klemme30#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Hdr_KL30_Klemme30#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_KL30_Klemme30#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+  ILCAN3_OnEnvKlemme30(@this);
+  /* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+  //--- end generated part --- Block end #Body_KL30_Klemme30#; do not delete this line! Add application code below this line.
+}
+
+//--- begin generated part --- Block start <#Helper_Functions#> do not delete this line and do not add application code in this code block!
+/* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+void ILCAN3_Enable(int enable)
+{
+  dword lBusContext;
+  lBusContext = GetBusNameContext(gCAN3BusName);
+  SetBusContext(lBusContext);
+  gCAN3TXEnable = enable;
+  if (enable == 0)
+  {
+    StopSim(lBusContext, 1, 3);
+    CANOffline(1); // 1 = CAPL, 2 = DLL
+  }
+  if (enable != 0)
+  {
+    CANOnline(3); // 1 = CAPL, 2 = DLL
+    StartSim(lBusContext, 1, 3);
+  }
+}
+
+void ILCAN3_WaitResume(int enable)
+{
+  dword lBusContext;
+  if (gCAN3TXEnable > 0)
+  {
+    lBusContext = GetBusNameContext(gCAN3BusName);
+    SetBusContext(lBusContext);
+    if (enable == 0)
+    {
+      StopSim(lBusContext, 1, 1);
+      CANOffline(1); // 1 = CAPL, 2 = DLL
+    }
+    if (enable != 0)
+    {
+      CANOnline(3); // 1 = CAPL, 2 = DLL
+      StartSim(lBusContext, 1, 1);
+    }
+  }
+}
+
+void ILCAN3_StartStop(int enable)
+{
+  dword lBusContext;
+  if (gCAN3TXEnable > 0)
+  {
+    lBusContext = GetBusNameContext(gCAN3BusName);
+    SetBusContext(lBusContext);
+    if (enable == 0)
+    {
+      StopSim(lBusContext, 1, 2);
+      CANOffline(1); // 1 = CAPL, 2 = DLL
+    }
+    if (enable != 0)
+    {
+      CANOnline(3); // 1 = CAPL, 2 = DLL
+      StartSim(lBusContext, 1, 2);
+    }
+  }
+}
+
+void ILCAN3_OnEnvKlemme15(int enable)
+{
+  if (@sysvar::IL::Klemme30 > 0)
+  {
+    if(enable != 0)
+    {
+      @sysvar::NM_CAN3::NODES::N_RSRR::RequestIL = enable;
+    }
+    else
+    {
+      @sysvar::NM_CAN3::NODES::N_RSRR::RequestIL = enable;
+    }
+  }
+}
+
+on sysvar_update sysvar::NM_CAN3::NODES::N_RSRR::RequestIL
+{
+  ILCAN3_StartStop(@this);
+}
+
+void ILCAN3_OnEnvKlemme30(int enable)
+{
+  if(enable != 0)
+  {
+    ILCAN3_Enable(1);
+    if (@sysvar::IL::Klemme15 > 0)
+    {
+      ILCAN3_StartStop(1);
+    }
+  }
+  else
+  {
+    ILCAN3_Enable(0);
+  }
+}
+
+/* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+//--- end generated part --- Block end <#Helper_Functions#> do not delete this line! Add application code below this line.
+
+//--- begin generated part --- Block start <#SysVar_Handler#> do not delete this line and do not add application code in this code block!
+/* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+on sysvar_update sysvar::NM_CAN3::NODES::N_RSRR::OpenNodePanel
+{
+  OpenNodePanel("ASDM3CANFD::RSRR", 1);
+}
+
+on sysvar_update sysvar::NM_CAN3::StateControl::CloseNodePanels
+{
+  OpenNodePanel("ASDM3CANFD::RSRR", 0);
+}
+
+/* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+//--- end generated part --- Block end <#SysVar_Handler#> do not delete this line! Add application code below this line.
+
+//--- begin generated part --- Block start <#MsgUpdateFcns#> do not delete this line and do not add application code in this code block!
+/* #ChannelStart# |CAN3| #BusStart# |ASDM3CANFD| */
+/* #ChannelEnd# |CAN3| #BusEnd# |ASDM3CANFD| */
+//--- end generated part --- Block end <#MsgUpdateFcns#> do not delete this line! Add application code below this line.
+

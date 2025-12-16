@@ -1,0 +1,1412 @@
+// *************************************************************************** *
+// *                                                                           *
+// * Description:         CANDB File                                           *
+// * Generated at:        2025-05-22 13:25                                     *
+// * System:              SPA8110_Final6                                       *
+// * Variant:             ConfigurationsSPA3d2                                 *
+// * Network:             SafetyCANprotected                                   *
+// *                                                                           *
+// *************************************************************************** *
+
+
+VERSION "SafetyCANprotected"
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_ :
+
+BU_ :  ASDM ETC RML RMR SRS
+
+BO_ 96 AsdmSafeProtFr01 : 8 ASDM
+ SG_ AccrPedlRatGrdt : 6|15@0- (0.0625,0.0) [-1000.0|1000.0] "PercPerSec" RML,RMR
+ SG_ AccrPedlRatGrdt_UB : 39|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ AsyBltLvl : 23|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ AsyBltLvl_UB : 38|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ DrvrBrkTqAtWhlsGrdtReqd : 19|12@0+ (100.0,0.0) [0.0|409500.0] "Nm/s" RML,RMR
+ SG_ DrvrBrkTqAtWhlsGrdtReqd_UB : 37|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ RcwmBltLvl : 21|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ RcwmBltLvl_UB : 36|1@0+ (1,0) [0|1] "" RML,RMR
+
+BO_ 1407 AsdmSafeProtFr02 : 4 ASDM
+ SG_ MstCfgIDSafetyCANProtected : 7|16@0+ (1.0,0.0) [0.0|65535.0] "Unitless" RML,RMR,SRS
+ SG_ MstCfgIDSafetyCANProtected_UB : 23|1@0+ (1,0) [0|1] "" RML,RMR,SRS
+ SG_ SftyProtdCntrForMissCom : 31|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR,SRS
+ SG_ SftyProtdCntrForMissCom_UB : 22|1@0+ (1,0) [0|1] "" RML,RMR,SRS
+
+BO_ 256 AsdmSafeProtFr06 : 8 ASDM
+ SG_ VehBattUGroup_UB : 2|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ VehBattUSysU : 15|8@0+ (0.1,0.0) [0.0|25.0] "Volt" RML,RMR
+ SG_ VehBattUSysUQf : 1|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ VehMtnStChks : 31|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehMtnStCntr : 22|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ VehMtnStSafe : 18|3@0+ (1,0) [0|7] "" RML,RMR
+ SG_ VehMtnStSafeGroup_UB : 23|1@0+ (1,0) [0|1] "" RML,RMR
+
+BO_ 128 AsdmSafeProtFr10 : 8 ASDM
+ SG_ DrvrBrkTqAtWhlsReqd : 23|16@0- (1.0,0.0) [-20000.0|20000.0] "NewtonMeter" RML,RMR
+ SG_ DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdChks : 15|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdCntr : 5|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ DrvrBrkTqAtWhlsReqdGroup_UB : 39|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ DrvrBrkTqAtWhlsReqdQf : 1|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ VehSpdLgtSafe : 38|15@0+ (0.00391,0.0) [0.0|125.0027] "m/s" RML,RMR
+ SG_ VehSpdLgtSafeChks : 55|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehSpdLgtSafeCntr : 63|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ VehSpdLgtSafeGroup_UB : 57|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ VehSpdLgtSafeQf : 59|2@0+ (1,0) [0|3] "" RML,RMR
+
+BO_ 144 AsdmSafeProtFr11 : 8 ASDM
+ SG_ AccrPedlRat : 54|15@0+ (0.00390625,0.0) [0.0|100.0] "%" RML,RMR
+ SG_ AccrPedlRat_UB : 55|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltReqFromVehDyn : 43|3@0+ (1,0) [0|7] "" RML,RMR
+ SG_ BltReqFromVehDyn_UB : 40|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ SteerWhlAgSafe : 6|15@0- (0.0009765625,0.0) [-14.5|14.5] "rad" RML,RMR
+ SG_ SteerWhlAgSpdSafe : 21|14@0- (0.0078125,0.0) [-50.0|50.0] "rad/s" RML,RMR
+ SG_ SteerWhlSnsr_UB : 7|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ SteerWhlSnsrQf : 23|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ SteerWhlSnsrSafeChks : 39|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ SteerWhlSnsrSafeCntr : 47|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+
+BO_ 208 AsdmSafeProtFr12 : 8 ASDM
+ SG_ CarModSts1 : 39|3@0+ (1,0) [0|7] "" RML,RMR
+ SG_ CarModSubtypWdCarModSubtyp : 36|3@0+ (1.0,0.0) [0.0|7.0] "Unitless" RML,RMR
+ SG_ EgyLvlElecMai : 27|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ EgyLvlElecSubtyp : 31|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ FltEgyCnsWdSts : 33|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ PwrLvlElecMai : 19|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ PwrLvlElecSubtyp : 23|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ UsgModSts : 11|4@0+ (1,0) [0|15] "" RML,RMR
+ SG_ VehModMngtGlbSafe1_UB : 32|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ VehModMngtGlbSafe1Chks : 7|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehModMngtGlbSafe1Cntr : 15|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+
+BO_ 224 AsdmSafeProtFr13 : 8 ASDM
+ SG_ BkpOfDstTrvld : 36|21@0+ (1.0,0.0) [0.0|2000000.0] "km" RML,RMR
+ SG_ BkpOfDstTrvld_UB : 39|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ CarTiGlb : 7|32@0+ (0.1,0.0) [0.0|429496729.5] "s" RML,RMR
+ SG_ CarTiGlb_UB : 56|1@0+ (1,0) [0|1] "" RML,RMR
+
+BO_ 240 AsdmSafeProtFr14 : 8 ASDM
+ SG_ VehCfgPrmBlk : 7|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal1 : 15|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal2 : 23|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal3 : 31|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal4 : 39|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal5 : 47|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal6 : 55|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ VehCfgPrmVal7 : 63|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+
+BO_ 1292 AsdmSafeProtNMFr : 8 ASDM
+ SG_ Body_ASDM : 21|1@0+ (1,0) [0|0] "" RML
+ SG_ Brake_ASDM : 33|1@0+ (1,0) [0|0] "" RML
+ SG_ Diesel_ASDM : 32|1@0+ (1,0) [0|0] "" RML
+ SG_ Hazard_ASDM : 18|1@0+ (1,0) [0|0] "" RML
+ SG_ InfotainmentAndHMI_ASDM : 22|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCCharging_ASDM : 25|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCDriverinfo_ASDM : 16|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCDriverinfoPoll_ASDM : 31|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCDriving_ASDM : 27|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCEntrance_ASDM : 23|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCExtStandstillSupport_ASDM : 37|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCGlobal_ASDM : 29|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCGSD_ASDM : 30|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCHVEnergyStorage_ASDM : 35|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCLocking_ASDM : 17|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCPreClimatization_ASDM : 26|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCSpare1_ASDM : 39|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCSpare2_ASDM : 38|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCStart_ASDM : 24|1@0+ (1,0) [0|0] "" RML
+ SG_ PNCTrailerCaravan_ASDM : 28|1@0+ (1,0) [0|0] "" RML
+ SG_ RemoteServices_ASDM : 36|1@0+ (1,0) [0|0] "" RML
+ SG_ VehicleAPI_ASDM : 34|1@0+ (1,0) [0|0] "" RML
+ SG_ Visibility_ASDM : 20|1@0+ (1,0) [0|0] "" RML
+ SG_ WarningSounds_ASDM : 19|1@0+ (1,0) [0|0] "" RML
+ SG_ NM_PNI_ASDM : 14|1@0+ (1,0) [0|0] "" RML
+ SG_ NM_AW_ASDM : 12|1@0+ (1,0) [0|0] "" RML
+ SG_ NM_CS_ASDM : 11|1@0+ (1,0) [0|0] "" RML
+ SG_ NM_RMR_ASDM : 8|1@0+ (1,0) [0|0] "" RML
+ SG_ NM_NodeID_ASDM : 7|8@0+ (1,0) [0|0] "" RML
+
+BO_ 2047 AsdmToAllFuncSafeProtDiagReqFrame : 8 ASDM
+ SG_ AsdmToAllFuncSafeProtDiagReqNpdu : 7|64@0+ (1,0) [0|0] "" RML, RMR
+
+BO_ 1814 AsdmToRmlSafeProtDiagReqFrame : 8 ASDM
+ SG_ AsdmToRmlSafeProtDiagReqNpdu : 7|64@0+ (1,0) [0|0] "" RML
+
+BO_ 1815 AsdmToRmrSafeProtDiagReqFrame : 8 ASDM
+ SG_ AsdmToRmrSafeProtDiagReqNpdu : 7|64@0+ (1,0) [0|0] "" RMR
+
+BO_ 272 EtcSafeProtFr01 : 8 ETC
+ SG_ IniValMstCfgIDSafetyCANProtected : 7|16@0+ (1.0,0.0) [0.0|65535.0] "Unitless" ASDM
+
+BO_ 288 EtcSafeProtFr02 : 8 ETC
+ SG_ IniValSigCfgIDSafetyCANProtected : 7|16@0+ (1.0,0.0) [0.0|65535.0] "Unitless" RML,RMR,SRS
+
+BO_ 1409 RmlSafeProtDEVFr01 : 8 RML
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe1 : 7|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe2 : 15|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe3 : 23|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe4 : 31|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe5 : 39|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe6 : 47|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe7 : 55|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe8 : 63|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+
+BO_ 80 RmlSafeProtFr01 : 4 RML
+ SG_ ActvnStsOfRtrctrRvsbLe : 3|4@0+ (1,0) [0|15] "" ASDM,SRS
+ SG_ ActvnStsOfRtrctrRvsbLe_UB : 4|1@0+ (1,0) [0|1] "" ASDM,SRS
+ SG_ MsgReqForRtrctrRvsbLe : 6|2@0+ (1,0) [0|3] "" ASDM
+ SG_ MsgReqForRtrctrRvsbLe_UB : 7|1@0+ (1,0) [0|1] "" ASDM
+ SG_ StsForRtrctrRvsbLe : 9|2@0+ (1,0) [0|3] "" ASDM,SRS
+ SG_ StsForRtrctrRvsbLe_UB : 10|1@0+ (1,0) [0|1] "" ASDM,SRS
+
+BO_ 154 RmlSafeProtFr02 : 8 RML
+ SG_ BltAxleRotOfRtrctrRvsbLe_UB : 2|1@0+ (1,0) [0|1] "" ASDM
+ SG_ BltAxleRotOfRtrctrRvsbLeBltAxleRot : 15|16@0+ (1.0,0.0) [0.0|65535.0] "Degrees without scaling" ASDM
+ SG_ BltAxleRotOfRtrctrRvsbLeBltAxleRotQf : 1|2@0+ (1,0) [0|3] "" ASDM
+
+BO_ 1294 RmlSafeProtNMFr : 8 RML
+ SG_ Body_RML : 21|1@0+ (1,0) [0|0] "" RMR
+ SG_ Brake_RML : 33|1@0+ (1,0) [0|0] "" RMR
+ SG_ Diesel_RML : 32|1@0+ (1,0) [0|0] "" RMR
+ SG_ Hazard_RML : 18|1@0+ (1,0) [0|0] "" RMR
+ SG_ InfotainmentAndHMI_RML : 22|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCCharging_RML : 25|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCDriverinfo_RML : 16|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCDriverinfoPoll_RML : 31|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCDriving_RML : 27|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCEntrance_RML : 23|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCExtStandstillSupport_RML : 37|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCGlobal_RML : 29|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCGSD_RML : 30|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCHVEnergyStorage_RML : 35|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCLocking_RML : 17|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCPreClimatization_RML : 26|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCSpare1_RML : 39|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCSpare2_RML : 38|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCStart_RML : 24|1@0+ (1,0) [0|0] "" RMR
+ SG_ PNCTrailerCaravan_RML : 28|1@0+ (1,0) [0|0] "" RMR
+ SG_ RemoteServices_RML : 36|1@0+ (1,0) [0|0] "" RMR
+ SG_ VehicleAPI_RML : 34|1@0+ (1,0) [0|0] "" RMR
+ SG_ Visibility_RML : 20|1@0+ (1,0) [0|0] "" RMR
+ SG_ WarningSounds_RML : 19|1@0+ (1,0) [0|0] "" RMR
+ SG_ NM_PNI_RML : 14|1@0+ (1,0) [0|0] "" RMR
+ SG_ NM_AW_RML : 12|1@0+ (1,0) [0|0] "" RMR
+ SG_ NM_CS_RML : 11|1@0+ (1,0) [0|0] "" RMR
+ SG_ NM_RMR_RML : 8|1@0+ (1,0) [0|0] "" RMR
+ SG_ NM_NodeID_RML : 7|8@0+ (1,0) [0|0] "" RMR
+
+BO_ 1558 RmlToAsdmSafeProtDiagResFrame : 8 RML
+ SG_ RmlToAsdmSafeProtDiagResNpdu : 7|64@0+ (1,0) [0|0] "" ASDM
+
+BO_ 1408 RmrSafeProtDEVFr02 : 8 RMR
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi1 : 7|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi2 : 15|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi3 : 23|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi4 : 31|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi5 : 39|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi6 : 47|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi7 : 55|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi8 : 63|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+
+BO_ 112 RmrSafeProtFr01 : 4 RMR
+ SG_ ActvnStsOfRtrctrRvsbRi : 3|4@0+ (1,0) [0|15] "" ASDM,SRS
+ SG_ ActvnStsOfRtrctrRvsbRi_UB : 4|1@0+ (1,0) [0|1] "" ASDM,SRS
+ SG_ MsgReqForRtrctrRvsbRi : 6|2@0+ (1,0) [0|3] "" ASDM
+ SG_ MsgReqForRtrctrRvsbRi_UB : 7|1@0+ (1,0) [0|1] "" ASDM
+ SG_ StsForRtrctrRvsbRi : 9|2@0+ (1,0) [0|3] "" ASDM,SRS
+ SG_ StsForRtrctrRvsbRi_UB : 10|1@0+ (1,0) [0|1] "" ASDM,SRS
+
+BO_ 149 RmrSafeProtFr02 : 8 RMR
+ SG_ BltAxleRotOfRtrctrRvsbRi_UB : 2|1@0+ (1,0) [0|1] "" ASDM
+ SG_ BltAxleRotOfRtrctrRvsbRiBltAxleRot : 15|16@0+ (1.0,0.0) [0.0|65535.0] "Degrees without scaling" ASDM
+ SG_ BltAxleRotOfRtrctrRvsbRiBltAxleRotQf : 1|2@0+ (1,0) [0|3] "" ASDM
+
+BO_ 1293 RmrSafeProtNMFr : 8 RMR
+ SG_ Body_RMR : 21|1@0+ (1,0) [0|0] "" SRS
+ SG_ Brake_RMR : 33|1@0+ (1,0) [0|0] "" SRS
+ SG_ Diesel_RMR : 32|1@0+ (1,0) [0|0] "" SRS
+ SG_ Hazard_RMR : 18|1@0+ (1,0) [0|0] "" SRS
+ SG_ InfotainmentAndHMI_RMR : 22|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCCharging_RMR : 25|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCDriverinfo_RMR : 16|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCDriverinfoPoll_RMR : 31|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCDriving_RMR : 27|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCEntrance_RMR : 23|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCExtStandstillSupport_RMR : 37|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCGlobal_RMR : 29|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCGSD_RMR : 30|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCHVEnergyStorage_RMR : 35|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCLocking_RMR : 17|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCPreClimatization_RMR : 26|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCSpare1_RMR : 39|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCSpare2_RMR : 38|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCStart_RMR : 24|1@0+ (1,0) [0|0] "" SRS
+ SG_ PNCTrailerCaravan_RMR : 28|1@0+ (1,0) [0|0] "" SRS
+ SG_ RemoteServices_RMR : 36|1@0+ (1,0) [0|0] "" SRS
+ SG_ VehicleAPI_RMR : 34|1@0+ (1,0) [0|0] "" SRS
+ SG_ Visibility_RMR : 20|1@0+ (1,0) [0|0] "" SRS
+ SG_ WarningSounds_RMR : 19|1@0+ (1,0) [0|0] "" SRS
+ SG_ NM_PNI_RMR : 14|1@0+ (1,0) [0|0] "" SRS
+ SG_ NM_AW_RMR : 12|1@0+ (1,0) [0|0] "" SRS
+ SG_ NM_CS_RMR : 11|1@0+ (1,0) [0|0] "" SRS
+ SG_ NM_RMR_RMR : 8|1@0+ (1,0) [0|0] "" SRS
+ SG_ NM_NodeID_RMR : 7|8@0+ (1,0) [0|0] "" SRS
+
+BO_ 1559 RmrToAsdmSafeProtDiagResFrame : 8 RMR
+ SG_ RmrToAsdmSafeProtDiagResNpdu : 7|64@0+ (1,0) [0|0] "" ASDM
+
+BO_ 1410 SRSDevSafeProtFr01 : 8 SRS
+ SG_ ADataLatTestADataLatRawTest : 55|16@0- (0.000434,0.0) [-14.199612|14.200045999999999] "g" ETC
+ SG_ ADataLatTestADataLatTestAtPosn34 : 8|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestADataLatTestAtPosn35 : 9|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestADataLatTestAtPosn36 : 10|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestAErrOnCh : 39|16@0- (1.0,0.0) [-32768.0|32767.0] "Unitless" ETC
+ SG_ ADataLatTestALatAt16 : 23|16@0- (0.000434,0.0) [-14.199612|14.200045999999999] "g" ETC
+ SG_ ADataLatTestALatErrAt32 : 11|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt33 : 12|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt37 : 13|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt38 : 14|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt39 : 15|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt40 : 0|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt41 : 1|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt42 : 2|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt43 : 3|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt44 : 4|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt45 : 5|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt46 : 6|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLatTestALatErrAt47 : 7|1@0+ (1,0) [0|1] "" ETC
+
+BO_ 1411 SRSDevSafeProtFr02 : 8 SRS
+ SG_ ADataLgtTestADataLgtRawTest : 55|16@0- (0.000434,0.0) [-14.199612|14.200045999999999] "g" ETC
+ SG_ ADataLgtTestADataLgtTestAtPosn34 : 8|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestADataLgtTestAtPosn35 : 9|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestADataLgtTestAtPosn36 : 10|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtAt16 : 39|16@0- (0.000434,0.0) [-14.199612|14.200045999999999] "g" ETC
+ SG_ ADataLgtTestALgtErrAt32 : 11|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt33 : 12|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt37 : 13|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt38 : 14|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt39 : 15|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt40 : 0|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt41 : 1|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt42 : 2|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt43 : 3|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt44 : 4|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt45 : 5|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt46 : 6|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestALgtErrAt47 : 7|1@0+ (1,0) [0|1] "" ETC
+ SG_ ADataLgtTestTOfALgtTest : 23|16@0- (163.84,0.0) [-163.84|327.68] "degC" ETC
+
+BO_ 1412 SRSDevSafeProtFr03 : 8 SRS
+ SG_ AVertTestAVertAt16 : 55|16@0- (0.000434,0.0) [-14.199612|14.200045999999999] "g" ETC
+ SG_ AVertTestAVertAt48 : 39|16@0- (1.0,0.0) [-32768.0|32767.0] "Unitless" ETC
+ SG_ AVertTestAVertErrAt32 : 8|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt33 : 9|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt37 : 10|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt38 : 11|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt39 : 12|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt40 : 13|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt41 : 14|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt42 : 15|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt43 : 0|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt44 : 1|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt45 : 2|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt46 : 3|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertErrAt47 : 4|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertRawTest : 23|16@0- (0.000434,0.0) [-14.199612|14.200045999999999] "g" ETC
+ SG_ AVertTestAVertTestAtPosn34 : 5|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertTestAtPosn35 : 6|1@0+ (1,0) [0|1] "" ETC
+ SG_ AVertTestAVertTestAtPosn36 : 7|1@0+ (1,0) [0|1] "" ETC
+
+BO_ 1413 SRSDevSafeProtFr04 : 8 SRS
+ SG_ PitchRateTest_UB : 7|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt48 : 18|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt49 : 19|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt50 : 20|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt51 : 21|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt52 : 22|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt53 : 23|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt55 : 8|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt57 : 9|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt58 : 10|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt59 : 11|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt60 : 12|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt61 : 13|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt62 : 14|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchErrAt63 : 15|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchHi : 55|16@0- (0.0125,0.0) [-409.6|409.58750000000003] "DegPerSec" ETC
+ SG_ PitchRateTestPitchLo : 39|16@0- (0.0125,0.0) [-409.6|409.58750000000003] "DegPerSec" ETC
+ SG_ PitchRateTestPitchRateTestPosn54 : 0|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchRateTestPosn56 : 1|1@0+ (1,0) [0|1] "" ETC
+ SG_ PitchRateTestPitchT : 17|10@0- (0.2,0.0) [-102.4|102.2] "degC" ETC
+
+BO_ 1414 SRSDevSafeProtFr05 : 8 SRS
+ SG_ RollRateTest_UB : 7|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt48 : 18|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt49 : 19|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt50 : 20|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt51 : 21|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt52 : 22|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt53 : 23|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt55 : 8|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt57 : 9|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt58 : 10|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt59 : 11|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt60 : 12|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt61 : 13|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt62 : 14|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollErrAt63 : 15|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollHi : 55|16@0- (0.0125,0.0) [-409.6|409.58750000000003] "DegPerSec" ETC
+ SG_ RollRateTestRollLo : 39|16@0- (0.0125,0.0) [-409.6|409.58750000000003] "DegPerSec" ETC
+ SG_ RollRateTestRollRateTestPosn54 : 0|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollRateTestPosn56 : 1|1@0+ (1,0) [0|1] "" ETC
+ SG_ RollRateTestRollT : 17|10@0- (0.2,0.0) [-102.4|102.2] "degC" ETC
+
+BO_ 1415 SRSDevSafeProtFr06 : 8 SRS
+ SG_ YawRateTest_UB : 7|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt48 : 18|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt49 : 19|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt50 : 20|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt51 : 21|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt52 : 22|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt53 : 23|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt55 : 8|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt57 : 9|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt58 : 10|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt59 : 11|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt60 : 12|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt61 : 13|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt62 : 14|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawErrAt63 : 15|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawHi : 55|16@0- (0.0125,0.0) [-409.6|409.58750000000003] "DegPerSec" ETC
+ SG_ YawRateTestYawLo : 39|16@0- (0.0125,0.0) [-409.6|409.58750000000003] "DegPerSec" ETC
+ SG_ YawRateTestYawRateTestPosn54 : 0|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawRateTestPosn56 : 1|1@0+ (1,0) [0|1] "" ETC
+ SG_ YawRateTestYawT : 17|10@0- (0.2,0.0) [-102.4|102.2] "degC" ETC
+
+BO_ 66 SRSSafeProtFr01 : 8 SRS
+ SG_ ALat1Qf2 : 39|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ ALatWithCmp : 6|15@0- (0.0085,0.0) [-138.99200000000002|139.00050000000002] "m/s^2" RML,RMR
+ SG_ ALgt1Qf2 : 61|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ AsyDataWithCmpSafe_UB : 7|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ AsyDataWithCmpSafeChks : 55|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ AsyDataWithCmpSafeCntr : 59|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ GrdtOfALgt : 37|14@0- (0.00390625,0.0) [-30.0|30.0] "m/s^3" RML,RMR
+ SG_ YawRate1Qf2 : 63|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ YawRateWithCmp : 23|16@0- (0.000244140625,0.0) [-6.0|6.0] "rad/s" RML,RMR
+
+BO_ 64 SRSSafeProtFr02 : 8 SRS
+ SG_ BltLockStAtDrvr_UB : 5|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltLockStAtDrvrForBltLockSt1 : 7|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltLockStAtDrvrForDevErrSts2 : 6|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltLockStAtPass_UB : 4|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltLockStAtPassForBltLockSt1 : 3|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltLockStAtPassForBltLockSts : 2|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ OccptWghtSnsrSt : 1|1@0+ (1,0) [0|1] "" ASDM,RML,RMR
+ SG_ OccptWghtSnsrSt_UB : 0|1@0+ (1,0) [0|1] "" ASDM,RML,RMR
+ SG_ SwtForPassAirbCutOffSt : 15|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ SwtForPassAirbCutOffSt_UB : 14|1@0+ (1,0) [0|1] "" RML,RMR
+
+BO_ 56 SRSSafeProtFr03 : 8 SRS
+ SG_ ADataRawSafe_UB : 7|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ ADataRawSafeChks : 31|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" RML,RMR
+ SG_ ADataRawSafeCntr : 19|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" RML,RMR
+ SG_ ALat1 : 6|15@0- (0.0085,0.0) [-138.99200000000002|139.00050000000002] "m/s^2" RML,RMR
+ SG_ ALat1Qf1 : 23|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ ALgt1 : 39|15@0- (0.0085,0.0) [-138.99200000000002|139.00050000000002] "m/s^2" RML,RMR
+ SG_ ALgt1Qf1 : 21|2@0+ (1,0) [0|3] "" RML,RMR
+ SG_ AVert2 : 54|15@0- (0.0085,0.0) [-138.99200000000002|139.00050000000002] "m/s^2" RML,RMR
+ SG_ AVert2Qf1 : 40|2@0+ (1,0) [0|3] "" RML,RMR
+
+BO_ 69 SRSSafeProtFr04 : 4 SRS
+ SG_ ActvnReqOfRtrctrRvsbLe : 3|3@0+ (1,0) [0|7] "" ASDM,RML
+ SG_ ActvnReqOfRtrctrRvsbLe_UB : 0|1@0+ (1,0) [0|1] "" ASDM,RML
+ SG_ ActvnReqOfRtrctrRvsbRi : 6|3@0+ (1,0) [0|7] "" RMR
+ SG_ ActvnReqOfRtrctrRvsbRi_UB : 7|1@0+ (1,0) [0|1] "" RMR
+
+BO_ 51 SRSSafeProtFr05 : 4 SRS
+ SG_ BltCrashNotif_UB : 7|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltCrashNotifDrvrActvd : 6|1@0+ (1,0) [0|1] "" RML,RMR
+ SG_ BltCrashNotifPassActvd : 5|1@0+ (1,0) [0|1] "" RML,RMR
+
+BO_ 72 SRSSafeProtFr06 : 8 SRS
+ SG_ AgDataRawSafe_UB : 55|1@0+ (1,0) [0|1] "" ETC
+ SG_ AgDataRawSafeChks : 39|8@0+ (1.0,0.0) [0.0|255.0] "Unitless" ETC
+ SG_ AgDataRawSafeCntr : 47|4@0+ (1.0,0.0) [0.0|15.0] "Unitless" ETC
+ SG_ RollRate1 : 7|16@0- (0.000244140625,0.0) [-6.0|6.0] "rad/s" ETC
+ SG_ RollRate1Qf1 : 43|2@0+ (1,0) [0|3] "" ETC
+ SG_ YawRate1 : 23|16@0- (0.000244140625,0.0) [-6.0|6.0] "rad/s" ETC
+ SG_ YawRate1Qf1 : 41|2@0+ (1,0) [0|3] "" ETC
+
+BO_ 1291 SrsSafeProtNMFr : 8 SRS
+ SG_ Body_SRS : 21|1@0+ (1,0) [0|0] "" ASDM
+ SG_ Brake_SRS : 33|1@0+ (1,0) [0|0] "" ASDM
+ SG_ Diesel_SRS : 32|1@0+ (1,0) [0|0] "" ASDM
+ SG_ Hazard_SRS : 18|1@0+ (1,0) [0|0] "" ASDM
+ SG_ InfotainmentAndHMI_SRS : 22|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCCharging_SRS : 25|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCDriverinfo_SRS : 16|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCDriverinfoPoll_SRS : 31|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCDriving_SRS : 27|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCEntrance_SRS : 23|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCExtStandstillSupport_SRS : 37|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCGlobal_SRS : 29|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCGSD_SRS : 30|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCHVEnergyStorage_SRS : 35|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCLocking_SRS : 17|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCPreClimatization_SRS : 26|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCSpare1_SRS : 39|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCSpare2_SRS : 38|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCStart_SRS : 24|1@0+ (1,0) [0|0] "" ASDM
+ SG_ PNCTrailerCaravan_SRS : 28|1@0+ (1,0) [0|0] "" ASDM
+ SG_ RemoteServices_SRS : 36|1@0+ (1,0) [0|0] "" ASDM
+ SG_ VehicleAPI_SRS : 34|1@0+ (1,0) [0|0] "" ASDM
+ SG_ Visibility_SRS : 20|1@0+ (1,0) [0|0] "" ASDM
+ SG_ WarningSounds_SRS : 19|1@0+ (1,0) [0|0] "" ASDM
+ SG_ NM_PNI_SRS : 14|1@0+ (1,0) [0|0] "" ASDM
+ SG_ NM_AW_SRS : 12|1@0+ (1,0) [0|0] "" ASDM
+ SG_ NM_CS_SRS : 11|1@0+ (1,0) [0|0] "" ASDM
+ SG_ NM_RMR_SRS : 8|1@0+ (1,0) [0|0] "" ASDM
+ SG_ NM_NodeID_SRS : 7|8@0+ (1,0) [0|0] "" ASDM
+
+
+// Node Comments
+CM_ BU_ ETC "External Tester Connector";
+CM_ BU_ RML "Restraint Module Left";
+CM_ BU_ RMR "Restraint Module Right";
+CM_ BU_ SRS "Supplementary Restraint System";
+
+// Signal Comments
+CM_ SG_ 96 AccrPedlRatGrdt "Derivative of accelerator pedal position.";
+CM_ SG_ 96 AsyBltLvl "Request of electronic belt activation including level.";
+CM_ SG_ 96 DrvrBrkTqAtWhlsGrdtReqd "Gradient of driver requested brake torque at wheels.";
+CM_ SG_ 96 RcwmBltLvl "Two level request for E-belt activation";
+CM_ SG_ 256 VehBattUSysU "Present vehicle voltage measured by CEM with QF.
+QF values:
+3: Value Reliable
+2: Value from back up sensor
+1: Init
+0: Value not reliable System Voltage";
+CM_ SG_ 256 VehBattUSysUQf "Present vehicle voltage measured by CEM with QF.
+QF values:
+3: Value Reliable
+2: Value from back up sensor
+1: Init
+0: Value not reliable System voltaeg quality factor";
+CM_ SG_ 256 VehMtnStChks "Vehicle motion state information based on wheel speed sensors. Provides information about vehicle stand still and vehicle rolling direction. Checksum for vehicle motion state";
+CM_ SG_ 256 VehMtnStCntr "Vehicle motion state information based on wheel speed sensors. Provides information about vehicle stand still and vehicle rolling direction. Counter for vehicle motion state";
+CM_ SG_ 256 VehMtnStSafe "Vehicle motion state information based on wheel speed sensors. Provides information about vehicle stand still and vehicle rolling direction. Vehicle motion state";
+CM_ SG_ 128 DrvrBrkTqAtWhlsReqd "Driver requested brake torque at wheels. Only contains brake torque that the driver requests by pressing the brake pedal.
+ Driver requested brake  torque";
+CM_ SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdChks "Driver requested brake torque at wheels. Only contains brake torque that the driver requests by pressing the brake pedal.
+ Checksum";
+CM_ SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdCntr "Driver requested brake torque at wheels. Only contains brake torque that the driver requests by pressing the brake pedal.
+ Counter";
+CM_ SG_ 128 DrvrBrkTqAtWhlsReqdQf "Driver requested brake torque at wheels. Only contains brake torque that the driver requests by pressing the brake pedal.
+ Qf for driver requested brake  torque";
+CM_ SG_ 128 VehSpdLgtSafe "Vehicle speed longitudinal based on wheel speed sensors and longitudinal acceleration.
+end2endprotection=profile1A dataid='12345' Vehicle speed longitudinal";
+CM_ SG_ 128 VehSpdLgtSafeChks "Vehicle speed longitudinal based on wheel speed sensors and longitudinal acceleration.
+end2endprotection=profile1A dataid='12345' Checksum for vehicle speed longitudinal";
+CM_ SG_ 128 VehSpdLgtSafeCntr "Vehicle speed longitudinal based on wheel speed sensors and longitudinal acceleration.
+end2endprotection=profile1A dataid='12345' Counter for vehicle speed longitudinal checksum calculation";
+CM_ SG_ 128 VehSpdLgtSafeQf "Vehicle speed longitudinal based on wheel speed sensors and longitudinal acceleration.
+end2endprotection=profile1A dataid='12345' Qf for vehicle speed longitudinal";
+CM_ SG_ 144 AccrPedlRat "Accelerator Pedal Position with adapted 0 point. Value as percentage of fully pressed pedal.";
+CM_ SG_ 144 BltReqFromVehDyn "Electricalbelt activation request (and reason) from VDDM.";
+CM_ SG_ 144 SteerWhlAgSafe "Actual steering wheel angle from the actual centre position of the steering wheel. The signal value is a signed value from zero (at centre steering wheel position) where a left turn (counterclockwise from steering wheel centre position) is represented by positive values and right turn (clockwise from steering wheel centre position) will have negative value.  Actual steering wheel angle from the actual centre position of the steering wheel. The signal value is a signed value from zero (at centre steering wheel position) where a left turn (counterclockwise from steering wheel centre position) is represented by positive values and right turn (clockwise from steering wheel centre position) will have negative value. ";
+CM_ SG_ 144 SteerWhlAgSpdSafe "Actual steering wheel angle from the actual centre position of the steering wheel. The signal value is a signed value from zero (at centre steering wheel position) where a left turn (counterclockwise from steering wheel centre position) is represented by positive values and right turn (clockwise from steering wheel centre position) will have negative value.  Steering angle speed with steering wheel rotation direction.  Turning the steering wheel left (counterclockwise) is represented by positive values and turning the steering wheel right (clockwise) is represented by negative values.";
+CM_ SG_ 144 SteerWhlSnsrQf "Actual steering wheel angle from the actual centre position of the steering wheel. The signal value is a signed value from zero (at centre steering wheel position) where a left turn (counterclockwise from steering wheel centre position) is represented by positive values and right turn (clockwise from steering wheel centre position) will have negative value.  Qf for steering wheel sensor information";
+CM_ SG_ 144 SteerWhlSnsrSafeChks "Actual steering wheel angle from the actual centre position of the steering wheel. The signal value is a signed value from zero (at centre steering wheel position) where a left turn (counterclockwise from steering wheel centre position) is represented by positive values and right turn (clockwise from steering wheel centre position) will have negative value.  Checksum for steering wheel sensor data.";
+CM_ SG_ 144 SteerWhlSnsrSafeCntr "Actual steering wheel angle from the actual centre position of the steering wheel. The signal value is a signed value from zero (at centre steering wheel position) where a left turn (counterclockwise from steering wheel centre position) is represented by positive values and right turn (clockwise from steering wheel centre position) will have negative value.  Counter value for steering wheel sensor data.";
+CM_ SG_ 208 CarModSts1 " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving Main CarMode Data";
+CM_ SG_ 208 CarModSubtypWdCarModSubtyp " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving CarMode Sub Data";
+CM_ SG_ 208 EgyLvlElecMai " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving Main Data for ElEnergyLevel";
+CM_ SG_ 208 EgyLvlElecSubtyp " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving Sub Data ElEnergyLevel";
+CM_ SG_ 208 FltEgyCnsWdSts " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving Energy Consumption Fault";
+CM_ SG_ 208 PwrLvlElecMai " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving Main Data for ElPowerLevel";
+CM_ SG_ 208 PwrLvlElecSubtyp " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving Sub Data for ElPowerLevel";
+CM_ SG_ 208 UsgModSts " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving";
+CM_ SG_ 208 VehModMngtGlbSafe1Chks " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving End to End Checksum";
+CM_ SG_ 208 VehModMngtGlbSafe1Cntr " VehModMngtGlbSafe1  is a system signal group sent globally in an end to end protected record that consists of  CarModSts1, CarModSubtypWdCarModSubtyp, UsgModSts,  EgyLvlElecMai,  EgyLvlElecSubtyp,  PwrLvlElecMai, PwrLvlElecSubtyp and FltEngyCnsWdSts
+CarModSts1 : Factory, Transport, Dyno, Normal. Crash 
+UsgModSts : Abandoned, Inactive, Convenience, Active, Driving
+CarModSubtypWdCarModSubtyp: examples for CarModSubtyp: Factory Driving, Transport Driving End to End Counter";
+CM_ SG_ 224 BkpOfDstTrvld "Indicated odometer (total driven distance) value in km.";
+CM_ SG_ 224 CarTiGlb "Presents a tiime value that shall be used by all ECUs to time-stamp diagnsotic trouble codes (DTC) according to the requirements for Global DTC snapshot data.";
+CM_ SG_ 240 VehCfgPrmBlk "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. Block ID for specific Car Configuration parameter sequence";
+CM_ SG_ 240 VehCfgPrmVal1 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 1st position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 240 VehCfgPrmVal2 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 2nd position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 240 VehCfgPrmVal3 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 3rd position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 240 VehCfgPrmVal4 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 4th position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 240 VehCfgPrmVal5 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 5th position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 240 VehCfgPrmVal6 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 6th position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 240 VehCfgPrmVal7 "VehicleConfigurationParameters: Car Config container signal. 
+Values of Car Config parameters #1 - #504 are mapped into 72 blocks. 
+Each block is published in this signal using an 8-byte record: Block counter (MSB) + 7 parameter value byte positions.
+Block counter runs through all 72 blocks in a sequential loop (normal operation). 
+When transmitted, block 1 will contain current values on Car Config parameters #1 - #7, block 2 -> #8 - #14 ... block 72 -> #498 - #504.
+Any faulty parameter value is indicated using 255. 7th position in specific CCP number sequence - Block ID dependant";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe1 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe2 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe3 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe4 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe5 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe6 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe7 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe8 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 80 ActvnStsOfRtrctrRvsbLe "Activation status for electrical belt on 1st row left side";
+CM_ SG_ 80 MsgReqForRtrctrRvsbLe "Message to be sent to DIM (Driver Information Module) to inform driver of RML Status";
+CM_ SG_ 80 StsForRtrctrRvsbLe "Status for RML, part Ok or Not Ok";
+CM_ SG_ 154 BltAxleRotOfRtrctrRvsbLeBltAxleRot "Belt axle rotation in degrees. Belt axle rotation in degrees";
+CM_ SG_ 154 BltAxleRotOfRtrctrRvsbLeBltAxleRotQf "Belt axle rotation in degrees. Quality factor for belt axle rotation information";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi1 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi2 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi3 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi4 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi5 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi6 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi7 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi8 "End of line configuration message at supplier manufacturing. Not to be used at VCC.";
+CM_ SG_ 112 ActvnStsOfRtrctrRvsbRi "Activation status for electrical belt on 1st row right side";
+CM_ SG_ 112 MsgReqForRtrctrRvsbRi "Message to be sent to DIM (Driver Information Module) to inform driver of RMR Status";
+CM_ SG_ 112 StsForRtrctrRvsbRi "Status for RMR, part Ok or Not Ok";
+CM_ SG_ 149 BltAxleRotOfRtrctrRvsbRiBltAxleRot " Belt axle rotation in degrees";
+CM_ SG_ 149 BltAxleRotOfRtrctrRvsbRiBltAxleRotQf " Quality factor for belt axle rotation information";
+CM_ SG_ 66 ALat1Qf2 "IMU processed special data. Quality factor for Lateral acceleration signal";
+CM_ SG_ 66 ALatWithCmp "IMU processed special data.  Compensated Lateral acceleration";
+CM_ SG_ 66 ALgt1Qf2 "IMU processed special data. Quality factor for Longitudinal acceleration";
+CM_ SG_ 66 AsyDataWithCmpSafeChks "IMU processed special data. Check sum";
+CM_ SG_ 66 AsyDataWithCmpSafeCntr "IMU processed special data. Counter";
+CM_ SG_ 66 GrdtOfALgt "IMU processed special data. Derivative of Longitudinal acceleration";
+CM_ SG_ 66 YawRate1Qf2 "IMU processed special data. Quality Factor for Yaw Rate";
+CM_ SG_ 66 YawRateWithCmp "IMU processed special data. Compensated Yaw rate";
+CM_ SG_ 64 BltLockStAtDrvrForBltLockSt1 "State of belt lock at driver seating position Belt lock state, locked/unlocked";
+CM_ SG_ 64 BltLockStAtDrvrForDevErrSts2 "State of belt lock at driver seating position Belt lock status, OK/NOK";
+CM_ SG_ 64 BltLockStAtPassForBltLockSt1 "State of belt lock at passenger seating position Belt lock state, locked/unlocked";
+CM_ SG_ 64 BltLockStAtPassForBltLockSts "State of belt lock at passenger seating position Belt lock status, OK/NOK";
+CM_ SG_ 64 OccptWghtSnsrSt "Passenger airbag status, based on OWS input.";
+CM_ SG_ 64 SwtForPassAirbCutOffSt "Passenger airbag status, based on PACOS input.";
+CM_ SG_ 56 ADataRawSafeChks "IMU acceleration data Check sum";
+CM_ SG_ 56 ADataRawSafeCntr "IMU acceleration data Counter";
+CM_ SG_ 56 ALat1 "IMU acceleration data Lateral acceleration";
+CM_ SG_ 56 ALat1Qf1 "IMU acceleration data Quality factor for Lateral acceleration signal";
+CM_ SG_ 56 ALgt1 "IMU acceleration data Longitudinal acceleration";
+CM_ SG_ 56 ALgt1Qf1 "IMU acceleration data Quality factor for Longitudinal acceleration";
+CM_ SG_ 56 AVert2 "IMU acceleration data Vertical acceleration";
+CM_ SG_ 56 AVert2Qf1 "IMU acceleration data Quality factor for Vertical acceleration";
+CM_ SG_ 69 ActvnReqOfRtrctrRvsbLe "Activation requests for left reversible retractor.";
+CM_ SG_ 69 ActvnReqOfRtrctrRvsbRi "Activation request for right reversible retractor.";
+CM_ SG_ 51 BltCrashNotifDrvrActvd "Status signal for driver and passenger belt pyrotechnic activation. Driver pyrotechnic activated";
+CM_ SG_ 51 BltCrashNotifPassActvd "Status signal for driver and passenger belt pyrotechnic activation. Passenger pyrotechnic activated";
+CM_ SG_ 72 AgDataRawSafeChks "IMU angular rate data. Check summa";
+CM_ SG_ 72 AgDataRawSafeCntr "IMU angular rate data. Counter";
+CM_ SG_ 72 RollRate1 "IMU angular rate data. Roll Rate";
+CM_ SG_ 72 RollRate1Qf1 "IMU angular rate data. Quality factor for Roll Rate";
+CM_ SG_ 72 YawRate1 "IMU angular rate data. Yaw Rate";
+CM_ SG_ 72 YawRate1Qf1 "IMU angular rate data. Quality Factor for Yaw Rate";
+
+// Attribute definitions
+BA_DEF_  "Baudrate" INT 1000 1000000; // [bps]
+BA_DEF_  "BusType" STRING;
+BA_DEF_  "DBName" STRING;
+BA_DEF_  "ProtocolType" STRING;
+BA_DEF_ BU_ "NmAsrNode" ENUM "No","Yes";
+BA_DEF_ BU_ "NmAsrNodeIdentifier" INT 0 255;
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65536; // [ms]
+BA_DEF_ BO_ "GenMsgCycleTimeFast" FLOAT 0 300000;
+BA_DEF_ BO_ "GenMsgDelayTime" INT 0 65536; // [ms]
+BA_DEF_ BO_ "GenMsgNrOfRepetition" INT 0 100000;
+BA_DEF_ BO_ "GenMsgSendType" ENUM "cyclic", "spontaneous", "not-used", "not-used", "not-used", "cyclicAndSpontaneous", "not-used", "cyclicIfActive", "NoMsgSendType"; // [us]
+BA_DEF_ BO_ "GenMsgStartDelayTime" INT 0 65536; // [ms]
+BA_DEF_ SG_ "GenSigSendType" ENUM "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_ "GenSigStartValue" HEX 0 80000000;
+BA_DEF_ BO_ "GenMsgILSupport" ENUM "No","Yes";
+BA_DEF_ BO_ "NmAsrMessage" ENUM "No","Yes";
+BA_DEF_  "NmAsrBaseAddress" HEX 0 536870911;
+BA_DEF_  "NmAsrMessageCount" INT 0 255;
+BA_DEF_ BU_ "NodeLayerModules" STRING;
+BA_DEF_ BU_ "ILused" ENUM "No","Yes";
+BA_DEF_ SG_ "GenSigFuncType" ENUM "NoFun","n","n","n","n","n","n","n","n","n","n","n","n","n","n","CHK","CNT","n","n","n","CNT1","CRC1B","CRC1A","CRC1L","CRC1N","CNT4","CRC4A","CNT5","CRC5","n","n","n","n","CNT2","CRC2","CNT11","CRC11B","n","n","CRC11N";
+BA_DEF_ SG_ "GenSigDataID" STRING;
+BA_DEF_ SG_ "SigGroup" STRING;
+
+BA_DEF_DEF_ "BusType" "";
+BA_DEF_DEF_ "DBName" "";
+BA_DEF_DEF_ "ProtocolType" "";
+BA_DEF_DEF_ "NmAsrNode" "No";
+BA_DEF_DEF_ "NmAsrNodeIdentifier" 0;
+BA_DEF_DEF_ "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_ "GenSigStartValue" 0;
+BA_DEF_DEF_ "GenSigSendType" "NoSigSendType";
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+BA_DEF_DEF_ "GenMsgDelayTime" 0;
+BA_DEF_DEF_ "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_ "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_ "GenMsgILSupport" "Yes";
+BA_DEF_DEF_ "NmAsrMessage" "No";
+BA_DEF_DEF_ "NmAsrBaseAddress" 1280;
+BA_DEF_DEF_ "NmAsrMessageCount" 64;
+BA_DEF_DEF_ "NodeLayerModules" "CANoeILNLVector.dll";
+BA_DEF_DEF_ "ILused" "Yes";
+BA_DEF_DEF_ "GenSigFuncType" "NoFun";
+BA_DEF_DEF_ "GenSigDataID" "";
+BA_DEF_DEF_ "SigGroup" "";
+
+
+BA_ "Baudrate" 500000;
+BA_ "BusType" "CAN";
+BA_ "DBName" "SafetyCANprotected";
+BA_ "ProtocolType" "CAN";
+// Network
+BA_ "NmAsrBaseAddress" 1280;
+BA_ "NmAsrMessageCount" 64;
+// ECU: ASDM
+BA_ "ILused" BU_ ASDM 1;
+BA_ "NmAsrNode" BU_ ASDM 1;
+BA_ "NmAsrNodeIdentifier" BU_ ASDM 12;
+BA_ "NodeLayerModules" BU_ ASDM "CANoeILNLVector.dll,AsrNM33.dll";
+// ECU: ETC
+BA_ "ILused" BU_ ETC 0;
+BA_ "NodeLayerModules" BU_ ETC "CANoeILNLVector.dll";
+// ECU: RML
+BA_ "ILused" BU_ RML 1;
+BA_ "NmAsrNode" BU_ RML 1;
+BA_ "NmAsrNodeIdentifier" BU_ RML 14;
+BA_ "NodeLayerModules" BU_ RML "CANoeILNLVector.dll,AsrNM33.dll";
+// ECU: RMR
+BA_ "ILused" BU_ RMR 1;
+BA_ "NmAsrNode" BU_ RMR 1;
+BA_ "NmAsrNodeIdentifier" BU_ RMR 13;
+BA_ "NodeLayerModules" BU_ RMR "CANoeILNLVector.dll,AsrNM33.dll";
+// ECU: SRS
+BA_ "ILused" BU_ SRS 1;
+BA_ "NmAsrNode" BU_ SRS 1;
+BA_ "NmAsrNodeIdentifier" BU_ SRS 11;
+BA_ "NodeLayerModules" BU_ SRS "CANoeILNLVector.dll,AsrNM33.dll";
+// Frame: AsdmSafeProtFr01
+BA_ "GenMsgCycleTime" BO_ 96 10.000;
+BA_ "GenMsgSendType" BO_ 96 0;
+BA_ "GenMsgStartDelayTime" BO_ 96 0.000;
+// Frame: AsdmSafeProtFr02
+BA_ "GenMsgCycleTime" BO_ 1407 50.000;
+BA_ "GenMsgSendType" BO_ 1407 0;
+BA_ "GenMsgStartDelayTime" BO_ 1407 0.000;
+// Frame: AsdmSafeProtFr06
+BA_ "GenMsgCycleTime" BO_ 256 300.000;
+BA_ "GenMsgSendType" BO_ 256 0;
+BA_ "GenMsgStartDelayTime" BO_ 256 0.000;
+// Frame: AsdmSafeProtFr10
+BA_ "GenMsgCycleTime" BO_ 128 10.000;
+BA_ "GenMsgSendType" BO_ 128 0;
+BA_ "GenMsgStartDelayTime" BO_ 128 0.000;
+// Frame: AsdmSafeProtFr11
+BA_ "GenMsgCycleTime" BO_ 144 10.000;
+BA_ "GenMsgSendType" BO_ 144 0;
+BA_ "GenMsgStartDelayTime" BO_ 144 0.000;
+// Frame: AsdmSafeProtFr12
+BA_ "GenMsgCycleTime" BO_ 208 100.000;
+BA_ "GenMsgSendType" BO_ 208 0;
+BA_ "GenMsgStartDelayTime" BO_ 208 0.000;
+// Frame: AsdmSafeProtFr13
+BA_ "GenMsgCycleTime" BO_ 224 100.000;
+BA_ "GenMsgSendType" BO_ 224 0;
+BA_ "GenMsgStartDelayTime" BO_ 224 0.000;
+// Frame: AsdmSafeProtFr14
+BA_ "GenMsgDelayTime" BO_ 240 80.000;
+BA_ "GenMsgSendType" BO_ 240 1;
+// Frame: AsdmSafeProtNMFr
+BA_ "GenMsgDelayTime" BO_ 1292 20.000;
+BA_ "GenMsgSendType" BO_ 1292 1;
+// Frame: AsdmToAllFuncSafeProtDiagReqFrame
+BA_ "GenMsgDelayTime" BO_ 2047 5.000;
+BA_ "GenMsgSendType" BO_ 2047 1;
+// Frame: AsdmToRmlSafeProtDiagReqFrame
+BA_ "GenMsgDelayTime" BO_ 1814 5.000;
+BA_ "GenMsgSendType" BO_ 1814 1;
+// Frame: AsdmToRmrSafeProtDiagReqFrame
+BA_ "GenMsgDelayTime" BO_ 1815 5.000;
+BA_ "GenMsgSendType" BO_ 1815 1;
+// Frame: EtcSafeProtFr01
+BA_ "GenMsgCycleTime" BO_ 272 1000.000;
+BA_ "GenMsgSendType" BO_ 272 0;
+BA_ "GenMsgStartDelayTime" BO_ 272 0.000;
+// Frame: EtcSafeProtFr02
+BA_ "GenMsgCycleTime" BO_ 288 1000.000;
+BA_ "GenMsgSendType" BO_ 288 0;
+BA_ "GenMsgStartDelayTime" BO_ 288 0.000;
+// Frame: RmlSafeProtDEVFr01
+BA_ "GenMsgDelayTime" BO_ 1409 10.000;
+BA_ "GenMsgSendType" BO_ 1409 1;
+// Frame: RmlSafeProtFr01
+BA_ "GenMsgCycleTime" BO_ 80 20.000;
+BA_ "GenMsgSendType" BO_ 80 0;
+BA_ "GenMsgStartDelayTime" BO_ 80 0.000;
+// Frame: RmlSafeProtFr02
+BA_ "GenMsgCycleTime" BO_ 154 30.000;
+BA_ "GenMsgSendType" BO_ 154 0;
+BA_ "GenMsgStartDelayTime" BO_ 154 0.000;
+// Frame: RmlSafeProtNMFr
+BA_ "GenMsgDelayTime" BO_ 1294 20.000;
+BA_ "GenMsgSendType" BO_ 1294 1;
+// Frame: RmlToAsdmSafeProtDiagResFrame
+BA_ "GenMsgDelayTime" BO_ 1558 5.000;
+BA_ "GenMsgSendType" BO_ 1558 1;
+// Frame: RmrSafeProtDEVFr02
+BA_ "GenMsgDelayTime" BO_ 1408 10.000;
+BA_ "GenMsgSendType" BO_ 1408 1;
+// Frame: RmrSafeProtFr01
+BA_ "GenMsgCycleTime" BO_ 112 30.000;
+BA_ "GenMsgSendType" BO_ 112 0;
+BA_ "GenMsgStartDelayTime" BO_ 112 0.000;
+// Frame: RmrSafeProtFr02
+BA_ "GenMsgCycleTime" BO_ 149 30.000;
+BA_ "GenMsgSendType" BO_ 149 0;
+BA_ "GenMsgStartDelayTime" BO_ 149 0.000;
+// Frame: RmrSafeProtNMFr
+BA_ "GenMsgDelayTime" BO_ 1293 20.000;
+BA_ "GenMsgSendType" BO_ 1293 1;
+// Frame: RmrToAsdmSafeProtDiagResFrame
+BA_ "GenMsgDelayTime" BO_ 1559 5.000;
+BA_ "GenMsgSendType" BO_ 1559 1;
+// Frame: SRSDevSafeProtFr01
+BA_ "GenMsgDelayTime" BO_ 1410 10.000;
+BA_ "GenMsgSendType" BO_ 1410 1;
+// Frame: SRSDevSafeProtFr02
+BA_ "GenMsgDelayTime" BO_ 1411 10.000;
+BA_ "GenMsgSendType" BO_ 1411 1;
+// Frame: SRSDevSafeProtFr03
+BA_ "GenMsgDelayTime" BO_ 1412 10.000;
+BA_ "GenMsgSendType" BO_ 1412 1;
+// Frame: SRSDevSafeProtFr04
+BA_ "GenMsgDelayTime" BO_ 1413 10.000;
+BA_ "GenMsgSendType" BO_ 1413 1;
+// Frame: SRSDevSafeProtFr05
+BA_ "GenMsgDelayTime" BO_ 1414 10.000;
+BA_ "GenMsgSendType" BO_ 1414 1;
+// Frame: SRSDevSafeProtFr06
+BA_ "GenMsgDelayTime" BO_ 1415 10.000;
+BA_ "GenMsgSendType" BO_ 1415 1;
+// Frame: SRSSafeProtFr01
+BA_ "GenMsgCycleTime" BO_ 66 10.000;
+BA_ "GenMsgSendType" BO_ 66 0;
+BA_ "GenMsgStartDelayTime" BO_ 66 0.000;
+// Frame: SRSSafeProtFr02
+BA_ "GenMsgCycleTime" BO_ 64 10.000;
+BA_ "GenMsgSendType" BO_ 64 0;
+BA_ "GenMsgStartDelayTime" BO_ 64 0.000;
+// Frame: SRSSafeProtFr03
+BA_ "GenMsgCycleTime" BO_ 56 10.000;
+BA_ "GenMsgSendType" BO_ 56 0;
+BA_ "GenMsgStartDelayTime" BO_ 56 0.000;
+// Frame: SRSSafeProtFr04
+BA_ "GenMsgCycleTime" BO_ 69 10.000;
+BA_ "GenMsgSendType" BO_ 69 0;
+BA_ "GenMsgStartDelayTime" BO_ 69 0.000;
+// Frame: SRSSafeProtFr05
+BA_ "GenMsgDelayTime" BO_ 51 10.000;
+BA_ "GenMsgSendType" BO_ 51 1;
+// Frame: SRSSafeProtFr06
+BA_ "GenMsgCycleTime" BO_ 72 10.000;
+BA_ "GenMsgSendType" BO_ 72 0;
+BA_ "GenMsgStartDelayTime" BO_ 72 0.000;
+// Frame: SrsSafeProtNMFr
+BA_ "GenMsgDelayTime" BO_ 1291 20.000;
+BA_ "GenMsgSendType" BO_ 1291 1;
+BA_ "GenMsgILSupport" BO_ 96 1;
+BA_ "GenMsgILSupport" BO_ 1407 1;
+BA_ "GenMsgILSupport" BO_ 256 1;
+BA_ "GenMsgILSupport" BO_ 128 1;
+BA_ "GenMsgILSupport" BO_ 144 1;
+BA_ "GenMsgILSupport" BO_ 208 1;
+BA_ "GenMsgILSupport" BO_ 224 1;
+BA_ "GenMsgILSupport" BO_ 240 1;
+BA_ "GenMsgILSupport" BO_ 1292 0;
+BA_ "GenMsgILSupport" BO_ 2047 1;
+BA_ "GenMsgILSupport" BO_ 1814 1;
+BA_ "GenMsgILSupport" BO_ 1815 1;
+BA_ "GenMsgILSupport" BO_ 272 1;
+BA_ "GenMsgILSupport" BO_ 288 1;
+BA_ "GenMsgILSupport" BO_ 1409 1;
+BA_ "GenMsgILSupport" BO_ 80 1;
+BA_ "GenMsgILSupport" BO_ 154 1;
+BA_ "GenMsgILSupport" BO_ 1294 0;
+BA_ "GenMsgILSupport" BO_ 1558 1;
+BA_ "GenMsgILSupport" BO_ 1408 1;
+BA_ "GenMsgILSupport" BO_ 112 1;
+BA_ "GenMsgILSupport" BO_ 149 1;
+BA_ "GenMsgILSupport" BO_ 1293 0;
+BA_ "GenMsgILSupport" BO_ 1559 1;
+BA_ "GenMsgILSupport" BO_ 1410 1;
+BA_ "GenMsgILSupport" BO_ 1411 1;
+BA_ "GenMsgILSupport" BO_ 1412 1;
+BA_ "GenMsgILSupport" BO_ 1413 1;
+BA_ "GenMsgILSupport" BO_ 1414 1;
+BA_ "GenMsgILSupport" BO_ 1415 1;
+BA_ "GenMsgILSupport" BO_ 66 1;
+BA_ "GenMsgILSupport" BO_ 64 1;
+BA_ "GenMsgILSupport" BO_ 56 1;
+BA_ "GenMsgILSupport" BO_ 69 1;
+BA_ "GenMsgILSupport" BO_ 51 1;
+BA_ "GenMsgILSupport" BO_ 72 1;
+BA_ "GenMsgILSupport" BO_ 1291 0;
+BA_ "NmAsrMessage" BO_ 96 0;
+BA_ "NmAsrMessage" BO_ 1407 0;
+BA_ "NmAsrMessage" BO_ 256 0;
+BA_ "NmAsrMessage" BO_ 128 0;
+BA_ "NmAsrMessage" BO_ 144 0;
+BA_ "NmAsrMessage" BO_ 208 0;
+BA_ "NmAsrMessage" BO_ 224 0;
+BA_ "NmAsrMessage" BO_ 240 0;
+BA_ "NmAsrMessage" BO_ 1292 1;
+BA_ "NmAsrMessage" BO_ 2047 0;
+BA_ "NmAsrMessage" BO_ 1814 0;
+BA_ "NmAsrMessage" BO_ 1815 0;
+BA_ "NmAsrMessage" BO_ 272 0;
+BA_ "NmAsrMessage" BO_ 288 0;
+BA_ "NmAsrMessage" BO_ 1409 0;
+BA_ "NmAsrMessage" BO_ 80 0;
+BA_ "NmAsrMessage" BO_ 154 0;
+BA_ "NmAsrMessage" BO_ 1294 1;
+BA_ "NmAsrMessage" BO_ 1558 0;
+BA_ "NmAsrMessage" BO_ 1408 0;
+BA_ "NmAsrMessage" BO_ 112 0;
+BA_ "NmAsrMessage" BO_ 149 0;
+BA_ "NmAsrMessage" BO_ 1293 1;
+BA_ "NmAsrMessage" BO_ 1559 0;
+BA_ "NmAsrMessage" BO_ 1410 0;
+BA_ "NmAsrMessage" BO_ 1411 0;
+BA_ "NmAsrMessage" BO_ 1412 0;
+BA_ "NmAsrMessage" BO_ 1413 0;
+BA_ "NmAsrMessage" BO_ 1414 0;
+BA_ "NmAsrMessage" BO_ 1415 0;
+BA_ "NmAsrMessage" BO_ 66 0;
+BA_ "NmAsrMessage" BO_ 64 0;
+BA_ "NmAsrMessage" BO_ 56 0;
+BA_ "NmAsrMessage" BO_ 69 0;
+BA_ "NmAsrMessage" BO_ 51 0;
+BA_ "NmAsrMessage" BO_ 72 0;
+BA_ "NmAsrMessage" BO_ 1291 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestADataLatRawTest 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestADataLatTestAtPosn34 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestADataLatTestAtPosn35 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestADataLatTestAtPosn36 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestAErrOnCh 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatAt16 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt32 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt33 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt37 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt38 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt39 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt40 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt41 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt42 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt43 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt44 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt45 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt46 1;
+BA_ "GenSigSendType" SG_ 1410 ADataLatTestALatErrAt47 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestADataLgtRawTest 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestADataLgtTestAtPosn34 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestADataLgtTestAtPosn35 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestADataLgtTestAtPosn36 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtAt16 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt32 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt33 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt37 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt38 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt39 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt40 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt41 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt42 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt43 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt44 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt45 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt46 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestALgtErrAt47 1;
+BA_ "GenSigSendType" SG_ 1411 ADataLgtTestTOfALgtTest 1;
+BA_ "GenSigDataID" SG_ 56 ADataRawSafeChks "0x22";
+BA_ "GenSigFuncType" SG_ 56 ADataRawSafeChks 15;
+BA_ "GenSigStartValue" SG_ 56 ADataRawSafeChks 255;
+BA_ "GenSigFuncType" SG_ 56 ADataRawSafeCntr 16;
+BA_ "GenSigStartValue" SG_ 56 ADataRawSafeCntr 0;
+BA_ "GenSigStartValue" SG_ 56 ALat1 0;
+BA_ "GenSigStartValue" SG_ 56 ALat1Qf1 1;
+BA_ "GenSigStartValue" SG_ 66 ALat1Qf2 1;
+BA_ "GenSigStartValue" SG_ 66 ALatWithCmp 0;
+BA_ "GenSigStartValue" SG_ 56 ALgt1 0;
+BA_ "GenSigStartValue" SG_ 56 ALgt1Qf1 1;
+BA_ "GenSigStartValue" SG_ 66 ALgt1Qf2 1;
+BA_ "GenSigStartValue" SG_ 56 AVert2 1154.1176471;
+BA_ "GenSigStartValue" SG_ 56 AVert2Qf1 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertAt16 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertAt48 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt32 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt33 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt37 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt38 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt39 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt40 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt41 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt42 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt43 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt44 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt45 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt46 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertErrAt47 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertRawTest 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertTestAtPosn34 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertTestAtPosn35 1;
+BA_ "GenSigSendType" SG_ 1412 AVertTestAVertTestAtPosn36 1;
+BA_ "GenSigStartValue" SG_ 144 AccrPedlRat 0;
+BA_ "GenSigStartValue" SG_ 96 AccrPedlRatGrdt 0;
+BA_ "GenSigStartValue" SG_ 69 ActvnReqOfRtrctrRvsbLe 0;
+BA_ "GenSigStartValue" SG_ 69 ActvnReqOfRtrctrRvsbRi 0;
+BA_ "GenSigSendType" SG_ 80 ActvnStsOfRtrctrRvsbLe 0;
+BA_ "GenSigStartValue" SG_ 80 ActvnStsOfRtrctrRvsbLe 0;
+BA_ "GenSigSendType" SG_ 112 ActvnStsOfRtrctrRvsbRi 0;
+BA_ "GenSigStartValue" SG_ 112 ActvnStsOfRtrctrRvsbRi 0;
+BA_ "GenSigDataID" SG_ 72 AgDataRawSafeChks "0x23";
+BA_ "GenSigFuncType" SG_ 72 AgDataRawSafeChks 15;
+BA_ "GenSigStartValue" SG_ 72 AgDataRawSafeChks 255;
+BA_ "GenSigFuncType" SG_ 72 AgDataRawSafeCntr 16;
+BA_ "GenSigStartValue" SG_ 72 AgDataRawSafeCntr 0;
+BA_ "GenSigStartValue" SG_ 96 AsyBltLvl 0;
+BA_ "GenSigDataID" SG_ 66 AsyDataWithCmpSafeChks "0x24";
+BA_ "GenSigFuncType" SG_ 66 AsyDataWithCmpSafeChks 15;
+BA_ "GenSigStartValue" SG_ 66 AsyDataWithCmpSafeChks 255;
+BA_ "GenSigFuncType" SG_ 66 AsyDataWithCmpSafeCntr 16;
+BA_ "GenSigStartValue" SG_ 66 AsyDataWithCmpSafeCntr 0;
+BA_ "GenSigStartValue" SG_ 224 BkpOfDstTrvld 0;
+BA_ "GenSigStartValue" SG_ 154 BltAxleRotOfRtrctrRvsbLeBltAxleRot 6000;
+BA_ "GenSigStartValue" SG_ 154 BltAxleRotOfRtrctrRvsbLeBltAxleRotQf 1;
+BA_ "GenSigStartValue" SG_ 149 BltAxleRotOfRtrctrRvsbRiBltAxleRot 6000;
+BA_ "GenSigStartValue" SG_ 149 BltAxleRotOfRtrctrRvsbRiBltAxleRotQf 1;
+BA_ "GenSigSendType" SG_ 51 BltCrashNotifDrvrActvd 1;
+BA_ "GenSigStartValue" SG_ 51 BltCrashNotifDrvrActvd 0;
+BA_ "GenSigSendType" SG_ 51 BltCrashNotifPassActvd 1;
+BA_ "GenSigStartValue" SG_ 51 BltCrashNotifPassActvd 0;
+BA_ "GenSigStartValue" SG_ 64 BltLockStAtDrvrForBltLockSt1 1;
+BA_ "GenSigStartValue" SG_ 64 BltLockStAtDrvrForDevErrSts2 0;
+BA_ "GenSigStartValue" SG_ 64 BltLockStAtPassForBltLockSt1 1;
+BA_ "GenSigStartValue" SG_ 64 BltLockStAtPassForBltLockSts 0;
+BA_ "GenSigStartValue" SG_ 144 BltReqFromVehDyn 0;
+BA_ "GenSigStartValue" SG_ 208 CarModSts1 0;
+BA_ "GenSigStartValue" SG_ 208 CarModSubtypWdCarModSubtyp 0;
+BA_ "GenSigStartValue" SG_ 224 CarTiGlb 0;
+BA_ "GenSigStartValue" SG_ 96 DrvrBrkTqAtWhlsGrdtReqd 0;
+BA_ "GenSigStartValue" SG_ 128 DrvrBrkTqAtWhlsReqd 0;
+BA_ "GenSigDataID" SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdChks "0x7A";
+BA_ "GenSigFuncType" SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdChks 15;
+BA_ "GenSigStartValue" SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdChks 0;
+BA_ "GenSigFuncType" SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdCntr 16;
+BA_ "GenSigStartValue" SG_ 128 DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdCntr 0;
+BA_ "GenSigStartValue" SG_ 128 DrvrBrkTqAtWhlsReqdQf 1;
+BA_ "GenSigStartValue" SG_ 208 EgyLvlElecMai 0;
+BA_ "GenSigStartValue" SG_ 208 EgyLvlElecSubtyp 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe1 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe1 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe2 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe2 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe3 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe3 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe4 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe4 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe5 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe5 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe6 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe6 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe7 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe7 0;
+BA_ "GenSigSendType" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe8 1;
+BA_ "GenSigStartValue" SG_ 1409 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe8 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi1 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi1 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi2 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi2 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi3 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi3 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi4 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi4 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi5 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi5 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi6 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi6 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi7 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi7 0;
+BA_ "GenSigSendType" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi8 1;
+BA_ "GenSigStartValue" SG_ 1408 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi8 0;
+BA_ "GenSigStartValue" SG_ 208 FltEgyCnsWdSts 0;
+BA_ "GenSigStartValue" SG_ 66 GrdtOfALgt 0;
+BA_ "GenSigSendType" SG_ 272 IniValMstCfgIDSafetyCANProtected 1;
+BA_ "GenSigStartValue" SG_ 272 IniValMstCfgIDSafetyCANProtected 4205;
+BA_ "GenSigSendType" SG_ 288 IniValSigCfgIDSafetyCANProtected 1;
+BA_ "GenSigStartValue" SG_ 288 IniValSigCfgIDSafetyCANProtected 4205;
+BA_ "GenSigStartValue" SG_ 80 MsgReqForRtrctrRvsbLe 0;
+BA_ "GenSigStartValue" SG_ 112 MsgReqForRtrctrRvsbRi 0;
+BA_ "GenSigStartValue" SG_ 1407 MstCfgIDSafetyCANProtected 4205;
+BA_ "GenSigStartValue" SG_ 64 OccptWghtSnsrSt 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt48 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt49 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt50 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt51 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt52 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt53 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt55 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt57 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt58 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt59 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt60 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt61 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt62 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchErrAt63 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchHi 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchLo 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchRateTestPosn54 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchRateTestPosn56 1;
+BA_ "GenSigSendType" SG_ 1413 PitchRateTestPitchT 1;
+BA_ "GenSigStartValue" SG_ 208 PwrLvlElecMai 0;
+BA_ "GenSigStartValue" SG_ 208 PwrLvlElecSubtyp 0;
+BA_ "GenSigStartValue" SG_ 96 RcwmBltLvl 0;
+BA_ "GenSigStartValue" SG_ 72 RollRate1 0;
+BA_ "GenSigStartValue" SG_ 72 RollRate1Qf1 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt48 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt49 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt50 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt51 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt52 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt53 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt55 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt57 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt58 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt59 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt60 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt61 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt62 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollErrAt63 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollHi 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollLo 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollRateTestPosn54 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollRateTestPosn56 1;
+BA_ "GenSigSendType" SG_ 1414 RollRateTestRollT 1;
+BA_ "GenSigStartValue" SG_ 1407 SftyProtdCntrForMissCom 0;
+BA_ "GenSigStartValue" SG_ 144 SteerWhlAgSafe 0;
+BA_ "GenSigStartValue" SG_ 144 SteerWhlAgSpdSafe 0;
+BA_ "GenSigStartValue" SG_ 144 SteerWhlSnsrQf 1;
+BA_ "GenSigDataID" SG_ 144 SteerWhlSnsrSafeChks "0x33";
+BA_ "GenSigFuncType" SG_ 144 SteerWhlSnsrSafeChks 15;
+BA_ "GenSigStartValue" SG_ 144 SteerWhlSnsrSafeChks 0;
+BA_ "GenSigFuncType" SG_ 144 SteerWhlSnsrSafeCntr 16;
+BA_ "GenSigStartValue" SG_ 144 SteerWhlSnsrSafeCntr 0;
+BA_ "GenSigStartValue" SG_ 80 StsForRtrctrRvsbLe 0;
+BA_ "GenSigStartValue" SG_ 112 StsForRtrctrRvsbRi 0;
+BA_ "GenSigStartValue" SG_ 64 SwtForPassAirbCutOffSt 1;
+BA_ "GenSigStartValue" SG_ 208 UsgModSts 1;
+BA_ "GenSigStartValue" SG_ 256 VehBattUSysU 0;
+BA_ "GenSigStartValue" SG_ 256 VehBattUSysUQf 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmBlk 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmBlk 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal1 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal1 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal2 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal2 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal3 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal3 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal4 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal4 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal5 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal5 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal6 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal6 0;
+BA_ "GenSigSendType" SG_ 240 VehCfgPrmVal7 1;
+BA_ "GenSigStartValue" SG_ 240 VehCfgPrmVal7 0;
+BA_ "GenSigDataID" SG_ 208 VehModMngtGlbSafe1Chks "0x74";
+BA_ "GenSigFuncType" SG_ 208 VehModMngtGlbSafe1Chks 15;
+BA_ "GenSigStartValue" SG_ 208 VehModMngtGlbSafe1Chks 0;
+BA_ "GenSigFuncType" SG_ 208 VehModMngtGlbSafe1Cntr 16;
+BA_ "GenSigStartValue" SG_ 208 VehModMngtGlbSafe1Cntr 0;
+BA_ "GenSigDataID" SG_ 256 VehMtnStChks "0x36";
+BA_ "GenSigFuncType" SG_ 256 VehMtnStChks 15;
+BA_ "GenSigStartValue" SG_ 256 VehMtnStChks 0;
+BA_ "GenSigFuncType" SG_ 256 VehMtnStCntr 16;
+BA_ "GenSigStartValue" SG_ 256 VehMtnStCntr 0;
+BA_ "GenSigStartValue" SG_ 256 VehMtnStSafe 0;
+BA_ "GenSigStartValue" SG_ 128 VehSpdLgtSafe 0;
+BA_ "GenSigDataID" SG_ 128 VehSpdLgtSafeChks "0x37";
+BA_ "GenSigFuncType" SG_ 128 VehSpdLgtSafeChks 15;
+BA_ "GenSigStartValue" SG_ 128 VehSpdLgtSafeChks 0;
+BA_ "GenSigFuncType" SG_ 128 VehSpdLgtSafeCntr 16;
+BA_ "GenSigStartValue" SG_ 128 VehSpdLgtSafeCntr 0;
+BA_ "GenSigStartValue" SG_ 128 VehSpdLgtSafeQf 1;
+BA_ "GenSigStartValue" SG_ 72 YawRate1 0;
+BA_ "GenSigStartValue" SG_ 72 YawRate1Qf1 1;
+BA_ "GenSigStartValue" SG_ 66 YawRate1Qf2 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt48 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt49 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt50 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt51 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt52 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt53 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt55 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt57 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt58 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt59 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt60 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt61 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt62 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawErrAt63 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawHi 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawLo 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawRateTestPosn54 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawRateTestPosn56 1;
+BA_ "GenSigSendType" SG_ 1415 YawRateTestYawT 1;
+BA_ "GenSigStartValue" SG_ 66 YawRateWithCmp 0;
+
+VAL_ 96 AsyBltLvl 0 "AsyBltLvl1_NoActvn" 1 "AsyBltLvl1_ActvnFLo" 2 "AsyBltLvl1_ActvnFHi" 3 "AsyBltLvl1_NotInUse";
+VAL_ 96 RcwmBltLvl 0 "AsyBltLvl1_NoActvn" 1 "AsyBltLvl1_ActvnFLo" 2 "AsyBltLvl1_ActvnFHi" 3 "AsyBltLvl1_NotInUse";
+VAL_ 256 VehBattUSysUQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 256 VehMtnStSafe 0 "VehMtnSt2_Ukwn" 1 "VehMtnSt2_StandStillVal1" 2 "VehMtnSt2_StandStillVal2" 3 "VehMtnSt2_StandStillVal3" 4 "VehMtnSt2_RollgFwdVal1" 5 "VehMtnSt2_RollgFwdVal2" 6 "VehMtnSt2_RollgBackwVal1" 7 "VehMtnSt2_RollgBackwVal2";
+VAL_ 128 DrvrBrkTqAtWhlsReqdQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 128 VehSpdLgtSafeQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 144 BltReqFromVehDyn 0 "BltReqRec1_NoActvnReqd" 1 "BltReqRec1_BrkSpprtActvnFLo" 2 "BltReqRec1_VehSlipActvnFLo" 3 "BltReqRec1_RollovrActvnFHi" 4 "BltReqRec1_DrvrBrkgCritWithActvnFLo" 5 "BltReqRec1_Resd2" 6 "BltReqRec1_Resd3" 7 "BltReqRec1_Resd4";
+VAL_ 144 SteerWhlSnsrQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 208 CarModSts1 0 "CarModSts1_CarModNorm" 1 "CarModSts1_CarModTrnsp" 2 "CarModSts1_CarModFcy" 3 "CarModSts1_CarModCrash" 5 "CarModSts1_CarModDyno";
+VAL_ 208 FltEgyCnsWdSts 0 "FltEgyCns1_NoFlt" 1 "FltEgyCns1_Flt";
+VAL_ 208 UsgModSts 0 "UsgModSts1_UsgModAbdnd" 1 "UsgModSts1_UsgModInActv" 2 "UsgModSts1_UsgModCnvinc" 11 "UsgModSts1_UsgModActv" 13 "UsgModSts1_UsgModDrvg";
+VAL_ 80 ActvnStsOfRtrctrRvsbLe 0 "ActvnStsOfRtrctrRvsb1_NotActvd" 1 "ActvnStsOfRtrctrRvsb1_FLoActvdBySftyPas" 2 "ActvnStsOfRtrctrRvsb1_FHiActvdBySftyPas" 3 "ActvnStsOfRtrctrRvsb1_FLoActvdByAsy" 4 "ActvnStsOfRtrctrRvsb1_FHiActvdByAsy" 5 "ActvnStsOfRtrctrRvsb1_FLoActvdByRcwm" 6 "ActvnStsOfRtrctrRvsb1_FHiActvdByRcwm" 7 "ActvnStsOfRtrctrRvsb1_FLoActvdByRtrctrRvsbInt" 8 "ActvnStsOfRtrctrRvsb1_FHiActvdByRtrctrRvsbInt";
+VAL_ 80 MsgReqForRtrctrRvsbLe 0 "MsgReqForRtrctrRvsb_MsgOff" 1 "MsgReqForRtrctrRvsb_Msg1" 2 "MsgReqForRtrctrRvsb_Resd1" 3 "MsgReqForRtrctrRvsb_Resd2";
+VAL_ 80 StsForRtrctrRvsbLe 0 "StsForRtrctrRvsb1_Ok" 1 "StsForRtrctrRvsb1_NotOk" 2 "StsForRtrctrRvsb1_Di";
+VAL_ 154 BltAxleRotOfRtrctrRvsbLeBltAxleRotQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 112 ActvnStsOfRtrctrRvsbRi 0 "ActvnStsOfRtrctrRvsb1_NotActvd" 1 "ActvnStsOfRtrctrRvsb1_FLoActvdBySftyPas" 2 "ActvnStsOfRtrctrRvsb1_FHiActvdBySftyPas" 3 "ActvnStsOfRtrctrRvsb1_FLoActvdByAsy" 4 "ActvnStsOfRtrctrRvsb1_FHiActvdByAsy" 5 "ActvnStsOfRtrctrRvsb1_FLoActvdByRcwm" 6 "ActvnStsOfRtrctrRvsb1_FHiActvdByRcwm" 7 "ActvnStsOfRtrctrRvsb1_FLoActvdByRtrctrRvsbInt" 8 "ActvnStsOfRtrctrRvsb1_FHiActvdByRtrctrRvsbInt";
+VAL_ 112 MsgReqForRtrctrRvsbRi 0 "MsgReqForRtrctrRvsb_MsgOff" 1 "MsgReqForRtrctrRvsb_Msg1" 2 "MsgReqForRtrctrRvsb_Resd1" 3 "MsgReqForRtrctrRvsb_Resd2";
+VAL_ 112 StsForRtrctrRvsbRi 0 "StsForRtrctrRvsb1_Ok" 1 "StsForRtrctrRvsb1_NotOk" 2 "StsForRtrctrRvsb1_Di";
+VAL_ 149 BltAxleRotOfRtrctrRvsbRiBltAxleRotQf 0 "GenQf1_UndefindDataAccur" 1 "GenQf1_TmpUndefdData" 2 "GenQf1_DataAccurNotWithinSpcn" 3 "GenQf1_AccurData";
+VAL_ 1410 ADataLatTestADataLatTestAtPosn34 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestADataLatTestAtPosn35 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestADataLatTestAtPosn36 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt32 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt33 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt37 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt38 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt39 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt40 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt41 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt42 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt43 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt44 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt45 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt46 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1410 ADataLatTestALatErrAt47 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestADataLgtTestAtPosn34 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestADataLgtTestAtPosn35 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestADataLgtTestAtPosn36 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt32 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt33 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt37 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt38 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt39 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt40 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt41 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt42 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt43 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt44 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt45 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt46 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1411 ADataLgtTestALgtErrAt47 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt32 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt33 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt37 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt38 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt39 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt40 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt41 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt42 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt43 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt44 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt45 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt46 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertErrAt47 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertTestAtPosn34 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertTestAtPosn35 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1412 AVertTestAVertTestAtPosn36 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt48 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt49 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt50 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt51 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt52 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt53 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt55 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt57 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt58 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt59 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt60 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt61 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt62 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchErrAt63 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchRateTestPosn54 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1413 PitchRateTestPitchRateTestPosn56 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt48 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt49 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt50 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt51 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt52 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt53 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt55 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt57 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt58 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt59 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt60 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt61 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt62 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollErrAt63 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollRateTestPosn54 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1414 RollRateTestRollRateTestPosn56 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt48 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt49 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt50 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt51 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt52 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt53 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt55 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt57 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt58 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt59 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt60 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt61 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt62 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawErrAt63 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawRateTestPosn54 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 1415 YawRateTestYawRateTestPosn56 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 66 ALat1Qf2 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 66 ALgt1Qf2 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 66 YawRate1Qf2 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 64 BltLockStAtDrvrForBltLockSt1 0 "BltLockSt1_Unlock" 1 "BltLockSt1_Lock";
+VAL_ 64 BltLockStAtDrvrForDevErrSts2 0 "DevErrSts2_NoFlt" 1 "DevErrSts2_Flt";
+VAL_ 64 BltLockStAtPassForBltLockSt1 0 "BltLockSt1_Unlock" 1 "BltLockSt1_Lock";
+VAL_ 64 BltLockStAtPassForBltLockSts 0 "DevErrSts2_NoFlt" 1 "DevErrSts2_Flt";
+VAL_ 64 OccptWghtSnsrSt 0 "OnOff2_On" 1 "OnOff2_Off";
+VAL_ 64 SwtForPassAirbCutOffSt 0 "OnOff2_On" 1 "OnOff2_Off";
+VAL_ 56 ALat1Qf1 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 56 ALgt1Qf1 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 56 AVert2Qf1 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 69 ActvnReqOfRtrctrRvsbLe 0 "ActvnReqOfRtrctrRvsb1_NoActvn" 1 "ActvnReqOfRtrctrRvsb1_ActvnFLo" 2 "ActvnReqOfRtrctrRvsb1_ActvnFHi" 3 "ActvnReqOfRtrctrRvsb1_Resd1" 4 "ActvnReqOfRtrctrRvsb1_Resd2";
+VAL_ 69 ActvnReqOfRtrctrRvsbRi 0 "ActvnReqOfRtrctrRvsb1_NoActvn" 1 "ActvnReqOfRtrctrRvsb1_ActvnFLo" 2 "ActvnReqOfRtrctrRvsb1_ActvnFHi" 3 "ActvnReqOfRtrctrRvsb1_Resd1" 4 "ActvnReqOfRtrctrRvsb1_Resd2";
+VAL_ 51 BltCrashNotifDrvrActvd 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 51 BltCrashNotifPassActvd 0 "Boolean_FALSE" 1 "Boolean_TRUE";
+VAL_ 72 RollRate1Qf1 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+VAL_ 72 YawRate1Qf1 0 "Qf1_DevOfDataUndefd" 1 "Qf1_DataTmpUndefdAndEvlnInProgs" 2 "Qf1_DevOfDataNotWithinRngAllwd" 3 "Qf1_DataCalcdWithDevDefd";
+SIG_GROUP_ 1410 ADataLatTest 1 : ADataLatTestADataLatRawTest ADataLatTestADataLatTestAtPosn34 ADataLatTestADataLatTestAtPosn35 ADataLatTestADataLatTestAtPosn36 ADataLatTestAErrOnCh ADataLatTestALatAt16 ADataLatTestALatErrAt32 ADataLatTestALatErrAt33 ADataLatTestALatErrAt37 ADataLatTestALatErrAt38 ADataLatTestALatErrAt39 ADataLatTestALatErrAt40 ADataLatTestALatErrAt41 ADataLatTestALatErrAt42 ADataLatTestALatErrAt43 ADataLatTestALatErrAt44 ADataLatTestALatErrAt45 ADataLatTestALatErrAt46 ADataLatTestALatErrAt47;
+SIG_GROUP_ 1411 ADataLgtTest 1 : ADataLgtTestADataLgtRawTest ADataLgtTestADataLgtTestAtPosn34 ADataLgtTestADataLgtTestAtPosn35 ADataLgtTestADataLgtTestAtPosn36 ADataLgtTestALgtAt16 ADataLgtTestALgtErrAt32 ADataLgtTestALgtErrAt33 ADataLgtTestALgtErrAt37 ADataLgtTestALgtErrAt38 ADataLgtTestALgtErrAt39 ADataLgtTestALgtErrAt40 ADataLgtTestALgtErrAt41 ADataLgtTestALgtErrAt42 ADataLgtTestALgtErrAt43 ADataLgtTestALgtErrAt44 ADataLgtTestALgtErrAt45 ADataLgtTestALgtErrAt46 ADataLgtTestALgtErrAt47 ADataLgtTestTOfALgtTest;
+SIG_GROUP_ 56 ADataRawSafe 1 : ADataRawSafeChks ADataRawSafeCntr ALat1 ALat1Qf1 ALgt1 ALgt1Qf1 AVert2 AVert2Qf1;
+SIG_GROUP_ 72 AgDataRawSafe 1 : AgDataRawSafeChks AgDataRawSafeCntr RollRate1 RollRate1Qf1 YawRate1 YawRate1Qf1;
+SIG_GROUP_ 66 AsyDataWithCmpSafe 1 : ALat1Qf2 ALatWithCmp ALgt1Qf2 AsyDataWithCmpSafeChks AsyDataWithCmpSafeCntr GrdtOfALgt YawRate1Qf2 YawRateWithCmp;
+SIG_GROUP_ 1412 AVertTest 1 : AVertTestAVertAt16 AVertTestAVertAt48 AVertTestAVertErrAt32 AVertTestAVertErrAt33 AVertTestAVertErrAt37 AVertTestAVertErrAt38 AVertTestAVertErrAt39 AVertTestAVertErrAt40 AVertTestAVertErrAt41 AVertTestAVertErrAt42 AVertTestAVertErrAt43 AVertTestAVertErrAt44 AVertTestAVertErrAt45 AVertTestAVertErrAt46 AVertTestAVertErrAt47 AVertTestAVertRawTest AVertTestAVertTestAtPosn34 AVertTestAVertTestAtPosn35 AVertTestAVertTestAtPosn36;
+SIG_GROUP_ 154 BltAxleRotOfRtrctrRvsbLe 1 : BltAxleRotOfRtrctrRvsbLeBltAxleRot BltAxleRotOfRtrctrRvsbLeBltAxleRotQf;
+SIG_GROUP_ 149 BltAxleRotOfRtrctrRvsbRi 1 : BltAxleRotOfRtrctrRvsbRiBltAxleRot BltAxleRotOfRtrctrRvsbRiBltAxleRotQf;
+SIG_GROUP_ 51 BltCrashNotif 1 : BltCrashNotifDrvrActvd BltCrashNotifPassActvd;
+SIG_GROUP_ 64 BltLockStAtDrvr 1 : BltLockStAtDrvrForBltLockSt1 BltLockStAtDrvrForDevErrSts2;
+SIG_GROUP_ 64 BltLockStAtPass 1 : BltLockStAtPassForBltLockSt1 BltLockStAtPassForBltLockSts;
+SIG_GROUP_ 128 DrvrBrkTqAtWhlsReqdGroup 1 : DrvrBrkTqAtWhlsReqd DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdChks DrvrBrkTqAtWhlsReqdDrvrBrkTqAtWhlsReqdCntr DrvrBrkTqAtWhlsReqdQf;
+SIG_GROUP_ 1409 EndOfLineRtrctrRvsbLe 1 : EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe1 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe2 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe3 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe4 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe5 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe6 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe7 EndOfLineRtrctrRvsbLeEndOfLineRtrctrRvsbLe8;
+SIG_GROUP_ 1408 EndOfLineRtrctrRvsbRi 1 : EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi1 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi2 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi3 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi4 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi5 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi6 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi7 EndOfLineRtrctrRvsbRiEndOfLineRtrctrRvsbRi8;
+SIG_GROUP_ 1413 PitchRateTest 1 : PitchRateTestPitchErrAt48 PitchRateTestPitchErrAt49 PitchRateTestPitchErrAt50 PitchRateTestPitchErrAt51 PitchRateTestPitchErrAt52 PitchRateTestPitchErrAt53 PitchRateTestPitchErrAt55 PitchRateTestPitchErrAt57 PitchRateTestPitchErrAt58 PitchRateTestPitchErrAt59 PitchRateTestPitchErrAt60 PitchRateTestPitchErrAt61 PitchRateTestPitchErrAt62 PitchRateTestPitchErrAt63 PitchRateTestPitchHi PitchRateTestPitchLo PitchRateTestPitchRateTestPosn54 PitchRateTestPitchRateTestPosn56 PitchRateTestPitchT;
+SIG_GROUP_ 1414 RollRateTest 1 : RollRateTestRollErrAt48 RollRateTestRollErrAt49 RollRateTestRollErrAt50 RollRateTestRollErrAt51 RollRateTestRollErrAt52 RollRateTestRollErrAt53 RollRateTestRollErrAt55 RollRateTestRollErrAt57 RollRateTestRollErrAt58 RollRateTestRollErrAt59 RollRateTestRollErrAt60 RollRateTestRollErrAt61 RollRateTestRollErrAt62 RollRateTestRollErrAt63 RollRateTestRollHi RollRateTestRollLo RollRateTestRollRateTestPosn54 RollRateTestRollRateTestPosn56 RollRateTestRollT;
+SIG_GROUP_ 144 SteerWhlSnsr 1 : SteerWhlAgSafe SteerWhlAgSpdSafe SteerWhlSnsrQf SteerWhlSnsrSafeChks SteerWhlSnsrSafeCntr;
+SIG_GROUP_ 256 VehBattUGroup 1 : VehBattUSysU VehBattUSysUQf;
+SIG_GROUP_ 240 VehCfgPrm 1 : VehCfgPrmBlk VehCfgPrmVal1 VehCfgPrmVal2 VehCfgPrmVal3 VehCfgPrmVal4 VehCfgPrmVal5 VehCfgPrmVal6 VehCfgPrmVal7;
+SIG_GROUP_ 208 VehModMngtGlbSafe1 1 : CarModSts1 CarModSubtypWdCarModSubtyp EgyLvlElecMai EgyLvlElecSubtyp FltEgyCnsWdSts PwrLvlElecMai PwrLvlElecSubtyp UsgModSts VehModMngtGlbSafe1Chks VehModMngtGlbSafe1Cntr;
+SIG_GROUP_ 256 VehMtnStSafeGroup 1 : VehMtnStChks VehMtnStCntr VehMtnStSafe;
+SIG_GROUP_ 128 VehSpdLgtSafeGroup 1 : VehSpdLgtSafe VehSpdLgtSafeChks VehSpdLgtSafeCntr VehSpdLgtSafeQf;
+SIG_GROUP_ 1415 YawRateTest 1 : YawRateTestYawErrAt48 YawRateTestYawErrAt49 YawRateTestYawErrAt50 YawRateTestYawErrAt51 YawRateTestYawErrAt52 YawRateTestYawErrAt53 YawRateTestYawErrAt55 YawRateTestYawErrAt57 YawRateTestYawErrAt58 YawRateTestYawErrAt59 YawRateTestYawErrAt60 YawRateTestYawErrAt61 YawRateTestYawErrAt62 YawRateTestYawErrAt63 YawRateTestYawHi YawRateTestYawLo YawRateTestYawRateTestPosn54 YawRateTestYawRateTestPosn56 YawRateTestYawT;
+
+

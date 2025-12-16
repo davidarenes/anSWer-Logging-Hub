@@ -1,0 +1,78 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+variables
+{
+  
+}
+
+on start
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=1;
+  Write("Startup");
+  
+  
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu02::WhlRotToothCntrFrntLe=1;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu02::WhlRotToothCntrFrntRi=1;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu02::WhlRotToothCntrReLe=1;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu02::WhlRotToothCntrReRi=1;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu01::BrkPedlPsdQf = 3.0;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu01::BrkPedlPsdSafeGroup_UB = 1.0;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu02::PinionSteerAg1Qf = 3.0;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu01::SteerWhlSnsrQf = 3.0;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu02::GearLvrIndcn_UB = 1.0;
+  $Backbone::CEM::CEMBackBoneSignalIpdu05::TrlrPrsnt_UB = 1.0;
+  $Backbone::SRS::SRSBackBoneSignalIPdu04::ALat1Qf1 = 3.0;
+  $Backbone::SRS::SRSBackBoneSignalIPdu04::ALgt1Qf1 = 3.0;
+  $Backbone::SRS::SRSBackBoneSignalIPdu04::RollRate1Qf1 = 3.0;
+  $Backbone::SRS::SRSBackBoneSignalIPdu04::YawRate1Qf1 = 3.0;
+  $Backbone::SRS::SRSBackBoneSignalIPdu04::ALat1Qf2 = 3.0;
+  $Backbone::SRS::SRSBackBoneSignalIPdu04::YawRate1Qf2 = 3.0;
+  $Backbone::VCU1::VDDMBackBoneSignalIPdu01::VehSpdLgtSafeQf = 3.0;
+}
+
+on stopMeasurement
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=0;
+  Write("Shutdown");
+}
+
+on key 'w'
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=1;
+  Write("Startup");
+}
+
+on key 's'
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=0;
+  Write("Shutdown");
+}
+
+on sysvar Volvo_VCORE_var::Startup_Shutdown_Flag
+{
+  set_signals_value();
+}
+
+void set_signals_value()
+{
+  if( @Volvo_VCORE_var::Startup_Shutdown_Flag==1)    //Startup
+  {
+    @IL::Klemme15=1;
+    $CEMBackBoneSignalIpdu01::CarModSts1=0;
+    $CEMBackBoneSignalIpdu01::UsgModSts=0xB;
+    $CEMBackBoneSignalIpdu01::VehModMngtGlbSafe1_UB=0x1;
+    $VCMBackboneSignalIPdu00::FRNetworkStatus=1;
+  }
+  else if( @Volvo_VCORE_var::Startup_Shutdown_Flag==0)   //Shutdown
+  {
+    @IL::Klemme15=0;
+  }
+}
+
+on frPDU CEMBackBoneSignalIpdu01
+{ 
+  $Backbone::CEM::CEMBackBoneSignalIpdu01::UsgModSts = 13;
+}
