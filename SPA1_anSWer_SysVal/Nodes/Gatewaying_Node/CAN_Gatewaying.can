@@ -1,0 +1,201 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+variables
+{
+  message ASDM1CANFD.0x661 diag1_Tx;
+  message ASDM2CANFD.0x691 diag2_Tx;
+  message ASDM2CANFD.0x692 diag3_Tx;
+  message ASDM3CANFD.0x6A1 diag4_Tx;
+  message ASDM3CANFD.0x6A2 diag5_Tx;
+  message ASDM4CANFD.0x6B1 diag6_Tx;
+  message SafetyCANprotected.0x616 diag7_Tx;
+  message SafetyCANprotected.0x617 diag8_Tx;
+  
+  int   i=0;
+  byte  Message_size_FD= 8;
+  byte  Message_size_CAN= 8;
+  
+  byte request[2]={0x10 ,0x01 };
+  byte request_size= 0x02;
+  byte request_index= 0;
+  
+}
+
+on key '!'
+{
+  i=0;
+  request_index= 0;
+  diag1_Tx.FDF=1;      //can FD
+  diag1_Tx.DataLength = Message_size_FD;
+  
+//  diag1_Tx.byte(i++)=0x00;
+  diag1_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag1_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_FD);)
+  {
+    diag1_Tx.byte(i++) = 0x00;
+  }
+  output(diag1_Tx);
+  write("Diag CAN FLRB to ASDM output");
+  
+}
+
+on key '@'
+{
+  i=0;
+  request_index= 0;
+  diag2_Tx.FDF=1;      //can FD
+  diag2_Tx.DataLength = Message_size_FD;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag2_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag2_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_FD);)
+  {
+    diag2_Tx.byte(i++) = 0x00;
+  }
+  output(diag2_Tx);
+  write("Diag CAN FSRL to ASDM output");
+  
+}
+
+on key '#'
+{
+  i=0;
+  request_index= 0;
+  diag3_Tx.FDF=1;      //can FD
+  diag3_Tx.DataLength = Message_size_FD;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag3_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag3_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_FD);)
+  {
+    diag3_Tx.byte(i++) = 0x00;
+  }
+  output(diag3_Tx);
+  write("Diag CAN FSRR to ASDM output");
+  
+}
+
+on key '$'
+{
+  i=0;
+  request_index= 0;
+  diag4_Tx.FDF=1;      //can FD
+  diag4_Tx.DataLength = Message_size_FD;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag4_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag4_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_FD);)
+  {
+    diag4_Tx.byte(i++) = 0x00;
+  }
+  output(diag4_Tx);
+  write("Diag CAN RSRL to ASDM output");
+  
+}
+
+on key '%'
+{
+  i=0;
+  request_index= 0;
+  diag5_Tx.FDF=1;      //can FD
+  diag5_Tx.DataLength = Message_size_FD;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag5_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag5_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_FD);)
+  {
+    diag5_Tx.byte(i++) = 0x00;
+  }
+  output(diag5_Tx);
+  write("Diag CAN RSRR to ASDM output");
+  
+}
+
+on key '^'
+{
+  i=0;
+  request_index= 0;
+  diag6_Tx.FDF=1;      //can FD
+  diag6_Tx.DataLength = Message_size_FD;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag6_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag6_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_FD);)
+  {
+    diag6_Tx.byte(i++) = 0x00;
+  }
+  output(diag6_Tx);
+  write("Diag CAN PAS to ASDM output");
+  
+}
+
+on key '&'
+{
+  i=0;
+  request_index= 0;
+  diag8_Tx.FDF=0;      //normal can 
+  diag7_Tx.DataLength = Message_size_CAN;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag7_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag7_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_CAN);)
+  {
+    diag7_Tx.byte(i++) = 0x00;
+  }
+  output(diag7_Tx);
+  write("Diag CAN RML to ASDM output");
+  
+}
+
+on key '*'
+{
+  i=0;
+  request_index= 0;
+  diag8_Tx.FDF=0;      //normal can 
+  diag8_Tx.DataLength = Message_size_CAN;
+  
+//  diag_Tx.byte(i++)=0x00;
+  diag8_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag8_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Message_size_CAN);)
+  {
+    diag8_Tx.byte(i++) = 0x00;
+  }
+  output(diag8_Tx);
+  write("Diag CAN RMR to ASDM output");
+  
+}

@@ -1,0 +1,87 @@
+/*@!Encoding:1252*/
+
+includes
+{
+}
+
+variables
+{
+  msTimer tRefresh;
+
+  // Last observed values of CAN radar signals (rear)
+  long lastRL = -1;
+  long lastRR = -1;
+
+  // Radar state values:
+  // 0 = no data
+  // 1 = updating (value changes)
+  // 2 = static but > 0
+  int stateRL = 0;
+  int stateRR = 0;
+}
+
+on start
+{
+  // Periodic check every 100 ms
+  setTimerCyclic(tRefresh, 100);
+}
+
+on timer tRefresh
+{
+  long currentRL;
+  long currentRR;
+
+  // Read current CAN signal values
+  currentRL = $zipy_serialized_data_0_RL;
+  currentRR = $zipy_serialized_data_0_RR;
+
+  //
+  // --- REAR LEFT RADAR ---
+  //
+  if (currentRL != lastRL)
+  {
+    stateRL = 1;             // Updating (signal is alive)
+    lastRL = currentRL;
+  }
+  else
+  {
+    if (currentRL > 0)
+      stateRL = 2;           // Not updating but valid data present
+    else
+      stateRL = 0;           // No update and value = 0
+  }
+
+  @sysvar::anSWer_SysVal::Network_Status::Radars::Rear_Left = stateRL;
+
+  //
+  // --- REAR RIGHT RADAR ---
+  //
+  if (currentRR != lastRR)
+  {
+    stateRR = 1;             // Updating (signal is alive)
+    lastRR = currentRR;
+  }
+  else
+  {
+    if (currentRR > 0)
+      stateRR = 2;           // Not updating but valid data present
+    else
+      stateRR = 0;           // No update and value = 0
+  }
+
+  @sysvar::anSWer_SysVal::Network_Status::Radars::Rear_Right = stateRR;
+}
+
+on preStop
+{
+  // Reset radar status before measurement stops
+  @sysvar::anSWer_SysVal::Network_Status::Radars::Rear_Left  = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Radars::Rear_Right = 0;
+}
+
+on stopMeasurement
+{
+  // Extra protection reset
+  @sysvar::anSWer_SysVal::Network_Status::Radars::Rear_Left  = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Radars::Rear_Right = 0;
+}

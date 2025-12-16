@@ -1,0 +1,15 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+variables
+{
+  
+}
+
+
+on frPDU CEMBackBoneSignalIpdu01
+{
+  $Backbone::CEM::CEMBackBoneSignalIpdu01::UsgModSts = 11;
+}

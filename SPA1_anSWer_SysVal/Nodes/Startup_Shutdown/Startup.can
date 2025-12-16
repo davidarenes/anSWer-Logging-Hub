@@ -1,0 +1,58 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+variables
+{
+  
+}
+
+on start
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=1;
+  Write("Startup");
+}
+
+on stopMeasurement
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=0;
+  Write("Shutdown");
+}
+
+on key 'w'
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=1;
+  Write("Startup");
+}
+
+on key 's'
+{
+  @Volvo_VCORE_var::Startup_Shutdown_Flag=0;
+  Write("Shutdown");
+}
+
+on sysvar Volvo_VCORE_var::Startup_Shutdown_Flag
+{
+  set_signals_value();
+}
+
+void set_signals_value()
+{
+  if( @Volvo_VCORE_var::Startup_Shutdown_Flag==1)    //Startup
+  {
+    @IL::Klemme15=1;
+    $CEMBackBoneSignalIpdu01::CarModSts1=0;
+    $CEMBackBoneSignalIpdu01::UsgModSts=0xB;
+    $CEMBackBoneSignalIpdu01::VehModMngtGlbSafe1_UB=0x1;
+    $VCMBackboneSignalIPdu00::FRNetworkStatus=1;
+  }
+  else if( @Volvo_VCORE_var::Startup_Shutdown_Flag==0)   //Shutdown
+  {
+    @IL::Klemme15=0;
+//    $CEMBackBoneSignalIpdu01::CarModSts1=0;
+//    $CEMBackBoneSignalIpdu01::UsgModSts=0;
+//    $VCMBackboneSignalIPdu00::FRNetworkStatus=0;
+  }
+  
+}

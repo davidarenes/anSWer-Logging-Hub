@@ -44,7 +44,7 @@ SW_MAJOR_RELEASES = [
     "R420",
     "R500",
     "R510",
-]
+] 
 
 SW_MINOR_RELEASES = [
     "RX0",
@@ -68,7 +68,6 @@ VEHICLE_NUMBERS: dict[str, int] = {
     "MUD01W": 5,
     "JUD79J": 6,
 }
-
 
 # ------------------------------------ #
 # ----------- STATE STORE  ----------- #
@@ -166,7 +165,7 @@ def app_root_dir() -> Path:
     return Path(__file__).resolve().parent
 
 
-def user_data_dir(app_name: str = "CANoe_Logging_Tool") -> Path:
+def user_data_dir(app_name: str = "anSWer-Logging-Hub") -> Path:
     """
     A writable per-user data directory.
     On Windows we try APPDATA / LOCALAPPDATA.
@@ -204,7 +203,7 @@ def discover_paths() -> AppPaths:
             pass
 
     if cfg_path is None:
-        default_cfg = (project_root / "Logging_Config" / "Logging.cfg").resolve()
+        default_cfg = (project_root / "SPA1_anSWer_SysVal" / "SPA1_anSWer_SysVal.cfg").resolve()
         cfg_path = default_cfg if default_cfg.exists() else None
 
     return AppPaths(
@@ -595,9 +594,11 @@ class MainWindow(ctk.CTk):
         self._current_prefix: str | None = None  # e.g. "R300RC1_VEH123_tag_"
         self._resolve_tries: int = 0
         self._record_start_wallclock: float | None = None  # wall clock when Start was pressed
+        self._comment_metadata_written: bool = False  # ensures metadata header written once
 
         # --- Window ---
-        self.title("anSWer Logging Hub")
+        self.app_title_base = "anSWer Logging Hub"
+        self.title(self.app_title_base)
         self.geometry("1160x760")
         self.minsize(820, 620)
         self.configure(bg=styles.Palette.BG)
@@ -605,13 +606,13 @@ class MainWindow(ctk.CTk):
         # --- Tk state variables (initialized from paths/state) ---
         self.canoe_config = tk.StringVar(value=str(paths.cfg_file) if paths.cfg_file else "")
         self.log_tag = tk.StringVar(value=state.tag or "")
-        self.sw_rel = tk.StringVar(value=state.sw_rel or "")
-        major_part, minor_part, sw_valid = self._resolve_sw_release_parts(self.sw_rel.get())
-        self.sw_major_var = tk.StringVar(value=major_part)
-        self.sw_minor_var = tk.StringVar(value=minor_part)
-        if not sw_valid:
-            self.sw_rel.set(self._compose_sw_release(major_part, minor_part))
+        initial_sw_rel = (state.sw_rel or "").strip()
+        major_release, minor_release = self._split_sw_release(initial_sw_rel)
+        self.sw_major_var = tk.StringVar(value=major_release)
+        self.sw_minor_var = tk.StringVar(value=minor_release)
+        self.sw_rel = tk.StringVar(value=self._compose_sw_release(major_release, minor_release))
         self.vehicle_id = tk.StringVar(value=state.vehicle_id or "")
+        self.vehicle_id.trace_add("write", lambda *_: self._update_titles_with_release())
         self.vehicle_catalog = load_vehicle_catalog(self.paths.root)
         self._vehicle_label_to_id: dict[str, str] = {}
         self.canoe_install_var = tk.StringVar(value="")
@@ -624,14 +625,11 @@ class MainWindow(ctk.CTk):
         self._update_log_dir_hint()
         self.log_dir_var.trace_add("write", lambda *_: self._on_log_dir_var_changed())
         self._record_timer_var = tk.StringVar(value="Recording time: --:--:--.---")
-        self._sw_release_var = tk.StringVar(value="SW Release: --")
-        self._camera_mode_var = tk.StringVar(value="Camera Mode: --")
-        self._sw_release_cache = "--"
-        self._camera_mode_cache = "--"  # last readable camera mode
         self._hint_popup: ctk.CTkToplevel | None = None
 
         # Build UI
         self._build_body()
+        self._update_titles_with_release()
         self._refresh_canoe_installations(preferred_exec=self._initial_canoe_exec or None)
 
         # Focus window
@@ -672,9 +670,9 @@ class MainWindow(ctk.CTk):
         hero_header.grid(row=0, column=0, sticky="w", padx=pad_x, pady=(pad_y, 2))
         hero_header.grid_columnconfigure(0, weight=0)
 
-        title = ctk.CTkLabel(hero_header, text="anSWer Logging Hub")
-        styles.style_label(title, kind="title")
-        title.grid(row=0, column=0, sticky="w")
+        self.hero_title_label = ctk.CTkLabel(hero_header, text=self._app_title())
+        styles.style_label(self.hero_title_label, kind="title")
+        self.hero_title_label.grid(row=0, column=0, sticky="w")
 
         hero_hint = self._create_hint_icon(
             hero_header,
@@ -800,36 +798,9 @@ class MainWindow(ctk.CTk):
         styles.style_entry(entry_tag, roundness="md")
         entry_tag.grid(row=0, column=1, sticky="ew", pady=(0, 6))
 
-        lbl_sw = ctk.CTkLabel(info_frame, text="SW release")
-        styles.style_label(lbl_sw, kind="hint")
-        lbl_sw.grid(row=1, column=0, sticky="w", padx=(0, field_gap_x), pady=(0, 6))
-        sw_frame = ctk.CTkFrame(info_frame, fg_color="transparent")
-        sw_frame.grid(row=1, column=1, sticky="ew", pady=(0, 6))
-        sw_frame.grid_columnconfigure((0, 1), weight=1, uniform="sw_cols")
-
-        sw_major_menu = ctk.CTkOptionMenu(
-            sw_frame,
-            variable=self.sw_major_var,
-            values=SW_MAJOR_RELEASES,
-            command=self._on_sw_release_change,
-        )
-        sw_major_menu.set(self.sw_major_var.get())
-        styles.style_option_menu(sw_major_menu, roundness="md")
-        sw_major_menu.grid(row=0, column=0, sticky="ew", padx=(0, max(4, field_gap_x // 2)))
-
-        sw_minor_menu = ctk.CTkOptionMenu(
-            sw_frame,
-            variable=self.sw_minor_var,
-            values=SW_MINOR_RELEASES,
-            command=self._on_sw_release_change,
-        )
-        sw_minor_menu.set(self.sw_minor_var.get())
-        styles.style_option_menu(sw_minor_menu, roundness="md")
-        sw_minor_menu.grid(row=0, column=1, sticky="ew", padx=(max(4, field_gap_x // 2), 0))
-
         lbl_vehicle = ctk.CTkLabel(info_frame, text="Vehicle")
         styles.style_label(lbl_vehicle, kind="hint")
-        lbl_vehicle.grid(row=2, column=0, sticky="w", padx=(0, field_gap_x), pady=(0, 6))
+        lbl_vehicle.grid(row=1, column=0, sticky="w", padx=(0, field_gap_x), pady=(0, 6))
 
         if self.vehicle_catalog:
             self._vehicle_label_to_id = {
@@ -861,7 +832,35 @@ class MainWindow(ctk.CTk):
         else:
             entry_vehicle = ctk.CTkEntry(info_frame, textvariable=self.vehicle_id)
             styles.style_entry(entry_vehicle, roundness="md")
-        entry_vehicle.grid(row=2, column=1, sticky="ew", pady=(0, 6))
+        entry_vehicle.grid(row=1, column=1, sticky="ew", pady=(0, 6))
+
+        lbl_release = ctk.CTkLabel(info_frame, text="SW release")
+        styles.style_label(lbl_release, kind="hint")
+        lbl_release.grid(row=2, column=0, sticky="w", padx=(0, field_gap_x), pady=(0, 6))
+
+        release_row = ctk.CTkFrame(info_frame, fg_color="transparent")
+        release_row.grid(row=2, column=1, sticky="ew", pady=(0, 6))
+        release_row.grid_columnconfigure((0, 1), weight=1)
+
+        major_dropdown = ctk.CTkOptionMenu(
+            release_row,
+            variable=self.sw_major_var,
+            values=SW_MAJOR_RELEASES,
+            command=self._on_sw_release_change,
+        )
+        major_dropdown.set(self.sw_major_var.get())
+        styles.style_option_menu(major_dropdown, roundness="md")
+        major_dropdown.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+
+        minor_dropdown = ctk.CTkOptionMenu(
+            release_row,
+            variable=self.sw_minor_var,
+            values=SW_MINOR_RELEASES,
+            command=self._on_sw_release_change,
+        )
+        minor_dropdown.set(self.sw_minor_var.get())
+        styles.style_option_menu(minor_dropdown, roundness="md")
+        minor_dropdown.grid(row=0, column=1, sticky="ew")
 
         # ---- Measurement controls ----
         action_card = styles.card(body)
@@ -922,33 +921,14 @@ class MainWindow(ctk.CTk):
         status_card = styles.card(body)
         status_card.grid(row=3, column=0, columnspan=2, sticky="ew", pady=(0, pad_y))
         status_card.grid_columnconfigure(0, weight=1)
-        status_card.grid_columnconfigure(1, weight=0)
-        status_card.grid_columnconfigure(2, weight=1)
 
         status_title = ctk.CTkLabel(status_card, text="Recording status")
         styles.style_label(status_title, kind="section")
         status_title.grid(row=0, column=0, sticky="w", padx=pad_x, pady=(pad_y, 4))
 
         status_row = ctk.CTkFrame(status_card, fg_color="transparent")
-        status_row.grid(row=1, column=0, columnspan=3, sticky="ew", padx=pad_x, pady=(0, pad_y))
+        status_row.grid(row=1, column=0, sticky="ew", padx=pad_x, pady=(0, pad_y))
         status_row.grid_columnconfigure(0, weight=1)
-        status_row.grid_columnconfigure(1, weight=1)
-        status_row.grid_columnconfigure(2, weight=0)
-        status_row.grid_columnconfigure(3, weight=1)
-
-        indicator_font = ctk.CTkFont(
-            family=styles.Fonts.SECTION[0],
-            size=styles.Fonts.SECTION[1] * 2,
-            weight=styles.Fonts.SECTION[2],
-        )
-
-        self.sw_release_label = ctk.CTkLabel(
-            status_row,
-            textvariable=self._sw_release_var,
-            anchor="w",
-        )
-        styles.style_label(self.sw_release_label, kind="body")
-        self.sw_release_label.grid(row=0, column=0, sticky="w")
 
         self.record_timer_label = ctk.CTkLabel(
             status_row,
@@ -956,25 +936,7 @@ class MainWindow(ctk.CTk):
             anchor="w",
         )
         styles.style_label(self.record_timer_label, kind="body")
-        self.record_timer_label.grid(row=0, column=1, sticky="w")
-
-        self.camera_mode_indicator = ctk.CTkLabel(
-            status_row,
-            text="\u25cf",
-            width=36,
-            height=24,
-            font=indicator_font,
-            text_color=styles.Palette.DANGER,
-        )
-        self.camera_mode_indicator.grid(row=0, column=2, sticky="w", padx=(10, 6))
-
-        self.camera_mode_label = ctk.CTkLabel(
-            status_row,
-            textvariable=self._camera_mode_var,
-            anchor="w",
-        )
-        styles.style_label(self.camera_mode_label, kind="body")
-        self.camera_mode_label.grid(row=0, column=3, sticky="w")
+        self.record_timer_label.grid(row=0, column=0, sticky="w")
 
         # ---- Comment workspace ----
         comment_card = styles.card(body)
@@ -1156,22 +1118,69 @@ class MainWindow(ctk.CTk):
             if hasattr(self, "debug_toggle_btn"):
                 self.debug_toggle_btn.configure(text="▶ Debug log")
 
-    def _resolve_sw_release_parts(self, combined: str) -> tuple[str, str, bool]:
-        normalized = (combined or "").strip().upper()
-        for major in SW_MAJOR_RELEASES:
-            if normalized.startswith(major):
-                suffix = normalized[len(major):]
-                if suffix in SW_MINOR_RELEASES:
-                    return major, suffix, True
-        return SW_MAJOR_RELEASES[0], SW_MINOR_RELEASES[0], False
-
     def _compose_sw_release(self, major: str, minor: str) -> str:
-        combined = f"{major}{minor}".strip()
-        return combined
+        return f"{(major or '').strip().upper()}{(minor or '').strip().upper()}".strip()
+
+    def _split_sw_release(self, combined: str) -> tuple[str, str]:
+        default_major = SW_MAJOR_RELEASES[0] if SW_MAJOR_RELEASES else ""
+        default_minor = SW_MINOR_RELEASES[0] if SW_MINOR_RELEASES else ""
+        raw = (combined or "").strip().upper()
+        major = default_major
+        minor = default_minor
+        for candidate in SW_MAJOR_RELEASES:
+            cand_upper = candidate.strip().upper()
+            if cand_upper and raw.startswith(cand_upper):
+                major = candidate
+                remainder = raw[len(cand_upper):]
+                if remainder in SW_MINOR_RELEASES:
+                    minor = remainder
+                break
+        return major or "", minor or ""
+
+    def _vehicle_descriptor(self, vehicle_id: str | None = None) -> str:
+        vid = (vehicle_id or self.vehicle_id.get() or "").strip()
+        return (self.vehicle_catalog.get(vid) or "").strip() if self.vehicle_catalog else ""
+
+    def _vehicle_model_tag(self, include_id_fallback: bool = True) -> str:
+        """
+        Build a compact vehicle token like 'XC60_Veh6'.
+        Includes descriptor + fleet number; falls back to vehicle ID if needed.
+        """
+        vehicle_id = (self.vehicle_id.get() or "").strip()
+        desc = self._vehicle_descriptor(vehicle_id)
+        number_tag = self._vehicle_number_tag(vehicle_id)
+        sanitize = lambda value: (value or "").replace(" ", "_")
+
+        parts: list[str] = []
+        if desc:
+            parts.append(sanitize(desc))
+        if number_tag:
+            parts.append(number_tag)
+        elif include_id_fallback and vehicle_id:
+            parts.append(sanitize(vehicle_id))
+
+        return "_".join([p for p in parts if p])
+
+    def _app_title(self) -> str:
+        rel = (self.sw_rel.get() or "").strip()
+        model = self._vehicle_model_tag(include_id_fallback=False)
+        parts = [self.app_title_base]
+        if rel:
+            parts.append(rel)
+        if model:
+            parts.append(model)
+        return " - ".join(parts)
+
+    def _update_titles_with_release(self) -> None:
+        title_text = self._app_title()
+        self.title(title_text)
+        if hasattr(self, "hero_title_label"):
+            self.hero_title_label.configure(text=title_text)
 
     def _on_sw_release_change(self, _selection: str | None = None) -> None:
         self.sw_rel.set(self._compose_sw_release(self.sw_major_var.get(), self.sw_minor_var.get()))
         self._persist_state_snapshot()
+        self._update_titles_with_release()
 
     def _resolve_initial_vehicle_id(self) -> str:
         current = (self.vehicle_id.get() or "").strip()
@@ -1186,12 +1195,26 @@ class MainWindow(ctk.CTk):
     def _format_vehicle_option_label(self, vehicle_id: str, descriptor: str | None) -> str:
         vid = (vehicle_id or "").strip()
         desc = (descriptor or "").strip()
-        return f"{vid} - {desc}" if vid and desc else vid
+        number = VEHICLE_NUMBERS.get(vid.upper()) if vid else None
+
+        parts: list[str] = []
+        if number is not None:
+            parts.append(f"Vehicle {number}")
+            if vid:
+                parts.append(vid)
+        elif vid:
+            parts.append(vid)
+
+        if desc:
+            parts.append(desc)
+
+        return " - ".join(parts)
 
     def _on_vehicle_dropdown_change(self, selection: str) -> None:
         vehicle_id = self._vehicle_label_to_id.get(selection, selection)
         self.vehicle_id.set((vehicle_id or "").strip())
         self._persist_state_snapshot()
+        self._update_titles_with_release()
 
     def _vehicle_number_tag(self, vehicle_id: str) -> str:
         normalized = (vehicle_id or "").strip().upper()
@@ -1199,18 +1222,11 @@ class MainWindow(ctk.CTk):
         return f"Veh{number}" if number is not None else ""
 
     def _vehicle_prefix_component(self) -> str:
-        vehicle_id = (self.vehicle_id.get() or "").strip()
-        descriptor = self.vehicle_catalog.get(vehicle_id, "").strip()
-        number_tag = self._vehicle_number_tag(vehicle_id)
-        sanitize = lambda value: (value or "").replace(" ", "_")
-        parts: list[str] = []
-        if number_tag:
-            parts.append(number_tag)
-        if vehicle_id:
-            parts.append(sanitize(vehicle_id))
-        if descriptor:
-            parts.append(sanitize(descriptor))
-        return "_".join(parts)
+        """
+        Token used in file/folder names. Prefer descriptor + fleet number (e.g. XC60_Veh6).
+        Falls back to vehicle ID if descriptor/number are missing.
+        """
+        return self._vehicle_model_tag(include_id_fallback=True)
 
     def _gather_state(self) -> AppState:
         return AppState(
@@ -1252,7 +1268,6 @@ class MainWindow(ctk.CTk):
                 self.btn_save_comment.configure(state="normal")
                 styles.style_button(self.btn_save_comment, variant="primary")
                 self._set_status("▶️ Measurement running", tone="success")
-                self._sw_release_cache = self._read_sw_release()
             else:
                 # Measurement not running
                 self.btn_save_comment.configure(state="disabled")
@@ -1268,30 +1283,9 @@ class MainWindow(ctk.CTk):
                     self.btn_record.configure(text="Start recording", state="normal")
                     styles.style_button(self.btn_record, variant="success")
                     self._set_status("⏹ Measurement stopped", tone="info")
-                self._sw_release_cache = "--"
-
-        if not running:
-            self._camera_mode_cache = "--"
 
         elapsed_display = self._format_measurement_timestamp() if running else "--:--:--.---"
-        camera_mode_display = self._read_camera_mode() if running else "--"
-        sw_release_display = self._sw_release_cache if running else "--"
         self._record_timer_var.set(f"Recording time: {elapsed_display}")
-        self._camera_mode_var.set(f"Camera Mode: {camera_mode_display}")
-        self._sw_release_var.set(f"SW Release: {sw_release_display}")
-
-        indicator = getattr(self, "camera_mode_indicator", None)
-        if indicator is not None:
-            mode_raw = camera_mode_display.strip()
-            is_green = False
-            try:
-                mode_val = int(mode_raw)
-                is_green = mode_val in (4, 34)
-            except Exception:
-                if mode_raw in ("4", "34"):
-                    is_green = True
-            color = styles.Palette.SUCCESS if is_green else styles.Palette.DANGER
-            indicator.configure(text_color=color)
 
         # schedule next poll
         self.after(500, self._sync_measurement_ui)
@@ -1666,203 +1660,6 @@ class MainWindow(ctk.CTk):
         h = total_min // 60
         return f"{h:02d}:{m:02d}:{s:02d}.{ms:03d}"
 
-    def _read_sw_release(self) -> str:
-        """
-        Read anSwer_SysVal::XCP::SW_Release int array (10 elems) and decode to ASCII.
-        Falls back to legacy SysVal keys if the new namespace is absent.
-        """
-        if self.canoe is None:
-            self._sw_release_cache = "--"
-            return self._sw_release_cache
-
-        def _coerce_int_list(raw: object) -> list[int] | None:
-            if raw is None:
-                return None
-            try:
-                iterable = list(raw)
-            except Exception:
-                return None
-            ints: list[int] = []
-            for item in iterable:
-                try:
-                    ints.append(int(item))
-                except Exception:
-                    continue
-            return ints if ints else None
-
-        def _decode(raw: list[int]) -> str | None:
-            chars: list[str] = []
-            for num in raw[:10]:
-                try:
-                    b = int(num) & 0xFF
-                except Exception:
-                    continue
-                if b == 0:
-                    break
-                try:
-                    chars.append(chr(b))
-                except Exception:
-                    continue
-            text = "".join(chars).strip()
-            return text or None
-
-        try:
-            system = getattr(self.canoe, "System", None)
-            if system is None:
-                self._sw_release_cache = "--"
-                return self._sw_release_cache
-
-            namespace_candidates = ("anSwer_SysVal", "SysVal")
-            sw_names_in_namespace = ("XCP::SW_Release", "SW_Release")
-
-            namespaces = getattr(system, "Namespaces", None)
-            if namespaces is not None:
-                for ns_name in namespace_candidates:
-                    try:
-                        namespace = namespaces(ns_name)
-                        for var_name in sw_names_in_namespace:
-                            variable = namespace.Variables(var_name)
-                            values = _coerce_int_list(getattr(variable, "Value", None))
-                            if values is not None:
-                                decoded = _decode(values)
-                                if decoded is not None:
-                                    self._sw_release_cache = decoded
-                                    return decoded
-                    except Exception:
-                        continue
-
-            variables = getattr(system, "Variables", None)
-            if variables is not None:
-                for key in (
-                    "@anSwer_SysVal::XCP::SW_Release",
-                    "anSwer_SysVal::XCP::SW_Release",
-                    "@anSwer_SysVal::SW_Release",
-                    "anSwer_SysVal::SW_Release",
-                    "@SysVal::SW_Release",
-                    "SysVal::SW_Release",
-                    "SW_Release",
-                ):
-                    try:
-                        variable = variables(key)
-                        values = _coerce_int_list(getattr(variable, "Value", None))
-                        if values is not None:
-                            decoded = _decode(values)
-                            if decoded is not None:
-                                self._sw_release_cache = decoded
-                                return decoded
-                    except Exception:
-                        continue
-
-            sys_var = getattr(self.canoe, "SysVar", None)
-            if sys_var is not None:
-                for key in (
-                    "@anSwer_SysVal::XCP::SW_Release",
-                    "anSwer_SysVal::XCP::SW_Release",
-                    "@anSwer_SysVal::SW_Release",
-                    "anSwer_SysVal::SW_Release",
-                    "@SysVal::SW_Release",
-                    "SysVal::SW_Release",
-                    "SW_Release",
-                ):
-                    try:
-                        variable = sys_var(key)
-                        values = _coerce_int_list(getattr(variable, "Value", None))
-                        if values is not None:
-                            decoded = _decode(values)
-                            if decoded is not None:
-                                self._sw_release_cache = decoded
-                                return decoded
-                    except Exception:
-                        continue
-        except Exception:
-            pass
-
-        return self._sw_release_cache
-
-    def _read_camera_mode(self) -> str:
-        """
-        Read anSwer_SysVal::XCP::Camera_Mode from CANoe; fall back to the last known value.
-        """
-        if self.canoe is None:
-            self._camera_mode_cache = "--"
-            return self._camera_mode_cache
-
-        def _as_text(value: object) -> str | None:
-            if value is None:
-                return None
-            try:
-                text = str(value)
-            except Exception:
-                return None
-            return text if text else None
-
-        try:
-            system = getattr(self.canoe, "System", None)
-            if system is None:
-                self._camera_mode_cache = "--"
-                return self._camera_mode_cache
-
-            namespace_candidates = ("anSwer_SysVal", "SysVal")
-            camera_names_in_namespace = ("XCP::Camera_Mode", "Camera_Mode", "CameraMode")
-
-            namespaces = getattr(system, "Namespaces", None)
-            if namespaces is not None:
-                for ns_name in namespace_candidates:
-                    try:
-                        namespace = namespaces(ns_name)
-                        for var_name in camera_names_in_namespace:
-                            variable = namespace.Variables(var_name)
-                            text = _as_text(getattr(variable, "Value", None))
-                            if text is not None:
-                                self._camera_mode_cache = text
-                                return text
-                    except Exception:
-                        continue
-
-            variables = getattr(system, "Variables", None)
-            if variables is not None:
-                for key in (
-                    "@anSwer_SysVal::XCP::Camera_Mode",
-                    "anSwer_SysVal::XCP::Camera_Mode",
-                    "@anSwer_SysVal::Camera_Mode",
-                    "anSwer_SysVal::Camera_Mode",
-                    "@SysVal::CameraMode",
-                    "SysVal::CameraMode",
-                    "CameraMode",
-                ):
-                    try:
-                        variable = variables(key)
-                        text = _as_text(getattr(variable, "Value", None))
-                        if text is not None:
-                            self._camera_mode_cache = text
-                            return text
-                    except Exception:
-                        continue
-
-            sys_var = getattr(self.canoe, "SysVar", None)
-            if sys_var is not None:
-                for key in (
-                    "@anSwer_SysVal::XCP::Camera_Mode",
-                    "anSwer_SysVal::XCP::Camera_Mode",
-                    "@anSwer_SysVal::Camera_Mode",
-                    "anSwer_SysVal::Camera_Mode",
-                    "@SysVal::CameraMode",
-                    "SysVal::CameraMode",
-                    "CameraMode",
-                ):
-                    try:
-                        variable = sys_var(key)
-                        text = _as_text(getattr(variable, "Value", None))
-                        if text is not None:
-                            self._camera_mode_cache = text
-                            return text
-                    except Exception:
-                        continue
-        except Exception:
-            pass
-
-        return self._camera_mode_cache
-
     # -------------------- Comment file name resolution --------------------
     def _schedule_comment_filename_resolution(self) -> None:
         """
@@ -2035,6 +1832,7 @@ class MainWindow(ctk.CTk):
             self._current_log_folder = None
             self._current_prefix = None
             self._record_start_wallclock = None
+            self._comment_metadata_written = False
             return
 
         # -------- START CASE --------
@@ -2068,8 +1866,8 @@ class MainWindow(ctk.CTk):
         veh = self._vehicle_prefix_component()
 
         # base string CANoe will expand. CANoe will replace {MeasurementStart}
-        # Include VehX tag plus Vehicle ID in the logging "title"/prefix.
-        # Example: R300RC1_Veh1_YJA55E_XC90_myCase_{MeasurementStart}
+        # Include only the vehicle number tag in the logging "title"/prefix.
+        # Example: R300RC1_Veh1_myCase_{MeasurementStart}
         base_prefix_parts = [rel]
         if veh:
             base_prefix_parts.append(veh)
@@ -2088,6 +1886,7 @@ class MainWindow(ctk.CTk):
         self._current_prefix = f"{base_prefix}_"
         self.comment_file_path = None
         self._record_start_wallclock = time.time()
+        self._comment_metadata_written = False
 
         try:
             # 3) Configure CANoe logging blocks to point at <log_folder>/<log_name>.ext

@@ -1,0 +1,22 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+variables
+{
+ 
+}
+
+on start
+{
+  // LCA Activation
+  @XCP::R320_RX3::g_arbit::config::p_arbt_enable_func_actv_cond = 1;
+  @XCP::R320_RX3::g_dasi_cfg::spa1_p1_cfg::cfg_arbt::p_arbt_enable_func_actv_cond = 1;
+  
+  // Failsafe activation
+  @XCP::R320_RX3::sg_arbit_cfg::p_arbt_enable_errclass_inf = 1;
+  @XCP::R320_RX3::CarVar_SwVolvoCommon_Dasi_P1::cfg_arbt::p_arbt_enable_errclass_inf = 1;
+  @XCP::R320_RX3::g_dasi_cfg::spa1_p1_cfg::cfg_arbt::p_arbt_enable_errclass_inf = 1;
+  @XCP::R320_RX3::g_arbit::config::p_arbt_enable_errclass_inf = 1;
+}

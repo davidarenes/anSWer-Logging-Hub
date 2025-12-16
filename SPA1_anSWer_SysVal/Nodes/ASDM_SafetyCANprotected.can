@@ -1,0 +1,420 @@
+includes
+{
+  // Import required CAPL include files
+  //--- begin generated part --- Block start #Hdr_Includes#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Includes#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_Includes#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  #include "..\CAPL\Vector-NM-Panel-Helper_CAN5.cin"
+  #include "..\CAPL\Vector-NM-ASR-Helper_CAN5.cin"
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Includes#; do not delete this line! Add application code below this line.
+}
+
+variables
+{
+  // Define global variables for this CAPL file
+
+  /*--- #GenHeader Begin# --- begin generated comment ---
+  | Generated on Monday, July 28, 2025, 00:08:39
+  | By ModelGenerator for Vector 1.5.4.10, ModelGeneratorVectorDLL 1.5.4.41
+  | Package Vector 4.0.21
+  | Target Bus: SafetyCANprotected; Channel: CAN5; DB Cluster: SPA8110_ConfigurationsSPA3d2_SafetyCANprotected_250522;
+  | From Database: SPA8110_ConfigurationsSPA3d2_SafetyCANprotected_250522.dbc
+  | CANoe Version 15.3.89.0
+    --- #GenHeader End  # --- end generated comment --- */
+
+  char gECU[256] = "ASDM";
+  //--- begin generated part --- Block start #Hdr_GlobalVariables#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  dword gILCAN5_BusContext = 0;
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_GlobalVariables#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_GlobalVariables#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  char gCAN5BusName[256] = "SafetyCANprotected";
+  int gCAN5Channel = 5; //// The channel the bus is attached to
+  int gCAN5TXEnable = 1; //// enable/disable TX of application messages
+
+  long gCAN5DisturbanceMode;
+  long gCAN5DisturbanceCount;
+  long gCAN5DisturbanceValue;
+  long gCAN5DisturbanceContinueMode;
+  double gCAN5DisturbancePeriod;
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_GlobalVariables#; do not delete this line! Add application code below this line.
+}
+
+on preStart
+{
+  // Initialize CAPL includes and node's modules/DLLs
+  //--- begin generated part --- Block start #Hdr_OnInit#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_OnInit#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnInit#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  gILCAN5_BusContext = GetBusNameContext(gCAN5BusName);
+  if (gILCAN5_BusContext == 0)
+  {
+    write("[%.6f %NODE_NAME%] ERROR: cannot determine bus context of Ethernet bus '%s'!", TimeNowNS()/1e9, gCAN5BusName);
+  }
+  NMCAN5_OnInit();
+  if (@sysvar::IL::Klemme15 == 0)
+  {
+    ILCAN5_StartStop(0);
+  }
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_OnInit#; do not delete this line! Add application code below this line.
+}
+
+on start
+{
+  // Start CAPL includes and node's modules/DLLs
+  //--- begin generated part --- Block start #Hdr_OnStart#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_OnStart#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnStart#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  NMCAN5_OnStart();
+  if ((@sysvar::IL::Klemme15 != 0) && (@sysvar::IL::Klemme30 != 0))
+  {
+    ILCAN5_StartStop(1);
+  }
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_OnStart#; do not delete this line! Add application code below this line.
+}
+
+on preStop
+{
+  // Prepare stopping
+  //--- begin generated part --- Block start #Hdr_OnStopping#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_OnStopping#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnStopping#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_OnStopping#; do not delete this line! Add application code below this line.
+}
+
+on stopMeasurement
+{
+  // Stop actions
+  //--- begin generated part --- Block start #Hdr_OnStop#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_OnStop#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_OnStop#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_OnStop#; do not delete this line! Add application code below this line.
+}
+
+void StartSim(dword busContext, int busActive, int mode)
+{
+  // Called when ... due to ...
+  //   mode == 1: ILControlResume
+  //   mode == 2: ILControlStart
+  //   mode == 3: ILControlSimulationOn
+  //--- begin generated part --- Block start #Hdr_StartSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_StartSim#; do not delete this line! Add application code below this line.
+  //write("[%.6f %NODE_NAME%] StartSim(0x%X, %d, %d)", TimeNowNS()/1e9, busContext, busActive, mode);
+  //--- begin generated part --- Block start #Body_StartSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_StartSim#; do not delete this line! Add application code below this line.
+}
+
+void StopSim(dword busContext, int busActive, int mode)
+{
+  // Called when ... due to ...
+  //   mode == 1: ILControlWait
+  //   mode == 2: ILControlStop
+  //   mode == 3: ILControlSimulationOff
+  //--- begin generated part --- Block start #Hdr_StopSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_StopSim#; do not delete this line! Add application code below this line.
+  //write("[%.6f %NODE_NAME%] StopSim(0x%X, %d, %d)", TimeNowNS()/1e9, busContext, busActive, mode);
+  //--- begin generated part --- Block start #Body_StopSim#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_StopSim#; do not delete this line! Add application code below this line.
+}
+
+on sysvar_update sysvar::IL::Klemme15
+{
+  // Handle system state variable
+  //--- begin generated part --- Block start #Hdr_KL15_Klemme15#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_KL15_Klemme15#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_KL15_Klemme15#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  ILCAN5_OnEnvKlemme15(@this);
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_KL15_Klemme15#; do not delete this line! Add application code below this line.
+}
+
+on sysvar_update sysvar::IL::Klemme30
+{
+  // Handle system state variable
+  //--- begin generated part --- Block start #Hdr_KL30_Klemme30#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_KL30_Klemme30#; do not delete this line! Add application code below this line.
+  //--- begin generated part --- Block start #Body_KL30_Klemme30#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  ILCAN5_OnEnvKlemme30(@this);
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_KL30_Klemme30#; do not delete this line! Add application code below this line.
+}
+
+void Nm_NetworkStartInd()
+{
+  // Callback of CAN AUTOSAR NM DLL
+  dword lBusContext;
+  //--- begin generated part --- Block start #Hdr_Nm_NetworkStartInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Nm_NetworkStartInd#; do not delete this line! Add application code below this line.
+  lBusContext = GetBusContext();
+  //--- begin generated part --- Block start #Body_Nm_NetworkStartInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  if (lBusContext == gNMCAN5_BusContext) NMCAN5_IndNetworkStart();
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Nm_NetworkStartInd#; do not delete this line! Add application code below this line.
+  SetBusContext(lBusContext);
+}
+
+void Nm_NetworkModeInd()
+{
+  // Callback of CAN AUTOSAR NM DLL
+  dword lBusContext;
+  //--- begin generated part --- Block start #Hdr_Nm_NetworkModeInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Nm_NetworkModeInd#; do not delete this line! Add application code below this line.
+  lBusContext = GetBusContext();
+  //--- begin generated part --- Block start #Body_Nm_NetworkModeInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  if (lBusContext == gNMCAN5_BusContext) NMCAN5_IndNetworkMode();
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Nm_NetworkModeInd#; do not delete this line! Add application code below this line.
+  SetBusContext(lBusContext);
+}
+
+void Nm_NetworkTimeoutInd()
+{
+  // Callback of CAN AUTOSAR NM DLL
+  dword lBusContext;
+  //--- begin generated part --- Block start #Hdr_Nm_NetworkTimeoutInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Nm_NetworkTimeoutInd#; do not delete this line! Add application code below this line.
+  lBusContext = GetBusContext();
+  //--- begin generated part --- Block start #Body_Nm_NetworkTimeoutInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  if (lBusContext == gNMCAN5_BusContext) NMCAN5_IndNetworkTimeout();
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Nm_NetworkTimeoutInd#; do not delete this line! Add application code below this line.
+  SetBusContext(lBusContext);
+}
+
+void Nm_PrepareBusSleepModeInd()
+{
+  // Callback of CAN AUTOSAR NM DLL
+  dword lBusContext;
+  //--- begin generated part --- Block start #Hdr_Nm_PrepareBusSleepModeInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Nm_PrepareBusSleepModeInd#; do not delete this line! Add application code below this line.
+  lBusContext = GetBusContext();
+  //--- begin generated part --- Block start #Body_Nm_PrepareBusSleepModeInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  if (lBusContext == gNMCAN5_BusContext) NMCAN5_IndPrepareBusSleepMode();
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Nm_PrepareBusSleepModeInd#; do not delete this line! Add application code below this line.
+  SetBusContext(lBusContext);
+}
+
+void Nm_BusSleepModeInd()
+{
+  // Callback of CAN AUTOSAR NM DLL
+  dword lBusContext;
+  //--- begin generated part --- Block start #Hdr_Nm_BusSleepModeInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Nm_BusSleepModeInd#; do not delete this line! Add application code below this line.
+  lBusContext = GetBusContext();
+  //--- begin generated part --- Block start #Body_Nm_BusSleepModeInd#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  if (lBusContext == gNMCAN5_BusContext) NMCAN5_IndBusSleepMode();
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Nm_BusSleepModeInd#; do not delete this line! Add application code below this line.
+  SetBusContext(lBusContext);
+}
+
+void Nm_StateChangeNotification(long previousState, long currentState)
+{
+  // Callback of CAN AUTOSAR NM DLL
+  dword lBusContext;
+  //--- begin generated part --- Block start #Hdr_Nm_StateChangeNotification#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Hdr_Nm_StateChangeNotification#; do not delete this line! Add application code below this line.
+  lBusContext = GetBusContext();
+  //--- begin generated part --- Block start #Body_Nm_StateChangeNotification#; do not delete this line and do not add application code in this code block!
+  /* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+  if (lBusContext == gNMCAN5_BusContext) NMCAN5_IndStateChangeNotification(previousState, currentState);
+  /* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+  //--- end generated part --- Block end #Body_Nm_StateChangeNotification#; do not delete this line! Add application code below this line.
+  SetBusContext(lBusContext);
+}
+
+//--- begin generated part --- Block start <#Helper_Functions#> do not delete this line and do not add application code in this code block!
+/* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+void ILCAN5_Enable(int enable)
+{
+  dword lBusContext;
+  lBusContext = GetBusNameContext(gCAN5BusName);
+  SetBusContext(lBusContext);
+  gCAN5TXEnable = enable;
+  if (enable == 0)
+  {
+    StopSim(lBusContext, 1, 3);
+    CANOffline(1); // 1 = CAPL, 2 = DLL
+  }
+  if (enable != 0)
+  {
+    CANOnline(3); // 1 = CAPL, 2 = DLL
+    StartSim(lBusContext, 1, 3);
+  }
+}
+
+void ILCAN5_WaitResume(int enable)
+{
+  dword lBusContext;
+  if (gCAN5TXEnable > 0)
+  {
+    lBusContext = GetBusNameContext(gCAN5BusName);
+    SetBusContext(lBusContext);
+    if (enable == 0)
+    {
+      StopSim(lBusContext, 1, 1);
+      CANOffline(1); // 1 = CAPL, 2 = DLL
+    }
+    if (enable != 0)
+    {
+      CANOnline(3); // 1 = CAPL, 2 = DLL
+      StartSim(lBusContext, 1, 1);
+    }
+  }
+}
+
+void ILCAN5_StartStop(int enable)
+{
+  dword lBusContext;
+  if (gCAN5TXEnable > 0)
+  {
+    lBusContext = GetBusNameContext(gCAN5BusName);
+    SetBusContext(lBusContext);
+    if (enable == 0)
+    {
+      StopSim(lBusContext, 1, 2);
+      CANOffline(1); // 1 = CAPL, 2 = DLL
+    }
+    if (enable != 0)
+    {
+      CANOnline(3); // 1 = CAPL, 2 = DLL
+      StartSim(lBusContext, 1, 2);
+    }
+  }
+}
+
+void ILCAN5_OnEnvKlemme15(int enable)
+{
+  if (@sysvar::IL::Klemme30 > 0)
+  {
+    if(enable != 0)
+    {
+      NMCAN5_RequestBus(); // defined in the NM-Helper include file
+    }
+    else
+    {
+      NMCAN5_ReleaseBus(); // defined in the NM-Helper include file
+    }
+  }
+}
+
+void ILCAN5_OnEnvKlemme30(int enable)
+{
+  if(enable != 0)
+  {
+    NMCAN5_Enable(1); // defined in the NM-Helper include file
+    ILCAN5_Enable(1);
+    if (@sysvar::IL::Klemme15 > 0)
+    {
+      NMCAN5_RequestBus(); // defined in the NM-Helper include file
+    }
+  }
+  else
+  {
+    NMCAN5_Enable(0); // defined in the NM-Helper include file
+    ILCAN5_Enable(0);
+  }
+}
+
+/* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+//--- end generated part --- Block end <#Helper_Functions#> do not delete this line! Add application code below this line.
+
+//--- begin generated part --- Block start <#SysVar_Handler#> do not delete this line and do not add application code in this code block!
+/* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+on sysvar_update sysvar::NM_CAN5::NODES::N_ASDM::DeactivateNM
+{
+  if( @this == 1 || @sysvar::NM_CAN5::StateControl::DeactivateNM == 1)
+  {
+    NMCAN5_Enable(0);
+  }
+  else
+  {
+    NMCAN5_Enable(1);
+  }
+}
+
+on sysvar_update sysvar::NM_CAN5::StateControl::DeactivateNM
+{
+  if( @this == 1 || @sysvar::NM_CAN5::NODES::N_ASDM::DeactivateNM == 1)
+  {
+    NMCAN5_Enable(0);
+  }
+  else
+  {
+    NMCAN5_Enable(1);
+  }
+}
+
+on sysvar_update sysvar::NM_CAN5::NODES::N_ASDM::OpenNodePanel
+{
+  OpenNodePanel("SafetyCANprotected::ASDM", 1);
+}
+
+on sysvar_update sysvar::NM_CAN5::StateControl::CloseNodePanels
+{
+  OpenNodePanel("SafetyCANprotected::ASDM", 0);
+}
+
+/* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+//--- end generated part --- Block end <#SysVar_Handler#> do not delete this line! Add application code below this line.
+
+//--- begin generated part --- Block start <#MsgUpdateFcns#> do not delete this line and do not add application code in this code block!
+/* #ChannelStart# |CAN5| #BusStart# |SafetyCANprotected| */
+/* #ChannelEnd# |CAN5| #BusEnd# |SafetyCANprotected| */
+//--- end generated part --- Block end <#MsgUpdateFcns#> do not delete this line! Add application code below this line.
+

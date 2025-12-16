@@ -1,0 +1,114 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{  
+enum bool_T {
+ TRUE = 1,
+  FALSE = 0
+};
+}
+byte getByteFromByteBuffer(byte inputArray[], dword position)
+{
+    return inputArray[position];
+}
+word getWordFromByteBuffer(byte inputArray[], dword position) {
+    // Variable Declaration
+    word result;
+    result = 0;
+    
+    // Ensure the position is within the bounds of the input array
+    if (position < 0 || position + 1 >= elCount(inputArray)) {
+        write("Invalid position.");
+        return 0; // Return 0 or an appropriate error value
+    }
+
+    // Extract the word from the byte array
+    result = (word)inputArray[position] |
+             ((word)inputArray[position + 1] << 8);
+
+    return result;
+}
+
+int getIntFromByteBuffer(byte inputArray[], dword position) {
+    // Variable Declaration
+    int result;
+    result = 0;
+    
+    // Ensure the position is within the bounds of the input array
+    if (position < 0 || position + 3 >= elCount(inputArray)) {
+        write("Invalid position.");
+        return 0; // Return 0 or an appropriate error value
+    }
+
+    // Extract the int from the byte array
+    result = (int)inputArray[position] |
+             ((int)inputArray[position + 1] << 8)  |
+             ((int)inputArray[position + 2] << 16) |
+             ((int)inputArray[position + 3] << 24);
+
+    return result;
+}
+
+long getLongFromByteBuffer(byte inputArray[], dword position) {
+    // Variable Declaration
+    long result;
+    result = 0;
+    
+    // Ensure the position is within the bounds of the input array
+    if (position < 0 || position + 3 >= elCount(inputArray)) {
+        write("Invalid position.");
+        return 0; // Return 0 or an appropriate error value
+    }
+
+    // Extract the long from the byte array
+    result = (long)inputArray[position] |
+             ((long)inputArray[position + 1] << 8)  |
+             ((long)inputArray[position + 2] << 16) |
+             ((long)inputArray[position + 3] << 24);
+
+    return result;
+}
+
+dword getDwordFromByteBuffer(byte inputArray[], dword position) {
+    // Variable Declaration
+    dword result;
+    result = 0;
+    
+    // Ensure the position is within the bounds of the input array
+    if (position < 0 || position + 3 >= elCount(inputArray)) {
+        write("Invalid position.");
+        return 0; // Return 0 or an appropriate error value
+    }
+
+    // Extract the dword from the byte array
+    result = (dword)inputArray[position] |
+             ((dword)inputArray[position + 1] << 8)  |
+             ((dword)inputArray[position + 2] << 16) |
+             ((dword)inputArray[position + 3] << 24);
+
+    return result;
+}
+
+float getFloatFromByteBuffer(byte inputArray[], dword position) {
+    // Variable Declaration
+    dword result;
+    result = 0;
+    
+    // Ensure the position is within the bounds of the input array
+    if (position < 0 || position + 3 >= elCount(inputArray)) {
+        write("Invalid position.");
+        return 0; // Return 0 or an appropriate error value
+    }
+
+    // Extract the dword from the byte array
+    result =  (dword)inputArray[position] |
+             ((dword)inputArray[position + 1] << 8)  |
+             ((dword)inputArray[position + 2] << 16) |
+             ((dword)inputArray[position + 3] << 24);
+
+    return interpretAsFloat(result);
+}

@@ -1,0 +1,298 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+variables
+{
+  frFrame VcmBackBoneDiagReqFrame8 diag_Tx;
+  
+  int   i=0;
+  byte  Frame_size= 32;
+  
+  byte request[2]={0x10 ,0x01 };
+  byte request_size= 0x02;
+  byte request_index= 0;
+  
+  
+  byte FLRB_Address[2]={0x14 ,0x61 };
+  byte FSRL_Address[2]={0x14 ,0x91 };
+  byte FSRR_Address[2]={0x14 ,0x92 };
+  byte RSRL_Address[2]={0x14 ,0xA1 };
+  byte RSRR_Address[2]={0x14 ,0xA2 };
+  byte PAS_Address[2]= {0x14 ,0xB1 };
+  byte RML_Address[2]= {0x14 ,0x16 };
+  byte RMR_Address[2]= {0x14 ,0x17 };
+  byte Functional_Address[2]= {0x1F ,0xFF };
+  
+}
+
+on key '1'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=FLRB_Address[0];
+  diag_Tx.byte(i++)=FLRB_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to FLRB output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '2'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=FSRL_Address[0];
+  diag_Tx.byte(i++)=FSRL_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to FSRL output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '3'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=FSRR_Address[0];
+  diag_Tx.byte(i++)=FSRR_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to FSRR output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '4'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=RSRL_Address[0];
+  diag_Tx.byte(i++)=RSRL_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to RSRL output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '5'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=RSRR_Address[0];
+  diag_Tx.byte(i++)=RSRR_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to RSRR output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '6'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=PAS_Address[0];
+  diag_Tx.byte(i++)=PAS_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to PAS output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '7'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=RML_Address[0];
+  diag_Tx.byte(i++)=RML_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to RML output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '8'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=RMR_Address[0];
+  diag_Tx.byte(i++)=RMR_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag Flexray to RMR output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}
+
+on key '9'
+{
+  i=0;
+  request_index= 0;
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+  
+  diag_Tx.byte(i++)=Functional_Address[0];
+  diag_Tx.byte(i++)=Functional_Address[1];
+  diag_Tx.byte(i++)=0x0E;
+  diag_Tx.byte(i++)=0x80;
+  diag_Tx.byte(i++)=0x40;
+  diag_Tx.byte(i++)=request_size;
+  diag_Tx.byte(i++)=0x00;
+  diag_Tx.byte(i++)=request_size;
+  for( ;request_index<(request_size);)
+  {
+    diag_Tx.byte(i++) = request[request_index++];
+  }
+  for( ;i<(Frame_size);)
+  {
+    diag_Tx.byte(i++) = 0x00;
+  }
+  write("Diag functional Flexray to all output function return is =%d",frOutputDynFrame(diag_Tx));
+  
+}

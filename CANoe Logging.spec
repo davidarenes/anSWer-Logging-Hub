@@ -10,7 +10,7 @@ hiddenimports += collect_submodules('win32com')
 
 a = Analysis(
     ['src\\app.py'],
-    pathex=['C:\\Users\\darenes\\Desktop\\SPA1\\CANoe\\CANoe_Logging\\src'],
+    pathex=['C:\\Users\\darenes\\Desktop\\SPA1\\anSWer-Logging-Hub\\src'],
     binaries=[],
     datas=datas,
     hiddenimports=hiddenimports,

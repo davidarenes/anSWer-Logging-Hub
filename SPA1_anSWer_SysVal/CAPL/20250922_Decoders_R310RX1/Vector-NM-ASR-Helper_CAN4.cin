@@ -1,0 +1,255 @@
+variables
+{
+  /* NM-IL Include for CAN Vector IL with AUTOSAR NM
+   *
+   * This include file establishes the coupling between NM --> IL.
+   *
+   * The simulation node needs to load the components CANoeILNLVector.dll and AsrNM33.dll.
+   *
+   * Call NMCAN4_OnInit() in "on preStart()" of the main program!
+   * Call NMCAN4_OnStart() in "on start()" of the main program!
+   *
+   * Version 6.5, (c) 2016 Vector Informatik GmbH, Department for Networks and Distributed Systems
+   */
+
+  const dword cNMCAN4_NMIndDebug      = 0x0001;
+  const dword cNMCAN4_NMInitDebug     = 0x0002;
+  const dword cNMCAN4_ILControlDebug  = 0x0010;
+  
+  const double cNMCAN4_NS2S = 1000000000.0;
+
+  // Internally used variables and timers:
+  dword   gNMCAN4_BusContext = 0;
+  long    gNMCAN4_CurrentNMState = cCAN4_ASR_NM_STATE_UNDEFINED;
+  long    gNMCAN4_CurrentNMInternalRequest = 0;
+  
+}
+
+/*****************************************************************************
+ * Include Initialization
+ *****************************************************************************/
+
+void NMCAN4_OnInit ()
+{
+  // This function must be called from the main program in "on preStart()"!
+
+  //Nm_SetVerbosity(3);
+  
+  
+  gNMCAN4_BusContext = GetBusNameContext(gCAN4BusName);
+
+  if (strncmp("%NODE_NAME%", "_Gateway", 50) == 0)
+  {
+    gNMPCAN4_DebugFlags |= cNMCAN4_NMIndDebug;
+    gNMPCAN4_DebugFlags |= cNMCAN4_NMInitDebug;
+    gNMPCAN4_DebugFlags |= cNMPCAN4_NMControlDebug;
+    gNMPCAN4_DebugFlags |= cNMCAN4_ILControlDebug;
+  }
+
+  SetBusContext(gNMCAN4_BusContext);
+  Nm_ConfigureILNotifications( 0, 1 ); // regardless of NM callbacks inform IL
+}
+
+void NMCAN4_OnStart ()
+{
+  // This function must be called from the main program in "on start()"!
+  
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMInitDebug)
+  {
+    write("+++++++++ %NODE_NAME%: CAN NM on start()");
+  }
+}
+
+/*****************************************************************************
+ * NM Control
+ * These functions can be called from the main program or react on
+ * panel controls in order to manipulate the NM status of the controlled node.
+ *****************************************************************************/
+
+void NMCAN4_Enable (int enable)
+{
+  /* void NMCAN4_Enable (int enable);
+   *
+   *  Function enables/disables the Network Management DLL.
+   */
+  int wasEnabled = -1;
+
+  //if (enable == wasEnabled) return;
+
+  if (gNMPCAN4_DebugFlags & cNMPCAN4_NMControlDebug)
+  {
+    write("[%.6f %NODE_NAME%] NMCAN4_Enable(%d) called ...", TimeNowNS()/cNMCAN4_NS2S, enable);
+  }
+
+  SetBusContext(gNMCAN4_BusContext);
+  if (enable == 1)
+  {
+    Nm_CtrlSimulationOn();
+  }
+  else
+  {
+    Nm_CtrlSimulationOff();
+  }
+
+  wasEnabled = enable;
+}
+
+void NMCAN4_SetApplActivity (int activity)
+{
+  /* void NMCAN4_SetApplActivity (int activity);
+   *
+   *  Function sets the application activity at the Interaction Layer.
+   */
+  int wasActivity = -1;
+
+  //if (activity == wasActivity) return;
+
+  if (gNMPCAN4_DebugFlags & cNMPCAN4_NMControlDebug)
+  {
+    write("[%.6f %NODE_NAME%] NMCAN4_SetApplActivity(%d) called ...", TimeNowNS()/cNMCAN4_NS2S, activity);
+  }
+
+  SetBusContext(gNMCAN4_BusContext);
+  if (activity > 0)
+  {
+    Nm_SetApplicationActivity(1);
+  }
+  else
+  {
+    Nm_SetApplicationActivity(0);
+  }
+
+  wasActivity = activity;
+}
+
+NMCAN4_ReleaseBus()
+{
+  if (gNMPCAN4_DebugFlags & cNMPCAN4_NMControlDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_NetworkRelease()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+  SetBusContext(gNMCAN4_BusContext);
+  Nm_NetworkRelease();
+}
+
+NMCAN4_RequestBus ()
+{
+  if (gNMPCAN4_DebugFlags & cNMPCAN4_NMControlDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_NetworkRequest()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+  SetBusContext(gNMCAN4_BusContext);
+  Nm_NetworkRequest();
+}
+
+NMCAN4_PassiveBusStart ()
+{
+  if (gNMPCAN4_DebugFlags & cNMPCAN4_NMControlDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_PassiveStartUp()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+  SetBusContext(gNMCAN4_BusContext);
+  Nm_PassiveStartUp();
+}
+
+NMCAN4_PowerOnStart()
+{
+  //NMCAN4_PassiveBusStart();
+}
+
+on sysvar sysvar::NM_CAN4::StateControl::NmPduTxEnable
+{
+  SetBusContext(gNMCAN4_BusContext);
+  if(@this == 1)
+    Nm_DisablePassiveMode(); // NM PDU is transmitted after wake up, and in normal operation and repeat message state
+  else 
+    Nm_EnablePassiveMode(); // NM PDU is never transmitted
+}
+
+/*****************************************************************************
+ * NM Indications
+ * They are called from the NM simulation in order to control the IL.
+ *****************************************************************************/
+
+void NMCAN4_IndNetworkStart()
+{
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMIndDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_NetworkStartInd()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+  NMCAN4_PassiveBusStart();
+}
+
+void NMCAN4_IndNetworkMode()
+{
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMIndDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_NetworkModeInd()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+  StartSim(gNMCAN4_BusContext, 1, 4);
+}
+
+void NMCAN4_IndNetworkTimeout()
+{
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMIndDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_NetworkTimeoutInd()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+}
+
+void NMCAN4_IndPrepareBusSleepMode()
+{
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMIndDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_PrepareBusSleepModeInd()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+  StopSim(gNMCAN4_BusContext, 1, 4);
+}
+
+void NMCAN4_IndBusSleepMode()
+{
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMIndDebug)
+  {
+    write("[%.6f %NODE_NAME%]: Nm_BusSleepModeInd()", TimeNowNS()/cNMCAN4_NS2S);
+  }
+}
+
+void NMCAN4_IndStateChangeNotification( long previousState, long currentState) 
+{
+  long mode;
+  if ((previousState == cCAN4_ASR_NM_STATE_UNDEFINED || previousState == cCAN4_ASR_NM_STATE_BUS_SLEEP) && (currentState != cCAN4_ASR_NM_STATE_BUS_SLEEP))
+  { 
+    @sysvar::NM_CAN4::StateControl::ActiveNodes += 1;
+  }
+  if ((previousState != cCAN4_ASR_NM_STATE_UNDEFINED) && (currentState == cCAN4_ASR_NM_STATE_BUS_SLEEP))
+  { 
+    @sysvar::NM_CAN4::StateControl::ActiveNodes -= 1;
+  }
+
+  gNMCAN4_CurrentNMState = currentState;
+
+  if ((currentState <= cCAN4_ASR_NM_STATE_BUS_SLEEP) || (currentState > cCAN4_ASR_NM_STATE_SYNCHRONIZE))
+  {
+    mode = cCAN4_NM_NODE_MODE_Sleep_Mode;
+  }
+  else
+  {
+    if (currentState == cCAN4_ASR_NM_STATE_SYNCHRONIZE)
+    {
+      mode = cCAN4_NM_NODE_MODE_Synchronize_Mode;
+    }
+    else
+    {
+      mode = cCAN4_NM_NODE_MODE_Network_Mode;
+    }
+  }
+
+  if (gNMPCAN4_DebugFlags & cNMCAN4_NMIndDebug)
+  {
+    write("[%.6f %NODE_NAME%]: NM currentState = %d, mode = %d", TimeNowNS()/cNMCAN4_NS2S, currentState, mode);
+  }
+}
+
+/*****************************************************************************
+ * EOF
+ *****************************************************************************/

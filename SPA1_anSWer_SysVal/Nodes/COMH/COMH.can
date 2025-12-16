@@ -1,0 +1,472 @@
+/*@!Encoding:1252*/
+includes
+{
+//  #include "libs\CCP_cfg.can"
+}
+variables
+{
+  
+}
+
+on stopMeasurement
+{
+  @Volvo_VCORE_var::Send_Signals=0;
+}
+
+on key 'p'
+{
+  @Volvo_VCORE_var::Send_Signals=1;
+  Write("send min values of signals");
+}
+
+on key '['
+{
+  @Volvo_VCORE_var::Send_Signals=2;
+  Write("send median values of signals");
+}
+
+on key ']'
+{
+  @Volvo_VCORE_var::Send_Signals=3;
+  Write("send max values of signals");
+}
+
+on sysvar Volvo_VCORE_var::Send_Signals
+{
+  send_signals_value();
+}
+
+void send_signals_value()
+{
+  if( @Volvo_VCORE_var::Send_Signals==1)    //min
+  {
+    $CEMBackBoneSignalIpdu01::CarModSts1=1;
+    $CEMBackBoneSignalIpdu01::UsgModSts=1;
+    $CEMBackBoneSignalIpdu11::AmbTRawVal=-70;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafe=0;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafeQf=0;
+    $SRSBackBoneSignalIPdu04::YawRate1Qf2=0;
+    $VDDMBackBoneSignalIPdu02::GearLvrIndcn=0;
+    $SRSBackBoneSignalIPdu04::ALat1=-138.9920;
+    $SRSBackBoneSignalIPdu04::ALatWithCmp=-138.9920;
+    $VDDMBackBoneSignalIPdu02::PinionSteerAg1=-14.50;
+    $VDDMBackBoneSignalIPdu01::PinionSteerAgSpd1=-50;
+    $VDDMBackBoneSignalIpdu11::SteerAgFrntSteerAgFrnt=-1.0;
+    $VDDMBackBoneSignalIPdu01::SteerWhlAgSafe=-14.50;
+    $VDDMBackBoneSignalIPdu01::SteerWhlAgSpdSafe=-50;
+    $VDDMBackBoneSignalIPdu01::SteerWhlTq=-30;
+    $VDDMBackBoneSignalIPdu04::SteerWhlTqAddl=-30;
+    $SRSBackBoneSignalIPdu04::YawRate1=-6;
+    $SRSBackBoneSignalIPdu04::YawRateWithCmp=-6;
+    $VDDMBackBoneSignalIPdu04::VehVVehVLat=-29.9970075510;
+    $VDDMBackBoneSignalIPdu04::VehVVehVLgt=-127.997760;
+    $VDDMBackBoneSignalIPdu02::AccrPedlRat=0;
+    $VDDMBackBoneSignalIPdu03::AccrPedlRatGrdt=-1000;
+    $CEMBackBoneSignalIpdu02::BrkPedlValBrkPedlVal=0;
+    $SRSBackBoneSignalIPdu04::GrdtOfALgt=-30.0;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlFrntLe=0;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlFrntWhlSpdCircumlFrntRi=0;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlReLe=0;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlReRi=0;
+    $SRSBackBoneSignalIPdu04::RollRate1=-6;
+    $DIMBackBoneSignalIPdu04::SetSpdForCrsCtrlFct=0;
+    $DIMBackBoneSignalIPdu04::TiGapSts=0;
+    $VDDMBackBoneSignalIPdu03::SteerTqReqScaCoeff=0;
+    $VDDMBackBoneSignalIPdu01::VehMtnStSafe=0;
+    $CEMBackBoneSignalIpdu05::CarTiGlb=0;
+    $CEMBackBoneSignalIpdu11::AmbTRawQly=0;
+    $DIMBackBoneSignalIPdu02::BkpOfDstTrvld=4;
+    $IHUBackboneSignalIPdu01::DrvModReq=1;
+    $CEMBackBoneSignalIpdu07::VehBattUSysU=10;
+    $CEMBackBoneSignalIpdu07::VehBattUSysUQf=0;
+    $CEMBackBoneSignalIpdu05::WipgInfoWipgSpdInfo=2;
+    $CEMBackBoneSignalIpdu05::WipgInfoWiprInWipgAr=0;
+    $CEMBackBoneSignalIpdu05::WipgInfoWiprActv=0;
+    
+    //EHOR ADASIS_0     0x0000000000000000
+    $IHUBackBoneSignalIPdu03::MsgTypInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::OffsInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::CycCntrInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::PahIdxInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::PosnIdxInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::PosnProbltyInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::PosnTiDifInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::PosnQlyInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::LanePrsntInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::SpdInHznPosn=-12.8;
+    $IHUBackBoneSignalIPdu03::RelDirInHznPosn=0;
+    
+    //EHOR ADASIS_1     0x0000000000000000
+    $IHUBackBoneSignalIPdu06::MsgTypInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::OffsInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::CycCntrInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::PahIdxInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::TnlInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::BrdgInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::RoadLiArInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::TxPrevInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::UpdInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::RelProbltyInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::RoadClassInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::PartOfCourseCalcdInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::IntscnCmplxInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::TypOfWayInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::SpdLimEfcInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::SpdLimTypEfcInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::RoadMplInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInSecDirInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInDrvgDirInHznSeg=0;
+    
+    //EHOR ADASIS_2     0x0000000000000000
+    $IHUBackBoneSignalIPdu06::MsgTypInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::OffsInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::CycCntrInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::PahIdxInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::PahIdxNewInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::TxPrevInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::UpdInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::RelProbltyInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::RoadClassInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::PartOfCourseCalcdInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::IntscnCmplxInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::TypOfWayInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::TurnAgInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::LstEdgeAtOffsInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::RiOfWayInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInSecDirInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInDrvgDirInHznEdge=0;
+    
+    //EHOR ADASIS_3     0x0000000000000000
+    $IHUBackBoneSignalIPdu04::MsgTypInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::OffsInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::CycCntrInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::PahIdxInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::ProfTypInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::NodCtrlInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::TxPrevInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::UpdInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::ProfTypQlyInHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::Dst1InHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::Val0InHznProfSho=0;
+    $IHUBackBoneSignalIPdu04::Val1InHznProfSho=0;
+    
+    //EHOR ADASIS_4     0x0000000000000000
+    $IHUBackBoneSignalIPdu04::MsgTypInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::OffsInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::CycCntrInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::PahIdxInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::ProfTypInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::NodCtrlInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::TxPrevInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::UpdInHznProfLong=0;
+    $IHUBackBoneSignalIPdu04::ValInHznProfLong=0;
+    
+    //EHOR ADASIS_5     0x0000000000000000
+    $IHUBackBoneSignalIPdu05::MsgTypInHznData=0;
+    $IHUBackBoneSignalIPdu05::MapSrcInHznData=0;
+    $IHUBackBoneSignalIPdu05::CtryCodInHznData=0;
+    $IHUBackBoneSignalIPdu05::CycCntrInHznData=0;
+    $IHUBackBoneSignalIPdu05::HdTxVersInHznData=0;
+    $IHUBackBoneSignalIPdu05::ChdTxVersInHznData=0;
+    $IHUBackBoneSignalIPdu05::HwVersInHznData=0;
+    $IHUBackBoneSignalIPdu05::DrvgSideInHznData=0;
+    $IHUBackBoneSignalIPdu05::RegnCodInHznData=0;
+    $IHUBackBoneSignalIPdu05::PartOfYrVersOfMapInHznData=0;
+    $IHUBackBoneSignalIPdu05::YrVersOfMapInHznData=0;
+    $IHUBackBoneSignalIPdu05::SpdUnitInHznData=0;
+    $IHUBackBoneSignalIPdu05::TxVersInHznData=0;
+
+  }
+  else if( @Volvo_VCORE_var::Send_Signals==2)    //median
+  {
+    $CEMBackBoneSignalIpdu01::CarModSts1=2;
+    $CEMBackBoneSignalIpdu01::UsgModSts=0xB;
+    $CEMBackBoneSignalIpdu11::AmbTRawVal=0;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafe=10;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafeQf=2;
+    $SRSBackBoneSignalIPdu04::YawRate1Qf2=2;
+    $VDDMBackBoneSignalIPdu02::GearLvrIndcn=4;
+    $SRSBackBoneSignalIPdu04::ALat1=5;
+    $SRSBackBoneSignalIPdu04::ALatWithCmp=5;
+    $VDDMBackBoneSignalIPdu02::PinionSteerAg1=4.50;
+    $VDDMBackBoneSignalIPdu01::PinionSteerAgSpd1=5;
+    $VDDMBackBoneSignalIpdu11::SteerAgFrntSteerAgFrnt=0.1;
+    $VDDMBackBoneSignalIPdu01::SteerWhlAgSafe=4.50;
+    $VDDMBackBoneSignalIPdu01::SteerWhlAgSpdSafe=4.50;
+    $VDDMBackBoneSignalIPdu01::SteerWhlTq=4.50;
+    $VDDMBackBoneSignalIPdu04::SteerWhlTqAddl=4.50;
+    $SRSBackBoneSignalIPdu04::YawRate1=3.2;
+    $SRSBackBoneSignalIPdu04::YawRateWithCmp=3.2;
+    $VDDMBackBoneSignalIPdu04::VehVVehVLat=10;
+    $VDDMBackBoneSignalIPdu04::VehVVehVLgt=12;
+    $VDDMBackBoneSignalIPdu02::AccrPedlRat=50;
+    $VDDMBackBoneSignalIPdu03::AccrPedlRatGrdt=500;
+    $CEMBackBoneSignalIpdu02::BrkPedlValBrkPedlVal=50;
+    $SRSBackBoneSignalIPdu04::GrdtOfALgt=-10.0;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlFrntLe=50;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlFrntWhlSpdCircumlFrntRi=50;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlReLe=50;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlReRi=50;
+    $SRSBackBoneSignalIPdu04::RollRate1=2;
+    $DIMBackBoneSignalIPdu04::SetSpdForCrsCtrlFct=50;
+    $DIMBackBoneSignalIPdu04::TiGapSts=1.5;
+    $VDDMBackBoneSignalIPdu03::SteerTqReqScaCoeff=0.5;
+    $VDDMBackBoneSignalIPdu01::VehMtnStSafe=5;
+    $CEMBackBoneSignalIpdu05::CarTiGlb=12345678;
+    $CEMBackBoneSignalIpdu11::AmbTRawQly=1;
+    $DIMBackBoneSignalIPdu02::BkpOfDstTrvld=1000000;
+    $IHUBackboneSignalIPdu01::DrvModReq=0xA;
+    $CEMBackBoneSignalIpdu07::VehBattUSysU=20;
+    $CEMBackBoneSignalIpdu07::VehBattUSysUQf=2;
+    $CEMBackBoneSignalIpdu05::WipgInfoWipgSpdInfo=5;
+    
+    //EHOR ADASIS_0     0x200A095E010A4600
+    $IHUBackBoneSignalIPdu03::MsgTypInHznPosn=1;
+    $IHUBackBoneSignalIPdu03::OffsInHznPosn=10;
+    $IHUBackBoneSignalIPdu03::CycCntrInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::PahIdxInHznPosn=9;
+    $IHUBackBoneSignalIPdu03::PosnIdxInHznPosn=1;
+    $IHUBackBoneSignalIPdu03::PosnProbltyInHznPosn=49.99999995;
+    $IHUBackBoneSignalIPdu03::PosnTiDifInHznPosn=5;
+    $IHUBackBoneSignalIPdu03::PosnQlyInHznPosn=0;
+    $IHUBackBoneSignalIPdu03::LanePrsntInHznPosn=5;
+    $IHUBackBoneSignalIPdu03::SpdInHznPosn=1.2;
+    $IHUBackBoneSignalIPdu03::RelDirInHznPosn=0;
+    
+    //EHOR ADASIS_1     0x400A0903F102C800
+    $IHUBackBoneSignalIPdu06::MsgTypInHznSeg=2;
+    $IHUBackBoneSignalIPdu06::OffsInHznSeg=10;
+    $IHUBackBoneSignalIPdu06::CycCntrInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::PahIdxInHznSeg=9;
+    $IHUBackBoneSignalIPdu06::TnlInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::BrdgInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::RoadLiArInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::TxPrevInHznSeg=1;
+    $IHUBackBoneSignalIPdu06::UpdInHznSeg=1;
+    $IHUBackBoneSignalIPdu06::RelProbltyInHznSeg=99.9999999;
+    $IHUBackBoneSignalIPdu06::RoadClassInHznSeg=1;
+    $IHUBackBoneSignalIPdu06::PartOfCourseCalcdInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::IntscnCmplxInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::TypOfWayInHznSeg=2;
+    $IHUBackBoneSignalIPdu06::SpdLimEfcInHznSeg=25;
+    $IHUBackBoneSignalIPdu06::SpdLimTypEfcInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::RoadMplInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInSecDirInHznSeg=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInDrvgDirInHznSeg=0;
+    
+    //EHOR ADASIS_2     0x600A09E70EFEFF01
+    $IHUBackBoneSignalIPdu06::MsgTypInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::OffsInHznEdge=10;
+    $IHUBackBoneSignalIPdu06::CycCntrInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::PahIdxInHznEdge=9;
+    $IHUBackBoneSignalIPdu06::PahIdxNewInHznEdge=57;
+    $IHUBackBoneSignalIPdu06::TxPrevInHznEdge=1;
+    $IHUBackBoneSignalIPdu06::UpdInHznEdge=1;
+    $IHUBackBoneSignalIPdu06::RelProbltyInHznEdge=3.33333333;
+    $IHUBackBoneSignalIPdu06::RoadClassInHznEdge=6;
+    $IHUBackBoneSignalIPdu06::PartOfCourseCalcdInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::IntscnCmplxInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::TypOfWayInHznEdge=14;
+    $IHUBackBoneSignalIPdu06::TurnAgInHznEdge=361.417322834646;
+    $IHUBackBoneSignalIPdu06::LstEdgeAtOffsInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::RiOfWayInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInSecDirInHznEdge=0;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInDrvgDirInHznEdge=1;
+    
+    //EHOR ADASIS_3     0x3111410F51144511
+    $IHUBackBoneSignalIPdu04::MsgTypInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::OffsInHznProfSho=4369;
+    $IHUBackBoneSignalIPdu04::CycCntrInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::PahIdxInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::ProfTypInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::NodCtrlInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::TxPrevInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::UpdInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::ProfTypQlyInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::Dst1InHznProfSho=273;
+    $IHUBackBoneSignalIPdu04::Val0InHznProfSho=273;
+    $IHUBackBoneSignalIPdu04::Val1InHznProfSho=273;
+    
+    //EHOR ADASIS_4     0x3111518F11111111
+    $IHUBackBoneSignalIPdu04::MsgTypInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::OffsInHznProfLong=4369;
+    $IHUBackBoneSignalIPdu04::CycCntrInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::PahIdxInHznProfLong=17;
+    $IHUBackBoneSignalIPdu04::ProfTypInHznProfLong=17;
+    $IHUBackBoneSignalIPdu04::NodCtrlInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::TxPrevInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::UpdInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::ValInHznProfLong=286331153;
+    
+    //EHOR ADASIS_5     0xC40800018023C710
+    $IHUBackBoneSignalIPdu05::MsgTypInHznData=6;
+    $IHUBackBoneSignalIPdu05::MapSrcInHznData=1;
+    $IHUBackBoneSignalIPdu05::CtryCodInHznData=8;
+    $IHUBackBoneSignalIPdu05::CycCntrInHznData=0;
+    $IHUBackBoneSignalIPdu05::HdTxVersInHznData=0;
+    $IHUBackBoneSignalIPdu05::ChdTxVersInHznData=0;
+    $IHUBackBoneSignalIPdu05::HwVersInHznData=1;
+    $IHUBackBoneSignalIPdu05::DrvgSideInHznData=1;
+    $IHUBackBoneSignalIPdu05::RegnCodInHznData=35;
+    $IHUBackBoneSignalIPdu05::PartOfYrVersOfMapInHznData=3;
+    $IHUBackBoneSignalIPdu05::YrVersOfMapInHznData=7;
+    $IHUBackBoneSignalIPdu05::SpdUnitInHznData=1;
+    $IHUBackBoneSignalIPdu05::TxVersInHznData=0;
+  }
+  else if( @Volvo_VCORE_var::Send_Signals==3)   //max
+  {
+    $CEMBackBoneSignalIpdu01::CarModSts1=5;
+    $CEMBackBoneSignalIpdu01::UsgModSts=0xD;
+    $CEMBackBoneSignalIpdu11::AmbTRawVal=134.70;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafe=125.00270;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafeQf=3;
+    $SRSBackBoneSignalIPdu04::YawRate1Qf2=3;
+    $VDDMBackBoneSignalIPdu02::GearLvrIndcn=7;
+    $SRSBackBoneSignalIPdu04::ALat1=139.00050;
+    $SRSBackBoneSignalIPdu04::ALatWithCmp=139.00050;
+    $VDDMBackBoneSignalIPdu02::PinionSteerAg1=14.50;
+    $VDDMBackBoneSignalIPdu01::PinionSteerAgSpd1=50;
+    $VDDMBackBoneSignalIpdu11::SteerAgFrntSteerAgFrnt=1.000036640;
+    $VDDMBackBoneSignalIPdu01::SteerWhlAgSafe=14.50;
+    $VDDMBackBoneSignalIPdu01::SteerWhlAgSpdSafe=50;
+    $VDDMBackBoneSignalIPdu01::SteerWhlTq=30;
+    $VDDMBackBoneSignalIPdu04::SteerWhlTqAddl=30;
+    $SRSBackBoneSignalIPdu04::YawRate1=6;
+    $SRSBackBoneSignalIPdu04::YawRateWithCmp=6;
+    $VDDMBackBoneSignalIPdu04::VehVVehVLat=30.000913920;
+    $VDDMBackBoneSignalIPdu04::VehVVehVLgt=128.001670;
+    $VDDMBackBoneSignalIPdu02::AccrPedlRat=100;
+    $VDDMBackBoneSignalIPdu03::AccrPedlRatGrdt=1000;
+    $CEMBackBoneSignalIpdu02::BrkPedlValBrkPedlVal=100;
+    $SRSBackBoneSignalIPdu04::GrdtOfALgt=30.0;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlFrntLe=125.00270;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlFrntWhlSpdCircumlFrntRi=125.00270;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlReLe=125.00270;
+    $VDDMBackBoneSignalIPdu04::WhlSpdCircumlReRi=125.00270;
+    $SRSBackBoneSignalIPdu04::RollRate1=6;
+    $DIMBackBoneSignalIPdu04::SetSpdForCrsCtrlFct=125;
+    $DIMBackBoneSignalIPdu04::TiGapSts=6.30;
+    $VDDMBackBoneSignalIPdu03::SteerTqReqScaCoeff=1;
+    $VDDMBackBoneSignalIPdu01::VehMtnStSafe=7;
+    $CEMBackBoneSignalIpdu05::CarTiGlb=429496729.50;
+    $CEMBackBoneSignalIpdu11::AmbTRawQly=3;
+    $DIMBackBoneSignalIPdu02::BkpOfDstTrvld=2000000;
+    $IHUBackboneSignalIPdu01::DrvModReq=0xF;
+    $CEMBackBoneSignalIpdu07::VehBattUSysU=25;
+    $CEMBackBoneSignalIpdu07::VehBattUSysUQf=3;
+    $CEMBackBoneSignalIpdu05::WipgInfoWipgSpdInfo=7;
+    $CEMBackBoneSignalIpdu05::WipgInfoWiprInWipgAr=1;
+    $CEMBackBoneSignalIpdu05::WipgInfoWiprActv=1;
+    
+    //EHOR ADASIS_0     0xFFFFFFFFFF7FFFFE
+    $IHUBackBoneSignalIPdu03::MsgTypInHznPosn=7;
+    $IHUBackBoneSignalIPdu03::OffsInHznPosn=8191;
+    $IHUBackBoneSignalIPdu03::CycCntrInHznPosn=3;
+    $IHUBackBoneSignalIPdu03::PahIdxInHznPosn=63;
+    $IHUBackBoneSignalIPdu03::PosnIdxInHznPosn=3;
+    $IHUBackBoneSignalIPdu03::PosnProbltyInHznPosn=103.333333230;
+    $IHUBackBoneSignalIPdu03::PosnTiDifInHznPosn=2555;
+    $IHUBackBoneSignalIPdu03::PosnQlyInHznPosn=7;
+    $IHUBackBoneSignalIPdu03::LanePrsntInHznPosn=7;
+    $IHUBackBoneSignalIPdu03::SpdInHznPosn=89.40;
+    $IHUBackBoneSignalIPdu03::RelDirInHznPosn=360;    //360 = 0xFE   for 0xFF = 361.417322834646
+    
+    //EHOR ADASIS_1     0xFFFFFFFFFFFFFF7F
+    $IHUBackBoneSignalIPdu06::MsgTypInHznSeg=7;
+    $IHUBackBoneSignalIPdu06::OffsInHznSeg=8191;
+    $IHUBackBoneSignalIPdu06::CycCntrInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::PahIdxInHznSeg=63;
+    $IHUBackBoneSignalIPdu06::TnlInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::BrdgInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::RoadLiArInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::TxPrevInHznSeg=1;
+    $IHUBackBoneSignalIPdu06::UpdInHznSeg=1;
+    $IHUBackBoneSignalIPdu06::RelProbltyInHznSeg=103.333333230;
+    $IHUBackBoneSignalIPdu06::RoadClassInHznSeg=7;
+    $IHUBackBoneSignalIPdu06::PartOfCourseCalcdInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::IntscnCmplxInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::TypOfWayInHznSeg=15;
+    $IHUBackBoneSignalIPdu06::SpdLimEfcInHznSeg=31;
+    $IHUBackBoneSignalIPdu06::SpdLimTypEfcInHznSeg=7;
+    $IHUBackBoneSignalIPdu06::RoadMplInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInSecDirInHznSeg=3;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInDrvgDirInHznSeg=7;
+    
+    //EHOR ADASIS_2     0xFFFFFFFFFFFFFEFF
+    $IHUBackBoneSignalIPdu06::MsgTypInHznEdge=7;
+    $IHUBackBoneSignalIPdu06::OffsInHznEdge=8191;
+    $IHUBackBoneSignalIPdu06::CycCntrInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::PahIdxInHznEdge=63;
+    $IHUBackBoneSignalIPdu06::PahIdxNewInHznEdge=63;
+    $IHUBackBoneSignalIPdu06::TxPrevInHznEdge=1;
+    $IHUBackBoneSignalIPdu06::UpdInHznEdge=1;
+    $IHUBackBoneSignalIPdu06::RelProbltyInHznEdge=103.333333230;
+    $IHUBackBoneSignalIPdu06::RoadClassInHznEdge=7;
+    $IHUBackBoneSignalIPdu06::PartOfCourseCalcdInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::IntscnCmplxInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::TypOfWayInHznEdge=15;
+    $IHUBackBoneSignalIPdu06::TurnAgInHznEdge=360;    //360 = 0xFE   for 0xFF = 361.417322834646
+    $IHUBackBoneSignalIPdu06::LstEdgeAtOffsInHznEdge=1;
+    $IHUBackBoneSignalIPdu06::RiOfWayInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInSecDirInHznEdge=3;
+    $IHUBackBoneSignalIPdu06::NrOfLaneInDrvgDirInHznEdge=7;
+    
+    //EHOR ADASIS_3     0xFFFFFFFFFFFFFFFF
+    $IHUBackBoneSignalIPdu04::MsgTypInHznProfSho=7;
+    $IHUBackBoneSignalIPdu04::OffsInHznProfSho=8191;
+    $IHUBackBoneSignalIPdu04::CycCntrInHznProfSho=3;
+    $IHUBackBoneSignalIPdu04::PahIdxInHznProfSho=63;
+    $IHUBackBoneSignalIPdu04::ProfTypInHznProfSho=31;
+    $IHUBackBoneSignalIPdu04::NodCtrlInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::TxPrevInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::UpdInHznProfSho=1;
+    $IHUBackBoneSignalIPdu04::ProfTypQlyInHznProfSho=3;
+    $IHUBackBoneSignalIPdu04::Dst1InHznProfSho=1023;
+    $IHUBackBoneSignalIPdu04::Val0InHznProfSho=1023;
+    $IHUBackBoneSignalIPdu04::Val1InHznProfSho=1023;
+    
+    //EHOR ADASIS_4     0xFFFFFFFFFFFFFFFF
+    $IHUBackBoneSignalIPdu04::MsgTypInHznProfLong=7;
+    $IHUBackBoneSignalIPdu04::OffsInHznProfLong=8191;
+    $IHUBackBoneSignalIPdu04::CycCntrInHznProfLong=3;
+    $IHUBackBoneSignalIPdu04::PahIdxInHznProfLong=63;
+    $IHUBackBoneSignalIPdu04::ProfTypInHznProfLong=31;
+    $IHUBackBoneSignalIPdu04::NodCtrlInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::TxPrevInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::UpdInHznProfLong=1;
+    $IHUBackBoneSignalIPdu04::ValInHznProfLong=4294967295;
+    
+    //EHOR ADASIS_5     0xFFFFFFFFFFFFFF1F
+    $IHUBackBoneSignalIPdu05::MsgTypInHznData=7;
+    $IHUBackBoneSignalIPdu05::MapSrcInHznData=7;
+    $IHUBackBoneSignalIPdu05::CtryCodInHznData=1023;
+    $IHUBackBoneSignalIPdu05::CycCntrInHznData=3;
+    $IHUBackBoneSignalIPdu05::HdTxVersInHznData=3;
+    $IHUBackBoneSignalIPdu05::ChdTxVersInHznData=7;
+    $IHUBackBoneSignalIPdu05::HwVersInHznData=511;
+    $IHUBackBoneSignalIPdu05::DrvgSideInHznData=1;
+    $IHUBackBoneSignalIPdu05::RegnCodInHznData=32767;
+    $IHUBackBoneSignalIPdu05::PartOfYrVersOfMapInHznData=3;
+    $IHUBackBoneSignalIPdu05::YrVersOfMapInHznData=63;
+    $IHUBackBoneSignalIPdu05::SpdUnitInHznData=1;
+    $IHUBackBoneSignalIPdu05::TxVersInHznData=15;
+    
+  }
+    $VDDMBackBoneSignalIPdu02::GearLvrIndcn_UB=1;
+    $CEMBackBoneSignalIpdu11::AmbTRaw_UB=1;
+    $VDDMBackBoneSignalIPdu04::SteerWhlTqAddl_UB=1;
+    $VDDMBackBoneSignalIPdu02::AccrPedlRat_UB=1;
+    $VDDMBackBoneSignalIPdu01::VehSpdLgtSafeGroup_UB=1;
+    $VDDMBackBoneSignalIPdu03::AccrPedlRatGrdt_UB=1;
+    $VDDMBackBoneSignalIPdu03::SteerTqReqScaCoeff_UB=1;
+    $CEMBackBoneSignalIpdu05::CarTiGlb_UB=1;
+    $DIMBackBoneSignalIPdu02::BkpOfDstTrvld_UB=1;
+    $IHUBackboneSignalIPdu01::DrvModReq_UB=1;
+    $IHUBackBoneSignalIPdu03::HznPosn_UB=1;
+    $IHUBackBoneSignalIPdu06::HznSeg_UB=1;
+    $IHUBackBoneSignalIPdu06::HznEdge_UB=1;
+    $IHUBackBoneSignalIPdu04::HznProfSho_UB=1;
+    $IHUBackBoneSignalIPdu04::HznProfLong_UB=1;
+    $IHUBackBoneSignalIPdu05::HznData_UB=1;
+  
+}

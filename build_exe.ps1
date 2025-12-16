@@ -26,11 +26,11 @@ Set-Location $repoRoot
 $srcPath = Join-Path $repoRoot "src"
 $distPath = Join-Path $repoRoot "dist"
 $buildPath = Join-Path $repoRoot "build"
-$exeName = "CANoe Logging.exe"
+$exeName = "anSWer Logging Hub.exe"
 $finalExePath = Join-Path $srcPath $exeName
 
 $arguments = @(
-    "--name", "CANoe Logging",
+    "--name", "anSWer Logging Hub",
     "--onefile",
     "--windowed",
     "--paths", $srcPath,
@@ -60,7 +60,7 @@ if ($PyInstaller -eq "pyinstaller") {
     $pyInstallerCommand = $PyInstaller
 }
 
-Write-Host "Building CANoe Logging Tool executable..."
+Write-Host "Building anSWer Logging Hub executable..."
 Write-Host "$pyInstallerCommand $($pyInstallerArgs -join ' ')"
 
 & $pyInstallerCommand @pyInstallerArgs
