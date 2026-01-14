@@ -5,3 +5,4 @@ Logs/*
 # Ignore XCP inside Logging_Config
 SPA1_anSWer_SysVal/XCP/*
 !SPA1_anSWer_SysVal/XCP/.gitkeep
+SPA1_anSwer_SysVal/XCP/*.a2l
