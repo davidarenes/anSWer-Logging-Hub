@@ -1,0 +1,1048 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+
+variables
+{
+  message Ott_Rx_720 Ecu_Reset;
+  message Ott_Rx_720 Memory_Access;
+  message Ott_Rx_720 Memory_Access_Read;
+  message Ott_Rx_720 pmic_write;
+  message Ott_Rx_720 pmic_read;
+  byte byte0,byte1,byte2,byte3;
+  long memoryaddress;
+  long memoryvalue;
+  byte ld_data[1024];
+  int i;
+  int j;
+  msTimer livedata_timer;
+  msTimer dataTimer;
+  int livedata_flag;
+  int OTT_CAN1STATE;
+  int OTT_CAN2STATE;
+  int OTT_CAN3STATE;
+  int OTT_CAN4STATE;
+  int OTT_CAN5STATE;
+  int OTT_FLEXRAYSTATE;
+  int64 MC_1V8_DDR_PLL_ADC_MAX_VALUE = 0;
+int64 MC_1V8_DDR_PLL_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_MIPI_ADC_MAX_VALUE = 0;
+int64 MC_1V8_MIPI_ADC_MIN_VALUE = 999999999;
+int64 MC_5V0_ADC_MAX_VALUE = 0;
+int64 MC_5V0_ADC_MIN_VALUE = 999999999;
+int64 MC_FSH_SENSE_ADC_MAX_VALUE = 0;
+int64 MC_FSH_SENSE_ADC_MIN_VALUE = 999999999;
+int64 MC_TEMP_DDR_ADC_MAX_VALUE = 0;
+int64 MC_TEMP_DDR_ADC_MIN_VALUE = 999999999;
+int64 MC_VBAT_MES_ADC_MAX_VALUE = 0;
+int64 MC_VBAT_MES_ADC_MIN_VALUE = 999999999;
+int64 MC_1V1_HOST_ADC_MAX_VALUE = 0;
+int64 MC_1V1_HOST_ADC_MIN_VALUE = 999999999;
+int64 MC_1V1_ADC_MAX_VALUE = 0;
+int64 MC_1V1_ADC_MIN_VALUE = 999999999;
+int64 MC_OV6_ADC_MAX_VALUE = 0;
+int64 MC_OV6_ADC_MIN_VALUE = 999999999;
+int64 MC_0V75_CORE_ADC_MAX_VALUE = 0;
+int64 MC_0V75_CORE_ADC_MIN_VALUE = 999999999;
+int64 MC_OV75_MIPI_ADC_MAX_VALUE = 0;
+int64 MC_OV75_MIPI_ADC_MIN_VALUE = 999999999;
+int64 MC_1V1_RB_ADC_MAX_VALUE = 0;
+int64 MC_1V1_RB_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_EQ_ADC_MAX_VALUE = 0;
+int64 MC_1V8_EQ_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_IP_ADC_MAX_VALUE = 0;
+int64 MC_1V8_IP_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_IP_RB_ADC_MAX_VALUE = 0;
+int64 MC_1V8_IP_RB_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_OTP_ADC_MAX_VALUE = 0;
+int64 MC_1V8_OTP_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_PLL_ADC_MAX_VALUE = 0;
+int64 MC_1V8_PLL_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_TSENS_ADC_MAX_VALUE = 0;
+int64 MC_1V8_TSENS_ADC_MIN_VALUE = 999999999;
+int64 MC_1V8_XTAL_ADC_MAX_VALUE = 0;
+int64 MC_1V8_XTAL_ADC_MIN_VALUE = 999999999;
+int64 MC_3V3_EQ6L_ADC_MAX_VALUE = 0;
+int64 MC_3V3_EQ6L_ADC_MIN_VALUE = 999999999;
+int64 MC_3V3_HOST_ADC_MAX_VALUE = 0;
+int64 MC_3V3_HOST_ADC_MIN_VALUE = 999999999;
+int64 MC_FSH_OUT_ADC_MAX_VALUE = 0;
+int64 MC_FSH_OUT_ADC_MIN_VALUE = 999999999;
+int64 MC_IMA_ANALOG_ADC_MAX_VALUE = 0;
+int64 MC_IMA_ANALOG_ADC_MIN_VALUE = 999999999;
+int64 MC_IMA_ANALOG_RB_ADC_MAX_VALUE = 0;
+int64 MC_IMA_ANALOG_RB_ADC_MIN_VALUE = 999999999;
+int64 MC_TEMP_EQ6L_ADC_MAX_VALUE = 0;
+int64 MC_TEMP_EQ6L_ADC_MIN_VALUE = 999999999;
+}
+
+on start
+{
+  sysSetVariableString(sysvar::OTT_var::DV_SWVersion,"SPA1_DV1");
+  setTimer(livedata_timer,1000);
+}
+
+on timer livedata_timer
+{
+  if (livedata_flag == 0x01)
+  {
+      livedata_flag = 0x00;
+    OTT_CAN1STATE = 0x00;
+    @OTT_var::OTT_CAN1STATE = 0x01;
+    @OTT_var::ecu_available = 0x02;
+  }
+  else 
+  {
+    @OTT_var::OTT_CAN1STATE = 0x00;
+    @OTT_var::ecu_available = 0x01;
+  }
+   if (OTT_CAN2STATE == 0x01)
+  {
+    OTT_CAN2STATE = 0;
+    @OTT_var::OTT_CAN2STATE = 0x01;
+  }
+  else 
+  {
+    @OTT_var::OTT_CAN2STATE = 0x00;
+  }
+  
+   if (OTT_CAN3STATE == 0x01)
+  {
+    OTT_CAN3STATE = 0;
+    @OTT_var::OTT_CAN3STATE = 0x01;
+  }
+  else 
+  {
+    @OTT_var::OTT_CAN3STATE = 0x00;
+  }
+    if (OTT_CAN4STATE == 0x01)
+  {
+    OTT_CAN4STATE = 0;
+    @OTT_var::OTT_CAN4STATE = 0x01;
+  }
+  else 
+  {
+    @OTT_var::OTT_CAN4STATE = 0x00;
+  }
+   if (OTT_CAN5STATE == 0x01)
+  {
+    OTT_CAN5STATE = 0;
+    @OTT_var::OTT_CAN5STATE = 0x01;
+  }
+  else 
+  {
+    @OTT_var::OTT_CAN5STATE = 0x00;
+  }
+  if (OTT_FLEXRAYSTATE == 0x01)
+  {
+    OTT_FLEXRAYSTATE = 0;
+    @OTT_var::OTT_FLEXRAYSTATE = 0x01;
+  }
+  else 
+  {
+    @OTT_var::OTT_FLEXRAYSTATE = 0x00;
+  }
+  setTimer(livedata_timer,1000);
+}
+
+
+on frPDU * 
+{
+  OTT_FLEXRAYSTATE = 1;
+}
+
+
+
+
+
+
+on message CAN4.0x501
+{
+  OTT_CAN4STATE=1;
+}
+
+
+on message CAN2.0x120
+{
+  OTT_CAN2STATE=1;
+}
+
+on message CAN3.0x120
+{
+  OTT_CAN3STATE=1;
+}
+
+on message CAN5.0x80
+{
+  OTT_CAN5STATE=1;
+}
+
+
+on message 0x721
+{
+  
+   
+  if ((this.byte(2) == 0x43) && (@OTT_var::ott_length == 4))
+  {
+     @OTT_var::Ott_MemoryValue = this.long(6);
+  }
+  else if ((this.byte(1) == 0x43) && (@OTT_var::ott_length == 1))
+  {
+     @OTT_var::Ott_MemoryValue = this.byte(5);
+  }
+  else if ((this.byte(1) == 0x43) && (@OTT_var::ott_length == 2))
+  {
+     @OTT_var::Ott_MemoryValue = this.word(5);
+  }
+  
+  if ((this.byte(1) == 0x41) && (this.byte(3) == 0x0F))
+  {
+    @OTT_var::PMIC_Data = this.byte(6);
+  }
+ 
+  
+  if (this.byte(2) == 0x48)
+  {
+    j = 0;
+    for (i =5; i < @OTT_var::LD_blockLength; i++)
+    {
+      @OTT_var::LD_blockdata[j] = this.byte(i);
+      j++;
+    }
+    
+  }
+  
+  /* Positive Response from Dio_ReadChannel API */
+  if ((this.byte(2) == 0x41) && (this.byte(4) == 0x0B) && (this.byte(5) == 0x00))
+  {
+    /* DIO Channel Level */
+    @OTT_var::DIO_ChannelLevel = this.byte(7);
+  }
+  
+    /* Positive Response from Dio_ReadPort API */
+  if ((this.byte(2) == 0x41) && (this.byte(4) == 0x0B) && (this.byte(5) == 0x02))
+  {
+    /* DIO Port Level */
+    @OTT_var::DIO_PortLevel = this.long(7);
+  }
+
+}
+
+  
+on message Ott_LiveData_Tx
+{
+   int64 MC_1V8_DDR_PLL_ADC_MIN_VALUE = 10000;
+  int64 MC_1V8_DDR_PLL_ADC_MAX_VALUE = 0;
+    livedata_flag = 0x01; /* live data frame received */
+  
+  
+  @OTT_var::ott_cpuload = this.Ott_CpuLoad;
+  @OTT_var::ott_max_cpuload = this.Ott_Max_CpuLoad;
+  @OTT_var::ott_cpuload_min = this.ott_CpuLoad_Min;
+  @OTT_var::MC_1V1_ADC = this.Ott_MC_1V1_ADC;
+  @OTT_var::MC_1V1_HOST_ADC = this.Ott_MC_1V1_HOST_ADC;
+  @OTT_var::MC_1V8_DDR_PLL_ADC = this.Ott_MC_1V8_DDR_PLL_ADC;
+  @OTT_var::MC_1V8_MIPI_ADC = this.Ott_MC_1V8_MIPI_ADC;
+  @OTT_var::MC_5V0_ADC = this.Ott_MC_5V0_ADC;
+  @OTT_var::MC_FSH_SENSE_ADC = this.Ott_MC_FSH_SENSE_ADC;
+  @OTT_var::MC_TEMP_DDR_ADC = this.Ott_MC_TEMP_DDR_ADC;
+  @OTT_var::MC_VBAT_MES_ADC = this.Ott_MC_VBAT_MES_ADC;
+  @OTT_var::MC_0V75_CORE_ADC = this.Ott_MC_0V75_CORE_ADC;
+  if(this.Ott_MC_FSH_OUT_ADC > 10)
+  {
+    @OTT_var::ott_heater_status = 1;
+  }
+  else
+  {
+    @OTT_var::ott_heater_status = 0;
+  }
+  if (this.Ott_CameraState == 0x04)
+  {
+ @OTT_var::MC_1V8_DDR_PLL_ADC = this.Ott_MC_1V8_DDR_PLL_ADC;
+if(MC_1V8_DDR_PLL_ADC_MAX_VALUE < this.Ott_MC_1V8_DDR_PLL_ADC)
+{
+  MC_1V8_DDR_PLL_ADC_MAX_VALUE = this.Ott_MC_1V8_DDR_PLL_ADC;
+}
+if(MC_1V8_DDR_PLL_ADC_MIN_VALUE > this.Ott_MC_1V8_DDR_PLL_ADC)
+{
+  MC_1V8_DDR_PLL_ADC_MIN_VALUE = this.Ott_MC_1V8_DDR_PLL_ADC;
+}
+@OTT_var::MC_1V8_DDR_PLL_ADC_MIN = MC_1V8_DDR_PLL_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_DDR_PLL_ADC_MAX = MC_1V8_DDR_PLL_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_MIPI_ADC = this.Ott_MC_1V8_MIPI_ADC;
+if(MC_1V8_MIPI_ADC_MAX_VALUE < this.Ott_MC_1V8_MIPI_ADC)
+{
+  MC_1V8_MIPI_ADC_MAX_VALUE = this.Ott_MC_1V8_MIPI_ADC;
+}
+if(MC_1V8_MIPI_ADC_MIN_VALUE > this.Ott_MC_1V8_MIPI_ADC)
+{
+  MC_1V8_MIPI_ADC_MIN_VALUE = this.Ott_MC_1V8_MIPI_ADC;
+}
+@OTT_var::MC_1V8_MIPI_ADC_MIN = MC_1V8_MIPI_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_MIPI_ADC_MAX = MC_1V8_MIPI_ADC_MAX_VALUE;
+
+@OTT_var::MC_5V0_ADC = this.Ott_MC_5V0_ADC;
+if(MC_5V0_ADC_MAX_VALUE < this.Ott_MC_5V0_ADC)
+{
+  MC_5V0_ADC_MAX_VALUE = this.Ott_MC_5V0_ADC;
+}
+if(MC_5V0_ADC_MIN_VALUE > this.Ott_MC_5V0_ADC)
+{
+  MC_5V0_ADC_MIN_VALUE = this.Ott_MC_5V0_ADC;
+}
+@OTT_var::MC_5V0_ADC_MIN = MC_5V0_ADC_MIN_VALUE;
+@OTT_var::MC_5V0_ADC_MAX = MC_5V0_ADC_MAX_VALUE;
+
+@OTT_var::MC_FSH_SENSE_ADC = this.Ott_MC_FSH_SENSE_ADC;
+if(MC_FSH_SENSE_ADC_MAX_VALUE < this.Ott_MC_FSH_SENSE_ADC)
+{
+  MC_FSH_SENSE_ADC_MAX_VALUE = this.Ott_MC_FSH_SENSE_ADC;
+}
+if(MC_FSH_SENSE_ADC_MIN_VALUE > this.Ott_MC_FSH_SENSE_ADC)
+{
+  MC_FSH_SENSE_ADC_MIN_VALUE = this.Ott_MC_FSH_SENSE_ADC;
+}
+@OTT_var::MC_FSH_SENSE_ADC_MIN = MC_FSH_SENSE_ADC_MIN_VALUE;
+@OTT_var::MC_FSH_SENSE_ADC_MAX = MC_FSH_SENSE_ADC_MAX_VALUE;
+
+@OTT_var::MC_TEMP_DDR_ADC = this.Ott_MC_TEMP_DDR_ADC;
+if(MC_TEMP_DDR_ADC_MAX_VALUE < this.Ott_MC_TEMP_DDR_ADC)
+{
+  MC_TEMP_DDR_ADC_MAX_VALUE = this.Ott_MC_TEMP_DDR_ADC;
+}
+if(MC_TEMP_DDR_ADC_MIN_VALUE > this.Ott_MC_TEMP_DDR_ADC)
+{
+  MC_TEMP_DDR_ADC_MIN_VALUE = this.Ott_MC_TEMP_DDR_ADC;
+}
+@OTT_var::MC_TEMP_DDR_ADC_MIN = MC_TEMP_DDR_ADC_MIN_VALUE;
+@OTT_var::MC_TEMP_DDR_ADC_MAX = MC_TEMP_DDR_ADC_MAX_VALUE;
+
+@OTT_var::MC_VBAT_MES_ADC = this.Ott_MC_VBAT_MES_ADC;
+if(MC_VBAT_MES_ADC_MAX_VALUE < this.Ott_MC_VBAT_MES_ADC)
+{
+  MC_VBAT_MES_ADC_MAX_VALUE = this.Ott_MC_VBAT_MES_ADC;
+}
+if(MC_VBAT_MES_ADC_MIN_VALUE > this.Ott_MC_VBAT_MES_ADC)
+{
+  MC_VBAT_MES_ADC_MIN_VALUE = this.Ott_MC_VBAT_MES_ADC;
+}
+@OTT_var::MC_VBAT_MES_ADC_MIN = MC_VBAT_MES_ADC_MIN_VALUE;
+@OTT_var::MC_VBAT_MES_ADC_MAX = MC_VBAT_MES_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V1_HOST_ADC = this.Ott_MC_1V1_HOST_ADC;
+if(MC_1V1_HOST_ADC_MAX_VALUE < this.Ott_MC_1V1_HOST_ADC)
+{
+  MC_1V1_HOST_ADC_MAX_VALUE = this.Ott_MC_1V1_HOST_ADC;
+}
+if(MC_1V1_HOST_ADC_MIN_VALUE > this.Ott_MC_1V1_HOST_ADC)
+{
+  MC_1V1_HOST_ADC_MIN_VALUE = this.Ott_MC_1V1_HOST_ADC;
+}
+@OTT_var::MC_1V1_HOST_ADC_MIN = MC_1V1_HOST_ADC_MIN_VALUE;
+@OTT_var::MC_1V1_HOST_ADC_MAX = MC_1V1_HOST_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V1_ADC = this.Ott_MC_1V1_ADC;
+if(MC_1V1_ADC_MAX_VALUE < this.Ott_MC_1V1_ADC)
+{
+  MC_1V1_ADC_MAX_VALUE = this.Ott_MC_1V1_ADC;
+}
+if(MC_1V1_ADC_MIN_VALUE > this.Ott_MC_1V1_ADC)
+{
+  MC_1V1_ADC_MIN_VALUE = this.Ott_MC_1V1_ADC;
+}
+@OTT_var::MC_1V1_ADC_MIN = MC_1V1_ADC_MIN_VALUE;
+@OTT_var::MC_1V1_ADC_MAX = MC_1V1_ADC_MAX_VALUE;
+
+@OTT_var::MC_OV6_ADC = this.Ott_MC_0V6_ADC;
+if(MC_OV6_ADC_MAX_VALUE < this.Ott_MC_0V6_ADC)
+{
+  MC_OV6_ADC_MAX_VALUE = this.Ott_MC_0V6_ADC;
+}
+if(MC_OV6_ADC_MIN_VALUE > this.Ott_MC_0V6_ADC)
+{
+  MC_OV6_ADC_MIN_VALUE = this.Ott_MC_0V6_ADC;
+}
+@OTT_var::MC_OV6_ADC_MIN = MC_OV6_ADC_MIN_VALUE;
+@OTT_var::MC_OV6_ADC_MAX = MC_OV6_ADC_MAX_VALUE;
+
+@OTT_var::MC_0V75_CORE_ADC = this.Ott_MC_0V75_CORE_ADC;
+if(MC_0V75_CORE_ADC_MAX_VALUE < this.Ott_MC_0V75_CORE_ADC)
+{
+  MC_0V75_CORE_ADC_MAX_VALUE = this.Ott_MC_0V75_CORE_ADC;
+}
+if(MC_0V75_CORE_ADC_MIN_VALUE > this.Ott_MC_0V75_CORE_ADC)
+{
+  MC_0V75_CORE_ADC_MIN_VALUE = this.Ott_MC_0V75_CORE_ADC;
+}
+@OTT_var::MC_0V75_CORE_ADC_MIN = MC_0V75_CORE_ADC_MIN_VALUE;
+@OTT_var::MC_0V75_CORE_ADC_MAX = MC_0V75_CORE_ADC_MAX_VALUE;
+
+@OTT_var::MC_OV75_MIPI_ADC = this.Ott_MC_0V75_MIPI_ADC;
+if(MC_OV75_MIPI_ADC_MAX_VALUE < this.Ott_MC_0V75_MIPI_ADC)
+{
+  MC_OV75_MIPI_ADC_MAX_VALUE = this.Ott_MC_0V75_MIPI_ADC;
+}
+if(MC_OV75_MIPI_ADC_MIN_VALUE > this.Ott_MC_0V75_MIPI_ADC)
+{
+  MC_OV75_MIPI_ADC_MIN_VALUE = this.Ott_MC_0V75_MIPI_ADC;
+}
+@OTT_var::MC_OV75_MIPI_ADC_MIN = MC_OV75_MIPI_ADC_MIN_VALUE;
+@OTT_var::MC_OV75_MIPI_ADC_MAX = MC_OV75_MIPI_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V1_RB_ADC = this.Ott_MC_1V1_RB_ADC;
+if(MC_1V1_RB_ADC_MAX_VALUE < this.Ott_MC_1V1_RB_ADC)
+{
+  MC_1V1_RB_ADC_MAX_VALUE = this.Ott_MC_1V1_RB_ADC;
+}
+if(MC_1V1_RB_ADC_MIN_VALUE > this.Ott_MC_1V1_RB_ADC)
+{
+  MC_1V1_RB_ADC_MIN_VALUE = this.Ott_MC_1V1_RB_ADC;
+}
+@OTT_var::MC_1V1_RB_ADC_MIN = MC_1V1_RB_ADC_MIN_VALUE;
+@OTT_var::MC_1V1_RB_ADC_MAX = MC_1V1_RB_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_EQ_ADC = this.Ott_MC_1V8_EQ_ADC;
+if(MC_1V8_EQ_ADC_MAX_VALUE < this.Ott_MC_1V8_EQ_ADC)
+{
+  MC_1V8_EQ_ADC_MAX_VALUE = this.Ott_MC_1V8_EQ_ADC;
+}
+if(MC_1V8_EQ_ADC_MIN_VALUE > this.Ott_MC_1V8_EQ_ADC)
+{
+  MC_1V8_EQ_ADC_MIN_VALUE = this.Ott_MC_1V8_EQ_ADC;
+}
+@OTT_var::MC_1V8_EQ_ADC_MIN = MC_1V8_EQ_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_EQ_ADC_MAX = MC_1V8_EQ_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_IP_ADC = this.Ott_MC_1V8_IP_ADC;
+if(MC_1V8_IP_ADC_MAX_VALUE < this.Ott_MC_1V8_IP_ADC)
+{
+  MC_1V8_IP_ADC_MAX_VALUE = this.Ott_MC_1V8_IP_ADC;
+}
+if(MC_1V8_IP_ADC_MIN_VALUE > this.Ott_MC_1V8_IP_ADC)
+{
+  MC_1V8_IP_ADC_MIN_VALUE = this.Ott_MC_1V8_IP_ADC;
+}
+@OTT_var::MC_1V8_IP_ADC_MIN = MC_1V8_IP_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_IP_ADC_MAX = MC_1V8_IP_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_IP_RB_ADC = this.Ott_MC_1V8_IP_RB_ADC;
+if(MC_1V8_IP_RB_ADC_MAX_VALUE < this.Ott_MC_1V8_IP_RB_ADC)
+{
+  MC_1V8_IP_RB_ADC_MAX_VALUE = this.Ott_MC_1V8_IP_RB_ADC;
+}
+if(MC_1V8_IP_RB_ADC_MIN_VALUE > this.Ott_MC_1V8_IP_RB_ADC)
+{
+  MC_1V8_IP_RB_ADC_MIN_VALUE = this.Ott_MC_1V8_IP_RB_ADC;
+}
+@OTT_var::MC_1V8_IP_RB_ADC_MIN = MC_1V8_IP_RB_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_IP_RB_ADC_MAX = MC_1V8_IP_RB_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_OTP_ADC = this.Ott_MC_1V8_OTP_ADC;
+if(MC_1V8_OTP_ADC_MAX_VALUE < this.Ott_MC_1V8_OTP_ADC)
+{
+  MC_1V8_OTP_ADC_MAX_VALUE = this.Ott_MC_1V8_OTP_ADC;
+}
+if(MC_1V8_OTP_ADC_MIN_VALUE > this.Ott_MC_1V8_OTP_ADC)
+{
+  MC_1V8_OTP_ADC_MIN_VALUE = this.Ott_MC_1V8_OTP_ADC;
+}
+@OTT_var::MC_1V8_OTP_ADC_MIN = MC_1V8_OTP_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_OTP_ADC_MAX = MC_1V8_OTP_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_PLL_ADC = this.Ott_MC_1V8_PLL_ADC;
+if(MC_1V8_PLL_ADC_MAX_VALUE < this.Ott_MC_1V8_PLL_ADC)
+{
+  MC_1V8_PLL_ADC_MAX_VALUE = this.Ott_MC_1V8_PLL_ADC;
+}
+if(MC_1V8_PLL_ADC_MIN_VALUE > this.Ott_MC_1V8_PLL_ADC)
+{
+  MC_1V8_PLL_ADC_MIN_VALUE = this.Ott_MC_1V8_PLL_ADC;
+}
+@OTT_var::MC_1V8_PLL_ADC_MIN = MC_1V8_PLL_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_PLL_ADC_MAX = MC_1V8_PLL_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_TSENS_ADC = this.Ott_MC_1V8_TSENS_ADC;
+if(MC_1V8_TSENS_ADC_MAX_VALUE < this.Ott_MC_1V8_TSENS_ADC)
+{
+  MC_1V8_TSENS_ADC_MAX_VALUE = this.Ott_MC_1V8_TSENS_ADC;
+}
+if(MC_1V8_TSENS_ADC_MIN_VALUE > this.Ott_MC_1V8_TSENS_ADC)
+{
+  MC_1V8_TSENS_ADC_MIN_VALUE = this.Ott_MC_1V8_TSENS_ADC;
+}
+@OTT_var::MC_1V8_TSENS_ADC_MIN = MC_1V8_TSENS_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_TSENS_ADC_MAX = MC_1V8_TSENS_ADC_MAX_VALUE;
+
+@OTT_var::MC_1V8_XTAL_ADC = this.Ott_MC_1V8_XTAL_ADC;
+if(MC_1V8_XTAL_ADC_MAX_VALUE < this.Ott_MC_1V8_XTAL_ADC)
+{
+  MC_1V8_XTAL_ADC_MAX_VALUE = this.Ott_MC_1V8_XTAL_ADC;
+}
+if(MC_1V8_XTAL_ADC_MIN_VALUE > this.Ott_MC_1V8_XTAL_ADC)
+{
+  MC_1V8_XTAL_ADC_MIN_VALUE = this.Ott_MC_1V8_XTAL_ADC;
+}
+@OTT_var::MC_1V8_XTAL_ADC_MIN = MC_1V8_XTAL_ADC_MIN_VALUE;
+@OTT_var::MC_1V8_XTAL_ADC_MAX = MC_1V8_XTAL_ADC_MAX_VALUE;
+
+@OTT_var::MC_3V3_EQ6L_ADC = this.Ott_MC_3V3_EQ6L_ADC;
+if(MC_3V3_EQ6L_ADC_MAX_VALUE < this.Ott_MC_3V3_EQ6L_ADC)
+{
+  MC_3V3_EQ6L_ADC_MAX_VALUE = this.Ott_MC_3V3_EQ6L_ADC;
+}
+if(MC_3V3_EQ6L_ADC_MIN_VALUE > this.Ott_MC_3V3_EQ6L_ADC)
+{
+  MC_3V3_EQ6L_ADC_MIN_VALUE = this.Ott_MC_3V3_EQ6L_ADC;
+}
+@OTT_var::MC_3V3_EQ6L_ADC_MIN = MC_3V3_EQ6L_ADC_MIN_VALUE;
+@OTT_var::MC_3V3_EQ6L_ADC_MAX = MC_3V3_EQ6L_ADC_MAX_VALUE;
+
+@OTT_var::MC_3V3_HOST_ADC = this.Ott_MC_3V3_HOST_ADC;
+if(MC_3V3_HOST_ADC_MAX_VALUE < this.Ott_MC_3V3_HOST_ADC)
+{
+  MC_3V3_HOST_ADC_MAX_VALUE = this.Ott_MC_3V3_HOST_ADC;
+}
+if(MC_3V3_HOST_ADC_MIN_VALUE > this.Ott_MC_3V3_HOST_ADC)
+{
+  MC_3V3_HOST_ADC_MIN_VALUE = this.Ott_MC_3V3_HOST_ADC;
+}
+@OTT_var::MC_3V3_HOST_ADC_MIN = MC_3V3_HOST_ADC_MIN_VALUE;
+@OTT_var::MC_3V3_HOST_ADC_MAX = MC_3V3_HOST_ADC_MAX_VALUE;
+
+@OTT_var::MC_FSH_OUT_ADC = this.Ott_MC_FSH_OUT_ADC;
+if(MC_FSH_OUT_ADC_MAX_VALUE < this.Ott_MC_FSH_OUT_ADC)
+{
+  MC_FSH_OUT_ADC_MAX_VALUE = this.Ott_MC_FSH_OUT_ADC;
+}
+if(MC_FSH_OUT_ADC_MIN_VALUE > this.Ott_MC_FSH_OUT_ADC)
+{
+  MC_FSH_OUT_ADC_MIN_VALUE = this.Ott_MC_FSH_OUT_ADC;
+}
+@OTT_var::MC_FSH_OUT_ADC_MIN = MC_FSH_OUT_ADC_MIN_VALUE;
+@OTT_var::MC_FSH_OUT_ADC_MAX = MC_FSH_OUT_ADC_MAX_VALUE;
+
+@OTT_var::MC_IMA_ANALOG_ADC = this.Ott_MC_IMA_ANALOG_ADC;
+if(MC_IMA_ANALOG_ADC_MAX_VALUE < this.Ott_MC_IMA_ANALOG_ADC)
+{
+  MC_IMA_ANALOG_ADC_MAX_VALUE = this.Ott_MC_IMA_ANALOG_ADC;
+}
+if(MC_IMA_ANALOG_ADC_MIN_VALUE > this.Ott_MC_IMA_ANALOG_ADC)
+{
+  MC_IMA_ANALOG_ADC_MIN_VALUE = this.Ott_MC_IMA_ANALOG_ADC;
+}
+@OTT_var::MC_IMA_ANALOG_ADC_MIN = MC_IMA_ANALOG_ADC_MIN_VALUE;
+@OTT_var::MC_IMA_ANALOG_ADC_MAX = MC_IMA_ANALOG_ADC_MAX_VALUE;
+
+@OTT_var::MC_IMA_ANALOG_RB_ADC = this.Ott_MC_IMA_ANALOG_RB_ADC;
+if(MC_IMA_ANALOG_RB_ADC_MAX_VALUE < this.Ott_MC_IMA_ANALOG_RB_ADC)
+{
+  MC_IMA_ANALOG_RB_ADC_MAX_VALUE = this.Ott_MC_IMA_ANALOG_RB_ADC;
+}
+if(MC_IMA_ANALOG_RB_ADC_MIN_VALUE > this.Ott_MC_IMA_ANALOG_RB_ADC)
+{
+  MC_IMA_ANALOG_RB_ADC_MIN_VALUE = this.Ott_MC_IMA_ANALOG_RB_ADC;
+}
+@OTT_var::MC_IMA_ANALOG_RB_ADC_MIN = MC_IMA_ANALOG_RB_ADC_MIN_VALUE;
+@OTT_var::MC_IMA_ANALOG_RB_ADC_MAX = MC_IMA_ANALOG_RB_ADC_MAX_VALUE;
+
+@OTT_var::MC_TEMP_EQ6L_ADC = this.Ott_MC_TEMP_EQ6L_ADC;
+if(MC_TEMP_EQ6L_ADC_MAX_VALUE < this.Ott_MC_TEMP_EQ6L_ADC)
+{
+  MC_TEMP_EQ6L_ADC_MAX_VALUE = this.Ott_MC_TEMP_EQ6L_ADC;
+}
+if(MC_TEMP_EQ6L_ADC_MIN_VALUE > this.Ott_MC_TEMP_EQ6L_ADC)
+{
+  MC_TEMP_EQ6L_ADC_MIN_VALUE = this.Ott_MC_TEMP_EQ6L_ADC;
+}
+@OTT_var::MC_TEMP_EQ6L_ADC_MIN = MC_TEMP_EQ6L_ADC_MIN_VALUE;
+@OTT_var::MC_TEMP_EQ6L_ADC_MAX = MC_TEMP_EQ6L_ADC_MAX_VALUE;
+  }
+  @OTT_var::ecu_vbat_physical = this.Ott_MC_VBAT_MES_ADC / 217;
+  
+  if (this.Ott_CameraState == 0x02)
+  {
+    /*Camera initialized*/
+    @OTT_var::ott_camerastate = 0x03; /*yellow Indicator*/
+  }
+  else if (this.Ott_CameraState == 0x05)
+  {
+    /*Vision shutdown*/
+    @OTT_var::ott_camerastate = 0x01; /*Red Indicator*/
+  }
+    else if (this.Ott_CameraState == 0x04)
+  {
+    /*Vision shutdown*/
+    @OTT_var::ott_camerastate = 0x02; /*Green Indicator*/
+  }
+  
+  
+
+    /*Camera initialized*/
+    @OTT_var::Ott_LBIST1SEG = this.Ott_LBIST1Seg&1; /*Green Indicator*/
+ 
+    @OTT_var::Ott_LBIST2Sig = (this.Ott_LBIST1Seg>>1)&1; /*Green Indicator*/
+  
+    @OTT_var::ott_MBIST1Sig = (this.Ott_LBIST1Seg>>2)&1; /*Green Indicator*/
+  
+    @OTT_var::ott_MBIST2Sig = (this.Ott_LBIST1Seg>>3)&1; /*Green Indicator*/
+  
+  
+    @OTT_var::LBIST1Exec = !((this.Ott_LBIST1Seg>>4)&1); /*Green Indicator*/
+  
+    @OTT_var::LBIST2Exec = !((this.Ott_LBIST1Seg>>5)&1); /*Green Indicator*/
+  
+    @OTT_var::MBIST1Exec = !((this.Ott_LBIST1Seg>>6)&1); /*Green Indicator*/
+  
+    @OTT_var::MBIST2Exec = !((this.Ott_LBIST1Seg>>7)&1); /*Green Indicator*/
+    /*Vision shutdown*/
+
+  setTimer(dataTimer,1000);
+}
+
+
+on sysvar OTT_var::Ott_Ecu_Reset
+{
+  /* Ott reset frame */
+  Ecu_Reset.byte(0) = 0x00;
+   Ecu_Reset.byte(1) = 0x08;
+  Ecu_Reset.byte(2) = 0x01;
+  Ecu_Reset.byte(3) = 0x00;
+  Ecu_Reset.byte(4) = 0x09;
+  Ecu_Reset.byte(5) = 0x06;
+
+
+  if (@OTT_var::Ott_Ecu_Reset == 1)
+  {
+    output(Ecu_Reset);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::Ott_MemoryWrite
+{
+  
+  /* Ott Set Register service to write 1/2/4 bytes */
+  
+  byte value1,value2,value3,value4;
+  memoryaddress = @OTT_var::Ott_MemoryAddress;
+  
+  memoryvalue = @OTT_var::Ott_MemoryValue;
+  
+  
+  byte0 = (byte)(memoryaddress & 0xFF);
+  byte1 = (byte)((memoryaddress >> 8) & 0xFF);
+  byte2 = (byte)((memoryaddress >> 16) & 0xFF);
+  byte3 = (byte)((memoryaddress >> 24) & 0xFF);
+  
+  value1 = (byte)(memoryvalue & 0xFF);
+  value2 = (byte)((memoryvalue >> 8) & 0xFF);
+  value3 = (byte)((memoryvalue >> 16) & 0xFF);
+  value4 = (byte)((memoryvalue >> 24) & 0xFF);
+
+  Memory_Access.byte(0) = 0x00;
+  Memory_Access.byte(1) = 0x07 + @OTT_var::ott_length;
+  Memory_Access.byte(2) = 0x02;
+  Memory_Access.byte(3) = 0x00;
+  Memory_Access.byte(4) = @OTT_var::ott_length;
+  Memory_Access.byte(5) = byte0;
+  Memory_Access.byte(6) = byte1;
+  Memory_Access.byte(7) = byte2;
+  Memory_Access.byte(8) = byte3;
+  Memory_Access.byte(9) = value1;
+  Memory_Access.byte(10) = value2;
+  Memory_Access.byte(11) = value3;
+  Memory_Access.byte(12) = value4;
+
+
+  
+  
+  if (@OTT_var::Ott_MemoryWrite == 1)
+  {
+    /* Button Pressed */
+    output(Memory_Access);
+  }
+  else 
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::Ott_MemoryRead
+{
+  
+  /* Ott get Register service to read 1/2/4 bytes */
+  
+  memoryaddress = @OTT_var::Ott_MemoryAddress;
+  
+  
+  byte0 = (byte)(memoryaddress & 0xFF);
+  byte1 = (byte)((memoryaddress >> 8) & 0xFF);
+  byte2 = (byte)((memoryaddress >> 16) & 0xFF);
+  byte3 = (byte)((memoryaddress >> 24) & 0xFF);
+
+  Memory_Access_Read.byte(0) = 0x00;
+  Memory_Access_Read.byte(1) = 0x08;
+  Memory_Access_Read.byte(2) = 0x03;
+  Memory_Access_Read.byte(3) = 0x00;
+  Memory_Access_Read.byte(4) = @OTT_var::ott_length;
+  Memory_Access_Read.byte(5) = byte0;
+  Memory_Access_Read.byte(6) = byte1;
+  Memory_Access_Read.byte(7) = byte2;
+  Memory_Access_Read.byte(8) = byte3;
+  
+  if (@OTT_var::Ott_MemoryRead == 1)
+  {
+    /* Button Pressed */
+    output(Memory_Access_Read);
+  }
+  else 
+  {
+    /* Do Nothing */
+  }
+
+  
+}
+
+on sysvar OTT_var::PMIC_Write_button
+{
+  
+  pmic_write.byte(0) = 0x00;
+  pmic_write.byte(1) = 0x08;
+  pmic_write.byte(2) = 0x01;
+  pmic_write.byte(3) = 0x00;
+  pmic_write.byte(4) = 0x0F;
+  pmic_write.byte(5) = 0x01;
+  pmic_write.byte(6) = @OTT_var::PMIC_Register_address;
+  pmic_write.byte(7) = @OTT_var::PMIC_Data;
+  
+  
+  if (@OTT_var::PMIC_Write_button == 1)
+  {
+    output(pmic_write);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::PMIC_Read_button
+{
+  
+  pmic_read.byte(0) = 0x00;
+  pmic_read.byte(1) = 0x08;
+  pmic_read.byte(2) = 0x01;
+  pmic_read.byte(3) = 0x00;
+  pmic_read.byte(4) = 0x0F;
+  pmic_read.byte(5) = 0x00;
+  pmic_read.byte(6) = @OTT_var::PMIC_Register_address;
+
+  
+  
+  if (@OTT_var::PMIC_Read_button == 1)
+  {
+    output(pmic_read);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::PMIC_ConfigureMode
+{
+    message Ott_Rx_720 pmic_configuremode;
+  
+  pmic_configuremode.byte(0) = 0x00;
+  pmic_configuremode.byte(1) = 0x08;
+  pmic_configuremode.byte(2) = 0x01;
+  pmic_configuremode.byte(3) = 0x00;
+  pmic_configuremode.byte(4) = 0x0F;
+  pmic_configuremode.byte(5) = 0x03;
+  
+  output(pmic_configuremode);
+
+}
+
+on sysvar OTT_var::Start_vision
+{
+    message Ott_Rx_720 StartVision;
+  
+  StartVision.byte(0) = 0x00;
+  StartVision.byte(1) = 0x08;
+  StartVision.byte(2) = 0x01;
+  StartVision.byte(3) = 0x00;
+  StartVision.byte(4) = 0x11;
+  StartVision.byte(5) = 0x00;
+  
+  output(StartVision);
+
+}
+
+on sysvar OTT_var::Stop_vision
+{
+    message Ott_Rx_720 StopVision;
+  
+  StopVision.byte(0) = 0x00;
+  StopVision.byte(1) = 0x08;
+  StopVision.byte(2) = 0x01;
+  StopVision.byte(3) = 0x00;
+  StopVision.byte(4) = 0x11;
+  StopVision.byte(5) = 0x01;
+  
+  output(StopVision);
+
+}
+
+on sysvar OTT_var::HeaterOff
+{
+    message Ott_Rx_720 heater_off;
+  
+  heater_off.byte(0) = 0x00; /* Single frame type */
+  heater_off.byte(1) = 0x08; /* Frame length */
+  heater_off.byte(2) = 0x01; /* Invoke API */
+  heater_off.byte(3) = 0x00; /* Core ID */
+  heater_off.byte(4) = 0x0B; /* Module Index - DIO */
+  heater_off.byte(5) = 0x01; /* API ID - DIO_WriteChannel */
+  heater_off.byte(6) = 0x42; /* argument1 - Channel ID */
+  heater_off.byte(7) = 0x00; /* argument1 - Channel ID */
+  heater_off.byte(8) = 0x00; /* argument2 - Level : High/Low */
+  
+  output(heater_off);
+
+}
+
+on sysvar OTT_var::HeaterOn
+{
+    message Ott_Rx_720 heater_on;
+  
+  heater_on.byte(0) = 0x00; /* Single frame type */
+  heater_on.byte(1) = 0x08; /* Frame length */
+  heater_on.byte(2) = 0x01; /* Invoke API */
+  heater_on.byte(3) = 0x00; /* Core ID */
+  heater_on.byte(4) = 0x0B; /* Module Index - DIO */
+  heater_on.byte(5) = 0x01; /* API ID - DIO_WriteChannel */
+  heater_on.byte(6) = 0x42; /* argument1 - Channel ID */
+  heater_on.byte(7) = 0x00; /* argument1 - Channel ID */
+  heater_on.byte(8) = 0x01; /* argument2 - Level : High/Low */
+  
+  output(heater_on);
+
+}
+
+
+on sysvar OTT_var::PMIC_UnlockProtection
+{
+    message Ott_Rx_720 pmic_unlockprotection;
+  
+  pmic_unlockprotection.byte(0) = 0x00;
+  pmic_unlockprotection.byte(1) = 0x08;
+  pmic_unlockprotection.byte(2) = 0x01;
+  pmic_unlockprotection.byte(3) = 0x00;
+  pmic_unlockprotection.byte(4) = 0x0F;
+  pmic_unlockprotection.byte(5) = 0x02;
+  
+  output(pmic_unlockprotection);
+
+}
+
+on sysvar OTT_var::LD_Readbutton
+{
+  
+  message Ott_Rx_720 LargedataRead;
+  
+  LargedataRead.byte(0) = 0x00;
+  LargedataRead.byte(1) = 0x08;
+  LargedataRead.byte(2) = 0x08;
+  LargedataRead.byte(3) = 0x00;
+  LargedataRead.long(4) = @OTT_var::LD_blockaddress;
+  LargedataRead.word(8) = @OTT_var::LD_blockLength;
+
+    
+  if (@OTT_var::LD_Readbutton == 1)
+  {
+    output(LargedataRead);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::LD_Writebutton
+{
+  
+  message Ott_Rx_720 Largedatawrite;
+  
+  int counter;
+  int j = 10;
+  Largedatawrite.byte(0) = 0x00;
+  Largedatawrite.byte(1) = 0x08 + @OTT_var::LD_blockLength;
+  Largedatawrite.byte(2) = 0x07;
+  Largedatawrite.byte(3) = 0x00;
+  Largedatawrite.long(4) = @OTT_var::LD_blockaddress;
+  Largedatawrite.word(8) = @OTT_var::LD_blockLength;
+  
+  for (counter = 0; counter < @OTT_var::LD_blockLength; counter++)
+  {
+    Largedatawrite.byte(j) = @OTT_var::LD_blockdata[counter];
+    j++;
+  }
+
+    
+  if (@OTT_var::LD_Writebutton == 1)
+  {
+    output(Largedatawrite);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::Ott_trigger_core_stress_button
+{
+  
+    message Ott_Rx_720 Core_Stress_Frame;
+  
+  Core_Stress_Frame.byte(0) = 0x00; /* Single frame type */
+  Core_Stress_Frame.byte(1) = 0x08; /* Frame length */
+  Core_Stress_Frame.byte(2) = 0x01; /* Invoke API */
+  Core_Stress_Frame.byte(3) = 0x00; /* Core ID */
+  Core_Stress_Frame.byte(4) = 0x10; /* Module Index */
+  Core_Stress_Frame.byte(5) = 0x00; /* API ID - Enable cpu stress */
+  Core_Stress_Frame.byte(6) = @OTT_var::ott_desired_core_stress_value; /* In argument - desired cpu stress value  0 --> 100 */
+  
+  if (@OTT_var::Ott_trigger_core_stress_button == 1)
+  {
+    output(Core_Stress_Frame);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::ott_release_core_stress_button
+{
+  
+    message Ott_Rx_720 Core_Stress_Frame_release;
+  
+  Core_Stress_Frame_release.byte(0) = 0x00; /* Single frame type */
+  Core_Stress_Frame_release.byte(1) = 0x08; /* Frame length */
+  Core_Stress_Frame_release.byte(2) = 0x01; /* Invoke API */
+  Core_Stress_Frame_release.byte(3) = 0x00; /* Core ID */
+  Core_Stress_Frame_release.byte(4) = 0x10; /* Module Index */
+  Core_Stress_Frame_release.byte(5) = 0x01; /* API ID - Disable cpu stress */
+  
+  if (@OTT_var::ott_release_core_stress_button == 1)
+  {
+    output(Core_Stress_Frame_release);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::DIO_Write_channel
+{
+  
+    message Ott_Rx_720 WriteDioChannel_Frame;
+  
+  WriteDioChannel_Frame.byte(0) = 0x00; /* Single frame type */
+  WriteDioChannel_Frame.byte(1) = 0x08; /* Frame length */
+  WriteDioChannel_Frame.byte(2) = 0x01; /* Invoke API */
+  WriteDioChannel_Frame.byte(3) = 0x00; /* Core ID */
+  WriteDioChannel_Frame.byte(4) = 0x0B; /* Module Index - DIO */
+  WriteDioChannel_Frame.byte(5) = 0x01; /* API ID - DIO_WriteChannel */
+  WriteDioChannel_Frame.byte(6) = @OTT_var::DIO_ChannelID; /* argument1 - Channel ID */
+  WriteDioChannel_Frame.byte(7) = @OTT_var::DIO_ChannelLevel; /* argument2 - Level : High/Low */
+  
+  if (@OTT_var::DIO_Write_channel == 1)
+  {
+    output(WriteDioChannel_Frame);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::DIO_Read_channel
+{
+  
+    message Ott_Rx_720 ReadDioChannel_Frame;
+  
+  ReadDioChannel_Frame.byte(0) = 0x00; /* Single frame type */
+  ReadDioChannel_Frame.byte(1) = 0x08; /* Frame length */
+  ReadDioChannel_Frame.byte(2) = 0x01; /* Invoke API */
+  ReadDioChannel_Frame.byte(3) = 0x00; /* Core ID */
+  ReadDioChannel_Frame.byte(4) = 0x0B; /* Module Index - DIO */
+  ReadDioChannel_Frame.byte(5) = 0x00; /* API ID - DIO_ReadChannel */
+  ReadDioChannel_Frame.byte(6) = @OTT_var::DIO_ChannelID; /* argument1 - Channel ID */
+  
+  if (@OTT_var::DIO_Read_channel == 1)
+  {
+    output(ReadDioChannel_Frame);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+
+on sysvar OTT_var::DIO_Write_Port
+{
+  
+    message Ott_Rx_720 WriteDioPort_Frame;
+  
+  WriteDioPort_Frame.byte(0) = 0x00; /* Single frame type */
+  WriteDioPort_Frame.byte(1) = 0x08; /* Frame length */
+  WriteDioPort_Frame.byte(2) = 0x01; /* Invoke API */
+  WriteDioPort_Frame.byte(3) = 0x00; /* Core ID */
+  WriteDioPort_Frame.byte(4) = 0x0B; /* Module Index - DIO */
+  WriteDioPort_Frame.byte(5) = 0x03; /* API ID - DIO_WritePort */
+  WriteDioPort_Frame.byte(6) = @OTT_var::DIO_Port_ID; /* argument1 - Port ID */
+  WriteDioPort_Frame.word(7) = @OTT_var::DIO_PortLevel; /* argument2 - Level : High/Low */
+  
+  if (@OTT_var::DIO_Write_Port == 1)
+  {
+    output(WriteDioPort_Frame);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}
+
+on sysvar OTT_var::DIO_Read_Port
+{
+  
+    message Ott_Rx_720 ReadDioPort_Frame;
+  
+  ReadDioPort_Frame.byte(0) = 0x00; /* Single frame type */
+  ReadDioPort_Frame.byte(1) = 0x08; /* Frame length */
+  ReadDioPort_Frame.byte(2) = 0x01; /* Invoke API */
+  ReadDioPort_Frame.byte(3) = 0x00; /* Core ID */
+  ReadDioPort_Frame.byte(4) = 0x0B; /* Module Index - DIO */
+  ReadDioPort_Frame.byte(5) = 0x02; /* API ID - DIO_ReadPort */
+  ReadDioPort_Frame.byte(6) = @OTT_var::DIO_Port_ID; /* argument1 - Port ID */
+  
+  if (@OTT_var::DIO_Read_Port == 1)
+  {
+    output(ReadDioPort_Frame);
+  }
+  else
+  {
+    /* Do Nothing */
+  }
+}

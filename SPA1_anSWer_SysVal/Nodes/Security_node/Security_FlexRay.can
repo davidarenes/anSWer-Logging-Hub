@@ -1,0 +1,126 @@
+/*@!Encoding:1252*/
+includes
+{
+  #pragma library ("/SecMgrCANoeClient.dll")
+}
+variables
+{
+  frFrame VcmBackBoneDiagReqFrame8 diag_Tx;
+  
+  int   i=0;
+  byte  Sec_level= 0x00;
+  int   keyArrayIndex      = 0;
+  byte  serive_index= 8;
+  byte  sub_func_index= 9;
+  byte  flow_control_index= 4;
+  byte  Start_frame_sent_flag= 0;
+  byte  Start_frame_Key_payload_size= 12;
+  
+  
+  dword seedArraySize      = 16;
+  byte  seedArray[400];
+  
+  
+  dword keyArraySize      = 16;
+  dword keyArrayBufferSize      = 32;
+  byte  keyArray[400];
+  
+  
+  dword Aes_Encryption_Key_size = 16;
+  byte Aes_Encryption_Key[16]={0x2B ,0x7E ,0x15 ,0x16 ,0x28 ,0xAE ,0xD2 ,0xA6 ,0xAB ,0xF7 ,0x15 ,0x88 ,0x09 ,0xCF ,0x4F ,0x3C};
+  
+  
+  dword CMAC_Key_size = 16;
+  byte CMAC_Key[16]={0x2C ,0x7E ,0x15 ,0x16 ,0x28 ,0xAE ,0xD2 ,0xA6 ,0xAB ,0xF7 ,0x15 ,0x88 ,0x09 ,0xCF ,0x4F ,0x3C};
+  
+}
+
+on frFrame AsdmBackBoneDiagResFrame1
+{
+  int bytes_num=0;
+  Sec_level=this.byte(sub_func_index);
+  
+  if ( this.byte(flow_control_index) == 0x83 && Start_frame_sent_flag==1 )
+  {
+    Send_KeyReq();
+  }
+  else if ( (this.byte(serive_index) == 0x67 && this.byte(sub_func_index) == 0x01) || (this.byte(serive_index) == 0x67 && this.byte(sub_func_index) == 0x05) || (this.byte(serive_index) == 0x67 && this.byte(sub_func_index) == 0x19) || (this.byte(serive_index) == 0x67 && this.byte(sub_func_index) == 0x7B) )
+  {
+    bytes_num=0;
+    while(bytes_num<seedArraySize)
+    {
+      write("byte[%d] is =%X",bytes_num,this.byte(bytes_num+sub_func_index+1));
+      seedArray[bytes_num]=this.byte(bytes_num+sub_func_index+1);
+      bytes_num++;
+    }
+    
+    if(this.byte(sub_func_index) == 0x7B){
+      SecurityLocalGenerateCMAC(CMAC_Key, CMAC_Key_size, seedArray, seedArraySize, keyArray, keyArrayBufferSize);
+    }else{
+      SecurityLocalEncryptAES128ECB(Aes_Encryption_Key, Aes_Encryption_Key_size, seedArray, seedArraySize, keyArray, keyArrayBufferSize);
+    }
+    
+    
+    Send_KeyReq();
+    
+  }
+  
+}
+
+void Send_KeyReq()
+{
+  diag_Tx.FR_PayloadLength=11;  // multiply by 2 to get frame length
+  diag_Tx.FR_ChannelMask=1;     //Channel A
+  diag_Tx.FR_Segment=1;     //Dynamic segment
+  diag_Tx.FR_Status=0x0020;     //Valid Frame (VAL)
+  diag_Tx.FR_Flags=0x10;     //Sets the send mode to event-triggered.
+
+  if ( Start_frame_sent_flag==0 )
+  {
+    keyArrayIndex=0;
+    Start_frame_sent_flag=1;
+    
+    diag_Tx.byte(0)=0x14;
+    diag_Tx.byte(1)=0x01;
+    diag_Tx.byte(2)=0x0E;
+    diag_Tx.byte(3)=0x80;
+    diag_Tx.byte(4)=0x40;
+    diag_Tx.byte(5)=0x0E;
+    diag_Tx.byte(6)=0x00;
+    diag_Tx.byte(7)=0x12;
+    diag_Tx.byte(serive_index)=0x27;
+    diag_Tx.byte(sub_func_index)=Sec_level+0x01;
+    for( i=0;i<(Start_frame_Key_payload_size);i++)
+    {
+      write("key[%d] is =%X",keyArrayIndex,keyArray[keyArrayIndex]);
+      diag_Tx.byte(i+sub_func_index+1) = keyArray[keyArrayIndex++];
+    }
+  }
+  else
+  { 
+    Start_frame_sent_flag=0;
+    
+    diag_Tx.byte(0)=0x14;
+    diag_Tx.byte(1)=0x01;
+    diag_Tx.byte(2)=0x0E;
+    diag_Tx.byte(3)=0x80;
+    diag_Tx.byte(4)=0x90;
+    diag_Tx.byte(5)=0x04;
+    diag_Tx.byte(6)=0x00;
+    diag_Tx.byte(7)=0x12;
+    for( i=0;i<14;i++)  //frame length - FrTp data (32-8)
+    {
+      if(i< (keyArraySize-Start_frame_Key_payload_size) )
+      {
+        write("key[%d] is =%X",keyArrayIndex,keyArray[keyArrayIndex]);
+        diag_Tx.byte(i+8) = keyArray[keyArrayIndex++];
+      }
+      else
+      {
+        diag_Tx.byte(i+8) = 0x00;
+      }
+        
+    }
+  }
+  write("function return is =%d",frOutputDynFrame(diag_Tx));
+}

@@ -1,0 +1,53 @@
+/*@!Encoding:1252*/
+
+includes
+{
+}
+
+variables
+{
+  msTimer tRefresh;
+
+  long lastCounter = -1;     // Last observed value of the sysvar counter
+  int  isUpdating  = 0;      // 1 if the counter is changing, 0 if frozen
+}
+
+on start
+{
+  // Periodic check every 100 ms
+  setTimerCyclic(tRefresh, 100);
+}
+
+on timer tRefresh
+{
+  long current;              // Local variable declaration
+
+  // Read current counter value from sysvar
+  current = @ZIPY_STREAM_P1::counter;
+
+  // Detect real update (counter changed since last cycle)
+  if (current != lastCounter)
+  {
+    isUpdating  = 1;         // Stream is alive
+    lastCounter = current;   // Update stored value
+  }
+  else
+  {
+    isUpdating = 0;          // No update detected
+  }
+
+  // Write Ethernet network status sysvar
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet = isUpdating;
+}
+
+// Reset Ethernet status before measurement stops
+on preStop
+{
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet = 0;
+}
+
+// Additional safety: ensure value is reset after stop
+on stopMeasurement
+{
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet = 0;
+}
