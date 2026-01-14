@@ -27,15 +27,8 @@ import customtkinter as ctk
 import styles
 
 SW_MAJOR_RELEASES = [
-    "R100",
-    "R110",
     "R120",
-    "R130",
-    "R140",
     "R200",
-    "R210",
-    "R220",
-    "R230",
     "R300",
     "R310",
     "R320",
