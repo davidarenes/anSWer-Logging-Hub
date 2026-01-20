@@ -29,37 +29,52 @@ import customtkinter as ctk
 @dataclass(frozen=True)
 class Palette:
     # Base background and layered surfaces
-    BG: str = "#050b18"
-    CARD_DARK: str = "#0f1a2c"
-    CARD_DARK_ALT: str = "#0c1524"
-    CARD_BORDER: str = "#1e2b40"
+    BG: str = "#081120"
+    CARD_DARK: str = "#0f1a2d"
+    CARD_DARK_ALT: str = "#0b1526"
+    CARD_BORDER: str = "#1f2f47"
+    INPUT_BG: str = "#121f34"
+    INPUT_BORDER: str = "#253850"
 
     # Typography colors
-    TEXT: str = "#f8fafc"
-    MUTED: str = "#94a3b8"
+    TEXT: str = "#e9f0fb"
+    MUTED: str = "#8fa2be"
 
     # Accents
-    PRIMARY: str = "#38bdf8"
-    SUCCESS: str = "#4ade80"
-    SUCCESS_HOVER: str = "#22c55e"
-    WARNING: str = "#fbbf24"
-    DANGER: str = "#fb7185"
-    DANGER_HOVER: str = "#f43f5e"
-    NEUTRAL: str = "#334155"
-    NEUTRAL_HOVER: str = "#475569"
+    PRIMARY: str = "#4cc7ff"
+    SUCCESS: str = "#3fdc86"
+    SUCCESS_HOVER: str = "#23c76b"
+    WARNING: str = "#f6c453"
+    DANGER: str = "#ff6b81"
+    DANGER_HOVER: str = "#f4506c"
+    NEUTRAL: str = "#3b4a63"
+    NEUTRAL_HOVER: str = "#4a5c79"
 
     # Status pill backgrounds
-    STATUS_MUTED_BG: str = "#16233b"
-    STATUS_SUCCESS_BG: str = "#102d21"
-    STATUS_WARNING_BG: str = "#332611"
-    STATUS_DANGER_BG: str = "#331420"
-    STATUS_INFO_BG: str = "#10253f"
+    STATUS_MUTED_BG: str = "#19243a"
+    STATUS_SUCCESS_BG: str = "#123428"
+    STATUS_WARNING_BG: str = "#3a2c16"
+    STATUS_DANGER_BG: str = "#3a1826"
+    STATUS_INFO_BG: str = "#13273f"
 
     # Bright status accents (used for sysvar health)
-    CHILL_GREEN_BG: str = "#006b3f"
-    CHILL_GREEN_TEXT: str = "#7dffb3"
-    CHILL_RED_BG: str = "#7a0020"
-    CHILL_RED_TEXT: str = "#ff8aa0"
+    CHILL_GREEN_BG: str = "#0a5a3b"
+    CHILL_GREEN_TEXT: str = "#7bffb6"
+    CHILL_RED_BG: str = "#651225"
+    CHILL_RED_TEXT: str = "#ff95a8"
+
+    # Full-app themes (OK / NOK)
+    OK_BG: str = "#052c1d"
+    OK_CARD: str = "#073c29"
+    OK_CARD_ALT: str = "#063322"
+    OK_BORDER: str = "#0d6a43"
+    OK_INNER: str = "#0f5a3d"
+
+    NOK_BG: str = "#330c17"
+    NOK_CARD: str = "#4a1224"
+    NOK_CARD_ALT: str = "#40101f"
+    NOK_BORDER: str = "#7b1f36"
+    NOK_INNER: str = "#63152f"
 
     # Titlebar text (legacy frameless UI hooks)
     TITLEBAR_TEXT: str = "#ffffff"
@@ -197,6 +212,8 @@ def style_entry(entry: ctk.CTkEntry, *,
         height=30,
         font=Fonts.BODY,
         text_color=Palette.TEXT,
+        fg_color=(Palette.INPUT_BG, Palette.INPUT_BG),
+        border_color=Palette.INPUT_BORDER,
         placeholder_text_color=("gray85", "gray80"),
     )
 
@@ -215,8 +232,8 @@ def style_textbox(textbox: ctk.CTkTextbox, *,
     textbox.configure(
         corner_radius=radius,
         border_width=1,
-        border_color=Palette.CARD_BORDER,
-        fg_color=(Palette.CARD_DARK, Palette.CARD_DARK),
+        border_color=Palette.INPUT_BORDER,
+        fg_color=(Palette.INPUT_BG, Palette.INPUT_BG),
         text_color=Palette.TEXT,
         font=Fonts.BODY,
         scrollbar_button_color=Palette.NEUTRAL,
@@ -235,20 +252,16 @@ def style_option_menu(option_menu: ctk.CTkOptionMenu, *,
         "lg": Metrics.RADIUS_LG
     }[roundness]
 
-    entry_theme = getattr(ctk.ThemeManager, "theme", {}).get("CTkEntry", {})
-    entry_fg = entry_theme.get("fg_color", ("#1f1f1f", "#141414"))
-    entry_text = entry_theme.get("text_color", Palette.TEXT)
-    dropdown_fg = entry_theme.get("button_color", entry_fg)
-
     option_menu.configure(
         corner_radius=radius,
         height=34,
         font=Fonts.BODY,
-        text_color=entry_text,
-        dropdown_text_color=entry_text,
+        text_color=Palette.TEXT,
+        dropdown_text_color=Palette.TEXT,
+        dropdown_fg_color=Palette.CARD_DARK,
         dropdown_font=Fonts.BODY,
-        fg_color=entry_fg,
-        button_color=dropdown_fg,
+        fg_color=(Palette.INPUT_BG, Palette.INPUT_BG),
+        button_color=Palette.INPUT_BG,
         button_hover_color=Palette.NEUTRAL_HOVER,
     )
 

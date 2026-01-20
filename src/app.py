@@ -632,6 +632,12 @@ class MainWindow(ctk.CTk):
         self._ethernet_status_var = tk.StringVar(value="Ethernet: --")
         self._flexray_status_var = tk.StringVar(value="Flexray: --")
         self._hint_popup: ctk.CTkToplevel | None = None
+        self._theme_mode: str = "neutral"
+        self._theme_cards: list[ctk.CTkFrame] = []
+        self._theme_subcards: list[ctk.CTkFrame] = []
+        self._theme_entries: list[ctk.CTkEntry] = []
+        self._theme_menus: list[ctk.CTkOptionMenu] = []
+        self._theme_textboxes: list[ctk.CTkTextbox] = []
 
         # Build UI
         self._build_body()
@@ -660,15 +666,15 @@ class MainWindow(ctk.CTk):
         pad_x, pad_y = styles.Metrics.PAD_X, styles.Metrics.PAD_Y
         column_gap = max(8, pad_x // 2)
 
-        body = ctk.CTkScrollableFrame(self, fg_color=styles.Palette.BG)
-        body.pack(fill="both", expand=True, padx=max(4, pad_x // 3), pady=max(4, pad_y // 3))
+        self.body = ctk.CTkScrollableFrame(self, fg_color=styles.Palette.BG)
+        self.body.pack(fill="both", expand=True, padx=max(4, pad_x // 3), pady=max(4, pad_y // 3))
 
-        body.grid_columnconfigure((0, 1), weight=1, uniform="col", minsize=360)
-        body.grid_rowconfigure(4, weight=1)
-        body.grid_rowconfigure(6, weight=1)
+        self.body.grid_columnconfigure((0, 1), weight=1, uniform="col", minsize=360)
+        self.body.grid_rowconfigure(4, weight=1)
+        self.body.grid_rowconfigure(6, weight=1)
 
         # ---- Hero row ----
-        hero = styles.card(body)
+        hero = styles.card(self.body)
         hero.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, pad_y))
         hero.grid_columnconfigure(0, weight=1)
 
@@ -699,7 +705,7 @@ class MainWindow(ctk.CTk):
         self._set_status("Not connected", tone="muted")
 
         # ---- CANoe connection card ----
-        connect_card = styles.card(body)
+        connect_card = styles.card(self.body)
         connect_card.grid(row=1, column=0, sticky="nsew", padx=(0, column_gap), pady=(0, pad_y))
         connect_card.grid_columnconfigure(0, weight=1)
 
@@ -734,6 +740,7 @@ class MainWindow(ctk.CTk):
         self.install_dropdown.set("Searching...")
         styles.style_option_menu(self.install_dropdown, roundness="md")
         self.install_dropdown.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+        self._theme_menus.append(self.install_dropdown)
 
         self.btn_refresh_install = ctk.CTkButton(
             install_row,
@@ -769,13 +776,14 @@ class MainWindow(ctk.CTk):
         entry_cfg = ctk.CTkEntry(row_cfg, textvariable=self.canoe_config)
         styles.style_entry(entry_cfg, roundness="md")
         entry_cfg.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+        self._theme_entries.append(entry_cfg)
 
         btn_browse = ctk.CTkButton(row_cfg, text="Browse…", command=self._choose_cfg)
         styles.style_button(btn_browse, variant="neutral", size="sm", roundness="md")
         btn_browse.grid(row=0, column=1, sticky="e")
 
         # ---- Session metadata ----
-        session_card = styles.card(body)
+        session_card = styles.card(self.body)
         session_card.grid(row=1, column=1, sticky="nsew", padx=(column_gap, 0), pady=(0, pad_y))
         session_card.grid_columnconfigure(0, weight=1)
 
@@ -803,6 +811,7 @@ class MainWindow(ctk.CTk):
         entry_tag = ctk.CTkEntry(info_frame, textvariable=self.log_tag)
         styles.style_entry(entry_tag, roundness="md")
         entry_tag.grid(row=0, column=1, sticky="ew", pady=(0, 6))
+        self._theme_entries.append(entry_tag)
 
         lbl_vehicle = ctk.CTkLabel(info_frame, text="Vehicle")
         styles.style_label(lbl_vehicle, kind="hint")
@@ -839,6 +848,10 @@ class MainWindow(ctk.CTk):
             entry_vehicle = ctk.CTkEntry(info_frame, textvariable=self.vehicle_id)
             styles.style_entry(entry_vehicle, roundness="md")
         entry_vehicle.grid(row=1, column=1, sticky="ew", pady=(0, 6))
+        if isinstance(entry_vehicle, ctk.CTkOptionMenu):
+            self._theme_menus.append(entry_vehicle)
+        else:
+            self._theme_entries.append(entry_vehicle)
 
         lbl_release = ctk.CTkLabel(info_frame, text="SW release")
         styles.style_label(lbl_release, kind="hint")
@@ -857,6 +870,7 @@ class MainWindow(ctk.CTk):
         major_dropdown.set(self.sw_major_var.get())
         styles.style_option_menu(major_dropdown, roundness="md")
         major_dropdown.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+        self._theme_menus.append(major_dropdown)
 
         minor_dropdown = ctk.CTkOptionMenu(
             release_row,
@@ -867,9 +881,10 @@ class MainWindow(ctk.CTk):
         minor_dropdown.set(self.sw_minor_var.get())
         styles.style_option_menu(minor_dropdown, roundness="md")
         minor_dropdown.grid(row=0, column=1, sticky="ew")
+        self._theme_menus.append(minor_dropdown)
 
         # ---- Measurement controls ----
-        action_card = styles.card(body)
+        action_card = styles.card(self.body)
         action_card.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(0, pad_y))
         action_card.grid_columnconfigure(0, weight=1)
 
@@ -884,14 +899,28 @@ class MainWindow(ctk.CTk):
         styles.style_label(action_hint, kind="hint")
         action_hint.grid(row=1, column=0, sticky="w", padx=pad_x, pady=(0, 4))
 
+        action_btn_row = ctk.CTkFrame(action_card, fg_color="transparent")
+        action_btn_row.grid(row=2, column=0, sticky="ew", padx=pad_x, pady=(pad_y, pad_y // 2))
+        action_btn_row.grid_columnconfigure(0, weight=7)
+        action_btn_row.grid_columnconfigure(1, weight=3)
+
         self.btn_record = ctk.CTkButton(
-            action_card,
+            action_btn_row,
             text="Start recording",
             command=self._on_start_stop_click,
             state="disabled",
         )
         styles.style_button(self.btn_record, variant="neutral", size="lg", roundness="lg")
-        self.btn_record.grid(row=2, column=0, sticky="ew", padx=pad_x, pady=(pad_y, pad_y // 2))
+        self.btn_record.grid(row=0, column=0, sticky="ew", padx=(0, pad_x // 2))
+
+        self.btn_discard = ctk.CTkButton(
+            action_btn_row,
+            text="Discard recording",
+            command=self._on_discard_click,
+            state="disabled",
+        )
+        styles.style_button(self.btn_discard, variant="neutral", size="lg", roundness="lg")
+        self.btn_discard.grid(row=0, column=1, sticky="ew", padx=(pad_x // 2, 0))
 
         log_dir_row = ctk.CTkFrame(action_card, fg_color="transparent")
         log_dir_row.grid(row=4, column=0, sticky="ew", padx=pad_x, pady=(pad_y // 2, pad_y // 2))
@@ -906,6 +935,7 @@ class MainWindow(ctk.CTk):
         log_dir_entry.grid(row=0, column=1, sticky="ew", padx=(0, pad_x // 2))
         log_dir_entry.bind("<FocusOut>", self._on_log_dir_entry_commit)
         log_dir_entry.bind("<Return>", self._on_log_dir_entry_commit)
+        self._theme_entries.append(log_dir_entry)
 
         browse_log_btn = ctk.CTkButton(
             log_dir_row,
@@ -924,7 +954,7 @@ class MainWindow(ctk.CTk):
         log_hint.grid(row=5, column=0, sticky="w", padx=pad_x, pady=(0, pad_y))
 
         # ---- Recording status ----
-        self.status_card = styles.card(body)
+        self.status_card = styles.card(self.body)
         self.status_card.grid(row=3, column=0, columnspan=2, sticky="ew", pady=(0, pad_y))
         self.status_card.grid_columnconfigure(0, weight=1)
 
@@ -947,40 +977,70 @@ class MainWindow(ctk.CTk):
         styles.style_label(self.record_timer_label, kind="body")
         self.record_timer_label.grid(row=0, column=0, sticky="nsew")
 
-        self.camera_mode_label = ctk.CTkLabel(
+        self.camera_mode_box = ctk.CTkFrame(
             status_row,
+            corner_radius=styles.Metrics.RADIUS_MD,
+            border_width=1,
+            border_color=styles.Palette.CARD_BORDER,
+            fg_color=(styles.Palette.CARD_DARK, styles.Palette.CARD_DARK_ALT),
+        )
+        self.camera_mode_box.grid(row=0, column=1, sticky="nsew", padx=(4, 4), pady=4)
+        self.camera_mode_box.grid_columnconfigure(0, weight=1)
+        self.camera_mode_box.grid_rowconfigure(0, weight=1)
+        self.camera_mode_label = ctk.CTkLabel(
+            self.camera_mode_box,
             textvariable=self._camera_mode_var,
             anchor="center",
         )
         styles.style_label(self.camera_mode_label, kind="body")
         self.camera_mode_label.configure(font=styles.Fonts.BODY_BOLD)
-        self.camera_mode_label.grid(row=0, column=1, sticky="nsew")
+        self.camera_mode_label.grid(row=0, column=0, sticky="nsew")
 
-        self.ethernet_status_label = ctk.CTkLabel(
+        self.ethernet_status_box = ctk.CTkFrame(
             status_row,
+            corner_radius=styles.Metrics.RADIUS_MD,
+            border_width=1,
+            border_color=styles.Palette.CARD_BORDER,
+            fg_color=(styles.Palette.CARD_DARK, styles.Palette.CARD_DARK_ALT),
+        )
+        self.ethernet_status_box.grid(row=0, column=2, sticky="nsew", padx=(4, 4), pady=4)
+        self.ethernet_status_box.grid_columnconfigure(0, weight=1)
+        self.ethernet_status_box.grid_rowconfigure(0, weight=1)
+        self.ethernet_status_label = ctk.CTkLabel(
+            self.ethernet_status_box,
             textvariable=self._ethernet_status_var,
             anchor="center",
         )
         styles.style_label(self.ethernet_status_label, kind="body")
         self.ethernet_status_label.configure(font=styles.Fonts.BODY_BOLD)
-        self.ethernet_status_label.grid(row=0, column=2, sticky="nsew")
+        self.ethernet_status_label.grid(row=0, column=0, sticky="nsew")
 
-        self.flexray_status_label = ctk.CTkLabel(
+        self.flexray_status_box = ctk.CTkFrame(
             status_row,
+            corner_radius=styles.Metrics.RADIUS_MD,
+            border_width=1,
+            border_color=styles.Palette.CARD_BORDER,
+            fg_color=(styles.Palette.CARD_DARK, styles.Palette.CARD_DARK_ALT),
+        )
+        self.flexray_status_box.grid(row=0, column=3, sticky="nsew", padx=(4, 4), pady=4)
+        self.flexray_status_box.grid_columnconfigure(0, weight=1)
+        self.flexray_status_box.grid_rowconfigure(0, weight=1)
+        self.flexray_status_label = ctk.CTkLabel(
+            self.flexray_status_box,
             textvariable=self._flexray_status_var,
             anchor="center",
         )
         styles.style_label(self.flexray_status_label, kind="body")
         self.flexray_status_label.configure(font=styles.Fonts.BODY_BOLD)
-        self.flexray_status_label.grid(row=0, column=3, sticky="nsew")
+        self.flexray_status_label.grid(row=0, column=0, sticky="nsew")
 
         # ---- Comment workspace ----
-        comment_card = styles.card(body)
-        comment_card.grid(row=4, column=0, columnspan=2, sticky="nsew")
-        comment_card.grid_columnconfigure(0, weight=1)
-        comment_card.grid_rowconfigure(1, weight=1)
+        self.comment_card = styles.card(self.body)
+        self.comment_card.grid(row=4, column=0, columnspan=2, sticky="nsew")
+        self.comment_card.grid_columnconfigure(0, weight=1)
+        self.comment_card.grid_rowconfigure(1, weight=1)
 
-        comment_header = ctk.CTkFrame(comment_card, fg_color="transparent")
+        comment_header = ctk.CTkFrame(self.comment_card, fg_color="transparent")
         comment_header.grid(row=0, column=0, sticky="w", padx=pad_x, pady=(pad_y, 2))
 
         comment_title = ctk.CTkLabel(comment_header, text="Operator notes")
@@ -993,13 +1053,14 @@ class MainWindow(ctk.CTk):
         )
         comment_hint.grid(row=0, column=1, sticky="w", padx=(6, 0))
 
-        self.comment_box = ctk.CTkTextbox(comment_card, height=80, wrap="word")
+        self.comment_box = ctk.CTkTextbox(self.comment_card, height=80, wrap="word")
         styles.style_textbox(self.comment_box, roundness="lg")
         self.comment_box.grid(row=1, column=0, sticky="nsew", padx=pad_x, pady=(0, pad_y))
         self.comment_box.bind("<Return>", self._on_comment_enter)
+        self._theme_textboxes.append(self.comment_box)
 
         self.btn_save_comment = ctk.CTkButton(
-            comment_card,
+            self.comment_card,
             text="Save comment",
             command=self._on_save_comment_click,
             state="disabled",
@@ -1009,7 +1070,7 @@ class MainWindow(ctk.CTk):
 
         # ---- Debug console toggle ----
         self.debug_toggle_btn = ctk.CTkButton(
-            body,
+            self.body,
             text="▶ Debug log",
             command=self._toggle_debug_panel,
             width=170,
@@ -1017,7 +1078,7 @@ class MainWindow(ctk.CTk):
         styles.style_button(self.debug_toggle_btn, variant="neutral", size="sm", roundness="md")
         self.debug_toggle_btn.grid(row=5, column=0, columnspan=2, sticky="ew", padx=pad_x, pady=(pad_y // 2, pad_y // 2))
 
-        self.debug_card = styles.card(body)
+        self.debug_card = styles.card(self.body)
         self.debug_card.grid(row=6, column=0, columnspan=2, sticky="nsew", pady=(pad_y // 2, 0))
         self.debug_card.grid_rowconfigure(1, weight=1)
         self.debug_card.grid_columnconfigure(0, weight=1)
@@ -1043,8 +1104,25 @@ class MainWindow(ctk.CTk):
         styles.style_textbox(self.debug_text, roundness="md")
         self.debug_text.grid(row=1, column=0, sticky="nsew", padx=pad_x, pady=(0, pad_y))
         self.debug_text.configure(state="disabled")
+        self._theme_textboxes.append(self.debug_text)
         self.debug_panel_visible = True
         self._toggle_debug_panel(force_state=False)
+
+        self._theme_cards = [
+            hero,
+            connect_card,
+            session_card,
+            action_card,
+            self.status_card,
+            self.comment_card,
+            self.debug_card,
+        ]
+        self._theme_subcards = [
+            self.camera_mode_box,
+            self.ethernet_status_box,
+            self.flexray_status_box,
+        ]
+        self._apply_overall_theme("neutral")
 
     def _create_hint_icon(self, master, text: str) -> ctk.CTkButton:
         """
@@ -1114,6 +1192,62 @@ class MainWindow(ctk.CTk):
         label = getattr(self, "status", None)
         if label is not None:
             label.configure(text=text, fg_color=fg_color, text_color=text_color)
+
+    def _apply_overall_theme(self, mode: str) -> None:
+        if mode == self._theme_mode:
+            return
+
+        if mode == "ok":
+            bg = styles.Palette.OK_BG
+            card = styles.Palette.OK_CARD
+            card_alt = styles.Palette.OK_CARD_ALT
+            border = styles.Palette.OK_BORDER
+            inner = styles.Palette.OK_INNER
+            input_bg = styles.Palette.OK_INNER
+            input_border = styles.Palette.OK_BORDER
+        elif mode == "nok":
+            bg = styles.Palette.NOK_BG
+            card = styles.Palette.NOK_CARD
+            card_alt = styles.Palette.NOK_CARD_ALT
+            border = styles.Palette.NOK_BORDER
+            inner = styles.Palette.NOK_INNER
+            input_bg = styles.Palette.NOK_INNER
+            input_border = styles.Palette.NOK_BORDER
+        else:
+            bg = styles.Palette.BG
+            card = styles.Palette.CARD_DARK
+            card_alt = styles.Palette.CARD_DARK_ALT
+            border = styles.Palette.CARD_BORDER
+            inner = styles.Palette.CARD_DARK_ALT
+            input_bg = styles.Palette.INPUT_BG
+            input_border = styles.Palette.INPUT_BORDER
+
+        self.configure(bg=bg)
+        if getattr(self, "body", None) is not None:
+            self.body.configure(fg_color=bg)
+
+        for card_frame in self._theme_cards:
+            card_frame.configure(fg_color=(card, card_alt), border_color=border)
+
+        for subcard in self._theme_subcards:
+            subcard.configure(fg_color=(inner, inner), border_color=border)
+
+        for entry in self._theme_entries:
+            entry.configure(fg_color=(input_bg, input_bg), border_color=input_border)
+
+        menu_hover = styles._darken_hex(input_bg, 0.08)
+        for menu in self._theme_menus:
+            menu.configure(
+                fg_color=(input_bg, input_bg),
+                button_color=input_bg,
+                button_hover_color=menu_hover,
+                dropdown_fg_color=card_alt,
+            )
+
+        for textbox in self._theme_textboxes:
+            textbox.configure(fg_color=(input_bg, input_bg), border_color=input_border)
+
+        self._theme_mode = mode
 
     def _debug_log(self, message: str) -> None:
         """
@@ -1330,6 +1464,8 @@ class MainWindow(ctk.CTk):
                 # Measurement running
                 self.btn_record.configure(text="Stop recording", state="normal")
                 styles.style_button(self.btn_record, variant="danger")
+                self.btn_discard.configure(state="normal")
+                styles.style_button(self.btn_discard, variant="danger")
                 self.btn_save_comment.configure(state="normal")
                 styles.style_button(self.btn_save_comment, variant="primary")
                 self._set_status("▶️ Measurement running", tone="success")
@@ -1337,16 +1473,22 @@ class MainWindow(ctk.CTk):
                 # Measurement not running
                 self.btn_save_comment.configure(state="disabled")
                 styles.style_button(self.btn_save_comment, variant="neutral")
+                self.btn_discard.configure(state="disabled")
+                styles.style_button(self.btn_discard, variant="neutral")
 
                 if self.canoe is None:
                     # Lost CANoe
                     self.btn_record.configure(text="Start recording", state="disabled")
                     styles.style_button(self.btn_record, variant="neutral")
+                    self.btn_discard.configure(state="disabled")
+                    styles.style_button(self.btn_discard, variant="neutral")
                     self._set_status("❌ Not connected", tone="danger")
                 else:
                     # Connected but idle
                     self.btn_record.configure(text="Start recording", state="normal")
                     styles.style_button(self.btn_record, variant="success")
+                    self.btn_discard.configure(state="disabled")
+                    styles.style_button(self.btn_discard, variant="neutral")
                     self._set_status("⏹ Measurement stopped", tone="info")
 
         elapsed_display = self._format_measurement_timestamp() if running else "--:--:--.---"
@@ -1370,14 +1512,12 @@ class MainWindow(ctk.CTk):
         self.ethernet_status_label.configure(text_color=ethernet_color)
         self.flexray_status_label.configure(text_color=flexray_color)
 
-        if camera_ok and ethernet_ok and flexray_ok:
-            self.status_card.configure(
-                fg_color=(styles.Palette.CHILL_GREEN_BG, styles.Palette.CHILL_GREEN_BG)
-            )
+        overall_ok = camera_ok and ethernet_ok and flexray_ok
+        if running:
+            theme = "ok" if overall_ok else "nok"
         else:
-            self.status_card.configure(
-                fg_color=(styles.Palette.CHILL_RED_BG, styles.Palette.CHILL_RED_BG)
-            )
+            theme = "neutral"
+        self._apply_overall_theme(theme)
 
         # schedule next poll
         self.after(500, self._sync_measurement_ui)
@@ -1752,6 +1892,129 @@ class MainWindow(ctk.CTk):
         h = total_min // 60
         return f"{h:02d}:{m:02d}:{s:02d}.{ms:03d}"
 
+    def _reset_current_session_state(self) -> None:
+        self.comment_file_path = None
+        self._current_log_folder = None
+        self._current_prefix = None
+        self._record_start_wallclock = None
+        self._comment_metadata_written = False
+
+    def _resolve_current_log_suffix(self) -> str | None:
+        folder = self._current_log_folder
+        prefix = self._current_prefix
+        start_ts = self._record_start_wallclock
+        if folder is None or prefix is None or start_ts is None:
+            return None
+
+        ignore_ext = {".txt", ".avi", ".tmp"}
+        best_path = None
+        best_mtime = -1.0
+
+        try:
+            for p in folder.iterdir():
+                if not p.is_file():
+                    continue
+                if not p.name.startswith(prefix):
+                    continue
+                if p.suffix.lower() in ignore_ext:
+                    continue
+                mtime = p.stat().st_mtime
+                if mtime + 1.0 < start_ts:
+                    continue
+                if mtime > best_mtime:
+                    best_mtime = mtime
+                    best_path = p
+        except Exception:
+            return None
+
+        if best_path is None:
+            return None
+
+        stem = best_path.stem
+        if not stem.startswith(prefix):
+            return None
+        suffix = stem[len(prefix):]
+        return suffix or None
+
+    def _delete_current_log_files(self) -> tuple[int, int, bool]:
+        """
+        Delete files belonging to the current log run.
+        Returns (deleted_count, failed_count, removed_folder).
+        """
+        folder = self._current_log_folder
+        prefix = self._current_prefix
+        start_ts = self._record_start_wallclock
+        if folder is None or prefix is None or start_ts is None:
+            return 0, 0, False
+
+        suffix = self._resolve_current_log_suffix()
+        deleted = 0
+        failed = 0
+
+        try:
+            for p in folder.iterdir():
+                if not p.is_file():
+                    continue
+                name = p.name
+                if suffix is not None:
+                    match_main = name.startswith(f"{prefix}{suffix}")
+                    match_video = name.startswith(f"_{prefix}{suffix}_")
+                    if not (match_main or match_video):
+                        continue
+                else:
+                    if not (name.startswith(prefix) or name.startswith(f"_{prefix}")):
+                        continue
+                    try:
+                        mtime = p.stat().st_mtime
+                    except Exception:
+                        continue
+                    if mtime + 1.0 < start_ts:
+                        continue
+
+                try:
+                    p.unlink()
+                    deleted += 1
+                except Exception:
+                    failed += 1
+        except Exception:
+            failed += 1
+
+        removed_folder = False
+        try:
+            if folder.exists() and not any(folder.iterdir()):
+                folder.rmdir()
+                removed_folder = True
+        except Exception:
+            removed_folder = False
+
+        return deleted, failed, removed_folder
+
+    def _on_discard_click(self) -> None:
+        """
+        Stop the measurement and delete the files from the current log run.
+        """
+        if self.canoe is None or not self.is_recording:
+            self._set_status("⚠️ No active recording to discard", tone="warning")
+            return
+
+        try:
+            self.canoe.Measurement.Stop()
+        except Exception as e:
+            self._set_status(f"❌ Discard failed to stop measurement: {e}", tone="danger")
+            return
+
+        time.sleep(0.5)
+        deleted, failed, removed_folder = self._delete_current_log_files()
+        self._reset_current_session_state()
+
+        if failed:
+            self._set_status(f"⚠️ Discarded with {failed} delete error(s)", tone="warning")
+        elif deleted:
+            folder_note = " and removed empty folder" if removed_folder else ""
+            self._set_status(f"🗑️ Discarded {deleted} file(s){folder_note}", tone="success")
+        else:
+            self._set_status("⚠️ No files found to discard", tone="warning")
+
     # -------------------- Comment file name resolution --------------------
     def _schedule_comment_filename_resolution(self) -> None:
         """
@@ -1920,11 +2183,7 @@ class MainWindow(ctk.CTk):
                 return
 
             # Clear current session state
-            self.comment_file_path = None
-            self._current_log_folder = None
-            self._current_prefix = None
-            self._record_start_wallclock = None
-            self._comment_metadata_written = False
+            self._reset_current_session_state()
             return
 
         # -------- START CASE --------
