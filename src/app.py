@@ -628,6 +628,9 @@ class MainWindow(ctk.CTk):
         self._update_log_dir_hint()
         self.log_dir_var.trace_add("write", lambda *_: self._on_log_dir_var_changed())
         self._record_timer_var = tk.StringVar(value="Recording time: --:--:--.---")
+        self._camera_mode_var = tk.StringVar(value="Camera mode: --")
+        self._ethernet_status_var = tk.StringVar(value="Ethernet: --")
+        self._flexray_status_var = tk.StringVar(value="Flexray: --")
         self._hint_popup: ctk.CTkToplevel | None = None
 
         # Build UI
@@ -921,25 +924,55 @@ class MainWindow(ctk.CTk):
         log_hint.grid(row=5, column=0, sticky="w", padx=pad_x, pady=(0, pad_y))
 
         # ---- Recording status ----
-        status_card = styles.card(body)
-        status_card.grid(row=3, column=0, columnspan=2, sticky="ew", pady=(0, pad_y))
-        status_card.grid_columnconfigure(0, weight=1)
+        self.status_card = styles.card(body)
+        self.status_card.grid(row=3, column=0, columnspan=2, sticky="ew", pady=(0, pad_y))
+        self.status_card.grid_columnconfigure(0, weight=1)
 
-        status_title = ctk.CTkLabel(status_card, text="Recording status")
+        status_title = ctk.CTkLabel(self.status_card, text="Recording status")
         styles.style_label(status_title, kind="section")
         status_title.grid(row=0, column=0, sticky="w", padx=pad_x, pady=(pad_y, 4))
 
-        status_row = ctk.CTkFrame(status_card, fg_color="transparent")
+        status_row = ctk.CTkFrame(self.status_card, fg_color="transparent")
         status_row.grid(row=1, column=0, sticky="ew", padx=pad_x, pady=(0, pad_y))
         status_row.grid_columnconfigure(0, weight=1)
+        status_row.grid_columnconfigure(1, weight=1)
+        status_row.grid_columnconfigure(2, weight=1)
+        status_row.grid_columnconfigure(3, weight=1)
 
         self.record_timer_label = ctk.CTkLabel(
             status_row,
             textvariable=self._record_timer_var,
-            anchor="w",
+            anchor="center",
         )
         styles.style_label(self.record_timer_label, kind="body")
-        self.record_timer_label.grid(row=0, column=0, sticky="w")
+        self.record_timer_label.grid(row=0, column=0, sticky="nsew")
+
+        self.camera_mode_label = ctk.CTkLabel(
+            status_row,
+            textvariable=self._camera_mode_var,
+            anchor="center",
+        )
+        styles.style_label(self.camera_mode_label, kind="body")
+        self.camera_mode_label.configure(font=styles.Fonts.BODY_BOLD)
+        self.camera_mode_label.grid(row=0, column=1, sticky="nsew")
+
+        self.ethernet_status_label = ctk.CTkLabel(
+            status_row,
+            textvariable=self._ethernet_status_var,
+            anchor="center",
+        )
+        styles.style_label(self.ethernet_status_label, kind="body")
+        self.ethernet_status_label.configure(font=styles.Fonts.BODY_BOLD)
+        self.ethernet_status_label.grid(row=0, column=2, sticky="nsew")
+
+        self.flexray_status_label = ctk.CTkLabel(
+            status_row,
+            textvariable=self._flexray_status_var,
+            anchor="center",
+        )
+        styles.style_label(self.flexray_status_label, kind="body")
+        self.flexray_status_label.configure(font=styles.Fonts.BODY_BOLD)
+        self.flexray_status_label.grid(row=0, column=3, sticky="nsew")
 
         # ---- Comment workspace ----
         comment_card = styles.card(body)
@@ -1245,6 +1278,35 @@ class MainWindow(ctk.CTk):
         save_state(state=self._gather_state(), paths=self.paths)
 
     # -------------------- Polling / UI sync --------------------
+    def _read_sysvar_value(self, fieldname: str) -> str | None:
+        if self.canoe is None:
+            return None
+        parts = [part for part in (fieldname or "").split("::") if part]
+        if len(parts) < 2:
+            return None
+        var_name = parts[-1]
+        namespace_chain = parts[:-1]
+        try:
+            ns = self.canoe.System.Namespaces.Item(namespace_chain[0])
+            for child in namespace_chain[1:]:
+                ns = ns.Namespaces.Item(child)
+            var = ns.Variables.Item(var_name)
+            value = var.Value
+        except Exception:
+            return None
+        if value is None:
+            return None
+        return str(value)
+
+    @staticmethod
+    def _is_expected_status(value: str | None, expected: int) -> bool:
+        if value is None:
+            return False
+        try:
+            return int(str(value).strip()) == expected
+        except ValueError:
+            return False
+
     def _sync_measurement_ui(self) -> None:
         """
         Poll CANoe measurement state and update:
@@ -1289,6 +1351,33 @@ class MainWindow(ctk.CTk):
 
         elapsed_display = self._format_measurement_timestamp() if running else "--:--:--.---"
         self._record_timer_var.set(f"Recording time: {elapsed_display}")
+        camera_mode = self._read_sysvar_value("anSWer_SysVal::Camera_Mode")
+        self._camera_mode_var.set(f"Camera mode: {camera_mode or '--'}")
+        ethernet_status = self._read_sysvar_value("anSWer_SysVal::Network_Status::Ethernet")
+        self._ethernet_status_var.set(f"Ethernet: {ethernet_status or '--'}")
+        flexray_status = self._read_sysvar_value("anSWer_SysVal::Network_Status::Flexray")
+        self._flexray_status_var.set(f"Flexray: {flexray_status or '--'}")
+
+        camera_ok = self._is_expected_status(camera_mode, 4)
+        ethernet_ok = self._is_expected_status(ethernet_status, 1)
+        flexray_ok = self._is_expected_status(flexray_status, 1)
+
+        camera_color = styles.Palette.CHILL_GREEN_TEXT if camera_ok else styles.Palette.CHILL_RED_TEXT
+        ethernet_color = styles.Palette.CHILL_GREEN_TEXT if ethernet_ok else styles.Palette.CHILL_RED_TEXT
+        flexray_color = styles.Palette.CHILL_GREEN_TEXT if flexray_ok else styles.Palette.CHILL_RED_TEXT
+
+        self.camera_mode_label.configure(text_color=camera_color)
+        self.ethernet_status_label.configure(text_color=ethernet_color)
+        self.flexray_status_label.configure(text_color=flexray_color)
+
+        if camera_ok and ethernet_ok and flexray_ok:
+            self.status_card.configure(
+                fg_color=(styles.Palette.CHILL_GREEN_BG, styles.Palette.CHILL_GREEN_BG)
+            )
+        else:
+            self.status_card.configure(
+                fg_color=(styles.Palette.CHILL_RED_BG, styles.Palette.CHILL_RED_BG)
+            )
 
         # schedule next poll
         self.after(500, self._sync_measurement_ui)

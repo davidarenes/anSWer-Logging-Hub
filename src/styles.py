@@ -55,6 +55,12 @@ class Palette:
     STATUS_DANGER_BG: str = "#331420"
     STATUS_INFO_BG: str = "#10253f"
 
+    # Bright status accents (used for sysvar health)
+    CHILL_GREEN_BG: str = "#006b3f"
+    CHILL_GREEN_TEXT: str = "#7dffb3"
+    CHILL_RED_BG: str = "#7a0020"
+    CHILL_RED_TEXT: str = "#ff8aa0"
+
     # Titlebar text (legacy frameless UI hooks)
     TITLEBAR_TEXT: str = "#ffffff"
 
@@ -66,6 +72,7 @@ class Fonts:
     SECTION: Tuple[str, int, str] = ("Segoe UI Semibold", 13, "normal")
     HINT: Tuple[str, int] = ("Segoe UI", 10)
     BODY: Tuple[str, int] = ("Segoe UI", 10)
+    BODY_BOLD: Tuple[str, int, str] = ("Segoe UI Semibold", 10, "bold")
     BUTTON: Tuple[str, int, str] = ("Segoe UI Semibold", 10, "normal")
     CAPTION: Tuple[str, int] = ("Segoe UI", 8)
 

@@ -1,0 +1,292 @@
+/*@!Encoding:1252*/
+includes
+{
+  #include "serl_dstd.can"
+  #include "volvo_serl_decode.can"
+}
+
+variables
+{
+      dword max_zipy_stream_size = 36000;
+      byte g_buffer[36000];
+      byte g_frag_buff[1500];
+      dword rcvd=0;
+      dword index=0;
+      dword Layer2_header_length = 14;
+      dword Layer3_header_length = 20;
+      dword ZipyHeader_Length = 17;
+      dword g_payLoad_length = 0;
+
+      const dword PASP_veh_signals_input_S = 2030;
+      const dword PASP_veh_signals_output_S = 2031;
+      const dword PASP_vcc_veh_rx_signals_S = 2032;
+      const dword PASP_vcc_veh_tx_signals_S = 2033;
+      const dword PASP_arbit_feedback_data_S = 2034;
+      const dword PASP_acc_veh_signals_output_S = 2035;
+      const dword PASP_sla_veh_signals_output_S = 2036;
+      const dword PASP_csa_veh_signals_output_S = 2037;
+      const dword PASP_slca_veh_signals_output_S = 2052;
+      const dword PASP_lcs_veh_signals_output_S = 2050;
+      const dword PASP_xlka_veh_signals_output_S = 2051;
+      const dword PASP_mrm_veh_signals_output_S = 2038;
+      const dword PASP_rcw_veh_signals_output_S = 2039;
+      const dword PASP_lcs_pre_upd_fb_S = 2040;
+      const dword PASP_vcc_carconfig_S = 2060;
+      const dword PASP_ext_func_data_S = 2061;
+      const dword DASI_dbg_monitor_status_S = 2062;
+      const dword PASP_acc_pos_upd_fb_S = 2041;
+      const dword ACC_dbg_data_S = 2042;
+      const dword SLCA_dbg_data_S = 2043;
+      const dword LCS_dbg_data_S = 2044;
+      const dword XLKA_dbg_data_S = 2045;
+      const dword RCW_dbg_data_S = 2046;
+      const dword MRM_dbg_data_S = 2047;
+      const dword ARBIT_dbg_data_S = 2048;
+      const dword FAEB_dbg_data_S = 2049;
+      const dword BSIS_dbg_data_S = 2058;
+      const dword DOW_dbg_data_S = 2059;
+      const dword RTD_dbg_data_S = 2063;
+      const dword SV_dbg_data_S = 2069;
+      const dword RCTX_dbg_data_S = 2070;
+      const dword PASP_bsis_veh_signals_output_S = 2053;
+      const dword PASP_faeb_veh_signals_output_S = 2054;
+      const dword PASP_rctx_veh_signals_output_S = 2055;
+      const dword PASP_dow_veh_signals_output_S = 2056;
+      const dword PASP_sv_veh_signals_output_S = 2057;
+      const dword PASP_Qm2AsilB_ProtectedBuffer_S = 2064;
+      const dword PASP_AsilB2Qm_ProtectedBuffer_S = 2065;
+      const dword DASI_monitors_cyclics_S = 2066;
+      const dword DASI_monitors_status_S = 2067;
+      const dword DASI_monitors_timestamps_S = 2068;
+      const dword FSC_dbg_data_S = 2071;
+}
+
+on ethernetPacket *
+{
+  dword ipHeaderLength;
+  byte ipProtocol;
+  byte isMoreFragFlag=0;
+  word fragOffset=0;
+  word payloadLength=0;
+  byte skipMessageFlag = 0;
+
+  ipHeaderLength = (this.Byte(0) & 0x0F) * 4;
+  isMoreFragFlag = ((this.Byte(6) & 0x70) >> 5) & 1;
+  fragOffset = (swapWord(this.word(6)) & 0x1F);
+  ipProtocol = this.Byte(9);
+
+  if(ipProtocol == 17)
+  {    
+    byte buffer[1600];
+    dword i;
+    i=0;
+    payloadLength = HandleUDP( this, ipHeaderLength, swapWord(this.Word(ipHeaderLength)), swapWord(this.Word(ipHeaderLength+2)),buffer);
+    if((g_payLoad_length + payloadLength) < max_zipy_stream_size && (g_payLoad_length + payloadLength) > 0)
+    {
+      for(;i<payloadLength;i++)
+      {
+        g_buffer[index + i] = buffer[i];
+      }
+      index = index + i;
+      g_payLoad_length += payloadLength;
+    }
+    else
+    {
+      g_payLoad_length += payloadLength;
+      write("Packet size is too big. max_size = %d, current_size = %d,",max_zipy_stream_size,g_payLoad_length);
+    }
+
+    if(!isMoreFragFlag && !skipMessageFlag)
+    {
+      dword i;
+      dword offset;
+      word structLen;
+      word structId;
+      byte structVersion;
+      byte zipyHeaderZise = 5;
+      dword structId_notFound;
+      dword overall_stream_length = 0;
+      overall_stream_length = g_payLoad_length;
+      g_payLoad_length = 0;
+      structId_notFound=0;
+      index = 0;
+      i=0;
+      offset = 8;
+      structLen = 0;
+      structId = 0;
+      structVersion = 0;
+      
+      @sysvar::ZIPY_STREAM_P1::id = (g_buffer[8]) & 0x0F;
+      @sysvar::ZIPY_STREAM_P1::counter = g_buffer[9];
+      @sysvar::ZIPY_STREAM_P1::length = interpretAsDword(getDwordFromByteBuffer(g_buffer,13));
+      offset = ZipyHeader_Length;
+      while(offset < overall_stream_length)
+      {
+            structId = getWordFromByteBuffer(g_buffer,offset);
+            offset += 2;
+            structLen =  getWordFromByteBuffer(g_buffer,offset);
+            offset += 2;
+            structVersion = getByteFromByteBuffer(g_buffer,offset);
+            offset += 1;
+            if ((offset + structLen - 5) > overall_stream_length)
+            {
+                  write("Bad message Length %d for ID %d. current offset %d. overall length %d",structLen,structId,offset,overall_stream_length);
+                  overall_stream_length = 0;
+                  return;
+            }
+            if (structId_notFound != 0)
+            {
+                  write("No decoder for message ID %d", structId);
+                  return;
+            }
+
+            switch(structId)
+            {
+                case PASP_veh_signals_input_S:
+                decode_PASP_veh_signals_input_S(g_buffer,offset);
+                break;
+                case PASP_veh_signals_output_S:
+                decode_PASP_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_vcc_veh_rx_signals_S:
+                decode_PASP_vcc_veh_rx_signals_S(g_buffer,offset);
+                break;
+                case PASP_vcc_veh_tx_signals_S:
+                decode_PASP_vcc_veh_tx_signals_S(g_buffer,offset);
+                break;
+                case PASP_arbit_feedback_data_S:
+                decode_PASP_arbit_feedback_data_S(g_buffer,offset);
+                break;
+                case PASP_acc_veh_signals_output_S:
+                decode_PASP_acc_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_sla_veh_signals_output_S:
+                decode_PASP_sla_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_csa_veh_signals_output_S:
+                decode_PASP_csa_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_slca_veh_signals_output_S:
+                decode_PASP_slca_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_lcs_veh_signals_output_S:
+                decode_PASP_lcs_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_xlka_veh_signals_output_S:
+                decode_PASP_xlka_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_mrm_veh_signals_output_S:
+                decode_PASP_mrm_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_rcw_veh_signals_output_S:
+                decode_PASP_rcw_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_lcs_pre_upd_fb_S:
+                decode_PASP_lcs_pre_upd_fb_S(g_buffer,offset);
+                break;
+                case PASP_vcc_carconfig_S:
+                decode_PASP_vcc_carconfig_S(g_buffer,offset);
+                break;
+                case PASP_ext_func_data_S:
+                decode_PASP_ext_func_data_S(g_buffer,offset);
+                break;
+                case DASI_dbg_monitor_status_S:
+                decode_DASI_dbg_monitor_status_S(g_buffer,offset);
+                break;
+                case PASP_acc_pos_upd_fb_S:
+                decode_PASP_acc_pos_upd_fb_S(g_buffer,offset);
+                break;
+                case ACC_dbg_data_S:
+                decode_ACC_dbg_data_S(g_buffer,offset);
+                break;
+                case SLCA_dbg_data_S:
+                decode_SLCA_dbg_data_S(g_buffer,offset);
+                break;
+                case LCS_dbg_data_S:
+                decode_LCS_dbg_data_S(g_buffer,offset);
+                break;
+                case XLKA_dbg_data_S:
+                decode_XLKA_dbg_data_S(g_buffer,offset);
+                break;
+                case RCW_dbg_data_S:
+                decode_RCW_dbg_data_S(g_buffer,offset);
+                break;
+                case MRM_dbg_data_S:
+                decode_MRM_dbg_data_S(g_buffer,offset);
+                break;
+                case ARBIT_dbg_data_S:
+                decode_ARBIT_dbg_data_S(g_buffer,offset);
+                break;
+                case FAEB_dbg_data_S:
+                decode_FAEB_dbg_data_S(g_buffer,offset);
+                break;
+                case BSIS_dbg_data_S:
+                decode_BSIS_dbg_data_S(g_buffer,offset);
+                break;
+                case DOW_dbg_data_S:
+                decode_DOW_dbg_data_S(g_buffer,offset);
+                break;
+                case RTD_dbg_data_S:
+                decode_RTD_dbg_data_S(g_buffer,offset);
+                break;
+                case SV_dbg_data_S:
+                decode_SV_dbg_data_S(g_buffer,offset);
+                break;
+                case RCTX_dbg_data_S:
+                decode_RCTX_dbg_data_S(g_buffer,offset);
+                break;
+                case PASP_bsis_veh_signals_output_S:
+                decode_PASP_bsis_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_faeb_veh_signals_output_S:
+                decode_PASP_faeb_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_rctx_veh_signals_output_S:
+                decode_PASP_rctx_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_dow_veh_signals_output_S:
+                decode_PASP_dow_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_sv_veh_signals_output_S:
+                decode_PASP_sv_veh_signals_output_S(g_buffer,offset);
+                break;
+                case PASP_Qm2AsilB_ProtectedBuffer_S:
+                decode_PASP_Qm2AsilB_ProtectedBuffer_S(g_buffer,offset);
+                break;
+                case PASP_AsilB2Qm_ProtectedBuffer_S:
+                decode_PASP_AsilB2Qm_ProtectedBuffer_S(g_buffer,offset);
+                break;
+                case DASI_monitors_cyclics_S:
+                decode_DASI_monitors_cyclics_S(g_buffer,offset);
+                break;
+                case DASI_monitors_status_S:
+                decode_DASI_monitors_status_S(g_buffer,offset);
+                break;
+                case DASI_monitors_timestamps_S:
+                decode_DASI_monitors_timestamps_S(g_buffer,offset);
+                break;
+                case FSC_dbg_data_S:
+                decode_FSC_dbg_data_S(g_buffer,offset);
+                break;
+                default:
+                // unknown struct break from loop.
+                structId_notFound = 1;
+                break;
+            }
+            offset = offset + structLen - zipyHeaderZise;
+      }
+    }
+    else if(!isMoreFragFlag && skipMessageFlag)
+    {
+      // The Large UDP packet has ended, clear the flag.
+      skipMessageFlag = 0;
+    }
+  }
+}
+
+word HandleUDP(ethernetPacket * pkt, word udpDataOffset, word srcPort, word dstPort, byte buffer[])
+{
+  word length = 0;
+  length = pkt.GetData( udpDataOffset, buffer, elcount(buffer)-1);
+  return length;
+}
