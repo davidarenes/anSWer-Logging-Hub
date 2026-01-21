@@ -15,7 +15,8 @@ from core.state import (
     AppPaths,
     AppState,
     SW_MAJOR_RELEASES,
-    SW_MINOR_RELEASES,
+    SW_RELEASE_TYPES,
+    SW_RELEASE_MINORS,
     ME_VERSIONS,
     VEHICLE_NUMBERS,
     load_vehicle_catalog,
@@ -73,10 +74,11 @@ class MainWindow(ctk.CTk):
         self.canoe_config = tk.StringVar(value=str(paths.cfg_file) if paths.cfg_file else "")
         self.log_tag = tk.StringVar(value=state.tag or "")
         initial_sw_rel = (state.sw_rel or "").strip()
-        major_release, minor_release = self._split_sw_release(initial_sw_rel)
+        major_release, release_type, minor_release = self._split_sw_release(initial_sw_rel)
         self.sw_major_var = tk.StringVar(value=major_release)
+        self.sw_type_var = tk.StringVar(value=release_type)
         self.sw_minor_var = tk.StringVar(value=minor_release)
-        self.sw_rel = tk.StringVar(value=self._compose_sw_release(major_release, minor_release))
+        self.sw_rel = tk.StringVar(value=self._compose_sw_release(major_release, release_type, minor_release))
         self.me_version_var = tk.StringVar(value=state.me_version or (ME_VERSIONS[0] if ME_VERSIONS else ""))
         self.vehicle_id = tk.StringVar(value=state.vehicle_id or "")
         self.vehicle_id.trace_add("write", lambda *_: self._update_titles_with_release())
@@ -348,7 +350,7 @@ class MainWindow(ctk.CTk):
 
         release_row = ctk.CTkFrame(info_frame, fg_color="transparent")
         release_row.grid(row=2, column=1, sticky="ew", pady=(0, 6))
-        release_row.grid_columnconfigure((0, 1), weight=1)
+        release_row.grid_columnconfigure((0, 1, 2), weight=1)
 
         major_dropdown = ctk.CTkOptionMenu(
             release_row,
@@ -361,15 +363,26 @@ class MainWindow(ctk.CTk):
         major_dropdown.grid(row=0, column=0, sticky="ew", padx=(0, 6))
         self._theme_menus.append(major_dropdown)
 
+        type_dropdown = ctk.CTkOptionMenu(
+            release_row,
+            variable=self.sw_type_var,
+            values=SW_RELEASE_TYPES,
+            command=self._on_sw_release_change,
+        )
+        type_dropdown.set(self.sw_type_var.get())
+        styles.style_option_menu(type_dropdown, roundness="md")
+        type_dropdown.grid(row=0, column=1, sticky="ew", padx=(0, 6))
+        self._theme_menus.append(type_dropdown)
+
         minor_dropdown = ctk.CTkOptionMenu(
             release_row,
             variable=self.sw_minor_var,
-            values=SW_MINOR_RELEASES,
+            values=SW_RELEASE_MINORS,
             command=self._on_sw_release_change,
         )
         minor_dropdown.set(self.sw_minor_var.get())
         styles.style_option_menu(minor_dropdown, roundness="md")
-        minor_dropdown.grid(row=0, column=1, sticky="ew")
+        minor_dropdown.grid(row=0, column=2, sticky="ew")
         self._theme_menus.append(minor_dropdown)
 
         lbl_me_version = ctk.CTkLabel(info_frame, text="ME version")
@@ -776,24 +789,36 @@ class MainWindow(ctk.CTk):
             if hasattr(self, "debug_toggle_btn"):
                 self.debug_toggle_btn.configure(text="▶ Debug log")
 
-    def _compose_sw_release(self, major: str, minor: str) -> str:
-        return f"{(major or '').strip().upper()}{(minor or '').strip().upper()}".strip()
+    def _compose_sw_release(self, major: str, release_type: str, minor: str) -> str:
+        return (
+            f"{(major or '').strip().upper()}"
+            f"{(release_type or '').strip().upper()}"
+            f"{(minor or '').strip().upper()}"
+        ).strip()
 
-    def _split_sw_release(self, combined: str) -> tuple[str, str]:
+    def _split_sw_release(self, combined: str) -> tuple[str, str, str]:
         default_major = SW_MAJOR_RELEASES[0] if SW_MAJOR_RELEASES else ""
-        default_minor = SW_MINOR_RELEASES[0] if SW_MINOR_RELEASES else ""
+        default_type = SW_RELEASE_TYPES[0] if SW_RELEASE_TYPES else ""
+        default_minor = SW_RELEASE_MINORS[0] if SW_RELEASE_MINORS else ""
         raw = (combined or "").strip().upper()
         major = default_major
+        release_type = default_type
         minor = default_minor
         for candidate in SW_MAJOR_RELEASES:
             cand_upper = candidate.strip().upper()
             if cand_upper and raw.startswith(cand_upper):
                 major = candidate
                 remainder = raw[len(cand_upper):]
-                if remainder in SW_MINOR_RELEASES:
-                    minor = remainder
+                for type_candidate in SW_RELEASE_TYPES:
+                    type_upper = type_candidate.strip().upper()
+                    if remainder.startswith(type_upper):
+                        release_type = type_candidate
+                        remainder_minor = remainder[len(type_upper):]
+                        if remainder_minor in SW_RELEASE_MINORS:
+                            minor = remainder_minor
+                        break
                 break
-        return major or "", minor or ""
+        return major or "", release_type or "", minor or ""
 
     def _vehicle_descriptor(self, vehicle_id: str | None = None) -> str:
         vid = (vehicle_id or self.vehicle_id.get() or "").strip()
@@ -836,7 +861,13 @@ class MainWindow(ctk.CTk):
             self.hero_title_label.configure(text=title_text)
 
     def _on_sw_release_change(self, _selection: str | None = None) -> None:
-        self.sw_rel.set(self._compose_sw_release(self.sw_major_var.get(), self.sw_minor_var.get()))
+        self.sw_rel.set(
+            self._compose_sw_release(
+                self.sw_major_var.get(),
+                self.sw_type_var.get(),
+                self.sw_minor_var.get(),
+            )
+        )
         self._persist_state_snapshot()
         self._update_titles_with_release()
 

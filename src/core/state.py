@@ -20,29 +20,23 @@ SW_MAJOR_RELEASES = [
     "R510",
 ]
 
-SW_MINOR_RELEASES = [
-    "RX0",
-    "RX1",
-    "RX2",
-    "RX3",
-    "RX4",
-    "RX5",
-    "RX6",
-    "RX7",
-    "RX8",
-    "RX9",
-    "RX10",
-    "RC0",
-    "RC1",
-    "RC2",
-    "RC3",
-    "RC4",
-    "RC5",
-    "RC6",
-    "RC7",
-    "RC8",
-    "RC9",
-    "RC10",
+SW_RELEASE_TYPES = [
+    "RC",
+    "RX",
+]
+
+SW_RELEASE_MINORS = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
 ]
 
 ME_VERSIONS = [
