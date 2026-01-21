@@ -11,7 +11,8 @@ variables
 
 on start
 {
-  // Reset drops counter at measurement start
+  // Reset Ethernet status and drops counter at measurement start
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet        = 0;
   @sysvar::anSWer_SysVal::Network_Status::Ethernet_Drops = 0;
 
   // Periodic check every 100 ms
@@ -50,14 +51,16 @@ on timer tRefresh
   @sysvar::anSWer_SysVal::Network_Status::Ethernet = isUpdating;
 }
 
-// Reset Ethernet status before measurement stops
+// Reset Ethernet status and drops counter before measurement stops
 on preStop
 {
-  @sysvar::anSWer_SysVal::Network_Status::Ethernet = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet        = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet_Drops = 0;
 }
 
-// Additional safety: ensure value is reset after stop
+// Additional safety: ensure values are reset after measurement is fully stopped
 on stopMeasurement
 {
-  @sysvar::anSWer_SysVal::Network_Status::Ethernet = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet        = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet_Drops = 0;
 }

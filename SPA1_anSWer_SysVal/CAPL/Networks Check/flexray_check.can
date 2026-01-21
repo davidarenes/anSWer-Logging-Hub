@@ -55,14 +55,16 @@ on timer tRefresh
   @sysvar::anSWer_SysVal::Network_Status::Flexray = isUpdating;
 }
 
-// Ensure FlexRay status is reset before stopping measurement
+// Reset FlexRay status and drops counter before measurement stops
 on preStop
 {
-  @sysvar::anSWer_SysVal::Network_Status::Flexray = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Flexray        = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Flexray_Drops = 0;
 }
 
 // Additional safety after measurement is fully stopped
 on stopMeasurement
 {
-  @sysvar::anSWer_SysVal::Network_Status::Flexray = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Flexray        = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Flexray_Drops = 0;
 }

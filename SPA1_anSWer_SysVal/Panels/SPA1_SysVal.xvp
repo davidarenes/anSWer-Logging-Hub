@@ -253,10 +253,46 @@
       <Property Name="TabIndex">60</Property>
     </Object>
     <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl3" Children="Controls" ControlName="Group Box 3">
+      <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl4" Children="Controls" ControlName="Input/Output Box 4">
+        <Property Name="Name">TextBoxControl4</Property>
+        <Property Name="Size">204, 22</Property>
+        <Property Name="Location">26, 82</Property>
+        <Property Name="AlarmUpperTextColor">WindowText</Property>
+        <Property Name="ValueDecimalPlaces">0</Property>
+        <Property Name="AlarmLowerBkgColor">Salmon</Property>
+        <Property Name="ValueDisplay">Decimal</Property>
+        <Property Name="AlarmUpperBkgColor">IndianRed</Property>
+        <Property Name="AlarmLowerTextColor">WindowText</Property>
+        <Property Name="AlarmGeneralSettings">1;0;0;0</Property>
+        <Property Name="DisplayLabel">Left</Property>
+        <Property Name="DescriptionText">Flexray Drops</Property>
+        <Property Name="DescriptionSize">88, 22</Property>
+        <Property Name="UsedValueTable">PhysicalValue</Property>
+        <Property Name="SymbolConfiguration">8;16;anSWer_SysVal::Network_Status;;;Flexray_Drops;1;;;-1;;;;;;0</Property>
+        <Property Name="TabIndex">13</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl6" Children="Controls" ControlName="Input/Output Box 6">
+        <Property Name="Name">TextBoxControl6</Property>
+        <Property Name="Size">211, 22</Property>
+        <Property Name="Location">261, 82</Property>
+        <Property Name="AlarmUpperTextColor">WindowText</Property>
+        <Property Name="ValueDecimalPlaces">0</Property>
+        <Property Name="AlarmLowerBkgColor">Salmon</Property>
+        <Property Name="ValueDisplay">Decimal</Property>
+        <Property Name="AlarmUpperBkgColor">IndianRed</Property>
+        <Property Name="AlarmLowerTextColor">WindowText</Property>
+        <Property Name="AlarmGeneralSettings">1;0;0;0</Property>
+        <Property Name="DisplayLabel">Left</Property>
+        <Property Name="DescriptionText">Ethernet Drops</Property>
+        <Property Name="DescriptionSize">95, 22</Property>
+        <Property Name="UsedValueTable">PhysicalValue</Property>
+        <Property Name="SymbolConfiguration">8;16;anSWer_SysVal::Network_Status;;;Ethernet_Drops;1;;;-1;;;;;;0</Property>
+        <Property Name="TabIndex">61</Property>
+      </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl4" ControlName="LED Control 4">
         <Property Name="Name">LEDControl4</Property>
         <Property Name="Size">28, 28</Property>
-        <Property Name="Location">152, 33</Property>
+        <Property Name="Location">21, 29</Property>
         <Property Name="UsedLEDColorOn">LimeGreen</Property>
         <Property Name="UsedLEDColorOff">Red</Property>
         <Property Name="WithFrame">False</Property>
@@ -267,7 +303,7 @@
       <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl4" Children="Controls" ControlName="Static Text 4">
         <Property Name="Name">StaticTextControl4</Property>
         <Property Name="Size">45, 16</Property>
-        <Property Name="Location">185, 41</Property>
+        <Property Name="Location">54, 37</Property>
         <Property Name="Font">Microsoft Sans Serif, 8.25pt</Property>
         <Property Name="Text">Flexray</Property>
       </Object>
@@ -290,7 +326,7 @@
         <Property Name="TabIndex">31</Property>
       </Object>
       <Property Name="Name">GroupBoxControl3</Property>
-      <Property Name="Size">488, 81</Property>
+      <Property Name="Size">488, 138</Property>
       <Property Name="Location">3, 231</Property>
       <Property Name="BackColor">242, 242, 242</Property>
       <Property Name="Font">Microsoft Sans Serif, 9.75pt, style=Bold</Property>
@@ -300,7 +336,7 @@
     <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl2" Children="Controls" ControlName="Group Box 2">
       <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl3" Children="Controls" ControlName="Input/Output Box 3">
         <Property Name="Name">TextBoxControl3</Property>
-        <Property Name="Size">205, 21</Property>
+        <Property Name="Size">205, 22</Property>
         <Property Name="Location">253, 39</Property>
         <Property Name="AlarmUpperTextColor">WindowText</Property>
         <Property Name="ValueDecimalPlaces">0</Property>
@@ -311,7 +347,7 @@
         <Property Name="AlarmGeneralSettings">1;0;0;0</Property>
         <Property Name="DisplayLabel">Left</Property>
         <Property Name="DescriptionText">Camera Mode</Property>
-        <Property Name="DescriptionSize">89, 21</Property>
+        <Property Name="DescriptionSize">89, 22</Property>
         <Property Name="UsedValueTable">PhysicalValue</Property>
         <Property Name="SymbolConfiguration">8;16;anSWer_SysVal;;;Camera_Mode;1;;;-1;;;;;;0</Property>
         <Property Name="TabIndex">11</Property>
@@ -360,7 +396,7 @@
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl1" Children="Controls" ControlName="Input/Output Box 1">
         <Property Name="Name">TextBoxControl1</Property>
-        <Property Name="Size">265, 21</Property>
+        <Property Name="Size">265, 22</Property>
         <Property Name="Location">144, 21</Property>
         <Property Name="AlarmUpperTextColor">WindowText</Property>
         <Property Name="ValueDecimalPlaces">0</Property>
@@ -371,14 +407,14 @@
         <Property Name="AlarmGeneralSettings">1;2;0;255</Property>
         <Property Name="DisplayLabel">Left</Property>
         <Property Name="DescriptionText">p_arbt_enable_errclass_inf</Property>
-        <Property Name="DescriptionSize">166, 21</Property>
+        <Property Name="DescriptionSize">166, 22</Property>
         <Property Name="UsedValueTable">PhysicalValue</Property>
         <Property Name="SymbolConfiguration">8;16;XCP::Params::g_dasi_cfg::spa1_p1_cfg::cfg_arbt;;;p_arbt_enable_errclass_inf;1;;;-1;;;;;;0</Property>
         <Property Name="TabIndex">0</Property>
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl2" Children="Controls" ControlName="Input/Output Box 2">
         <Property Name="Name">TextBoxControl2</Property>
-        <Property Name="Size">290, 21</Property>
+        <Property Name="Size">290, 22</Property>
         <Property Name="Location">144, 57</Property>
         <Property Name="AlarmUpperTextColor">WindowText</Property>
         <Property Name="ValueDecimalPlaces">0</Property>
@@ -389,7 +425,7 @@
         <Property Name="AlarmGeneralSettings">1;2;-128;127</Property>
         <Property Name="DisplayLabel">Left</Property>
         <Property Name="DescriptionText">p_arbt_enable_func_actv_cond</Property>
-        <Property Name="DescriptionSize">191, 21</Property>
+        <Property Name="DescriptionSize">191, 22</Property>
         <Property Name="UsedValueTable">PhysicalValue</Property>
         <Property Name="SymbolConfiguration">8;16;XCP::Params::g_dasi_cfg::spa1_p1_cfg::cfg_arbt;;;p_arbt_enable_func_actv_cond;1;;;-1;;;;;;0</Property>
         <Property Name="TabIndex">1</Property>
@@ -461,7 +497,7 @@
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl5" Children="Controls" ControlName="Input/Output Box 5">
         <Property Name="Name">TextBoxControl5</Property>
-        <Property Name="Size">316, 21</Property>
+        <Property Name="Size">316, 22</Property>
         <Property Name="Location">144, 94</Property>
         <Property Name="AlarmUpperTextColor">WindowText</Property>
         <Property Name="ValueDecimalPlaces">0</Property>
@@ -472,7 +508,7 @@
         <Property Name="AlarmGeneralSettings">1;2;0;255</Property>
         <Property Name="DisplayLabel">Left</Property>
         <Property Name="DescriptionText">enable_ego_motion_compensation:</Property>
-        <Property Name="DescriptionSize">217, 21</Property>
+        <Property Name="DescriptionSize">217, 22</Property>
         <Property Name="UsedValueTable">PhysicalValue</Property>
         <Property Name="SymbolConfiguration">8;16;XCP::Params::g_dasi_cfg::adsp_system_cfg::cfg_made;;;enable_ego_motion_compensation;1;;;-1;;;;;;0</Property>
         <Property Name="TabIndex">21</Property>
