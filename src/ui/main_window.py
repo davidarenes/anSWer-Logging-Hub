@@ -88,9 +88,6 @@ class MainWindow(ctk.CTk):
         self._initial_canoe_exec = state.canoe_exec or ""
         default_log_dir = (state.log_dir or "").strip() or str(self.paths.log_dir)
         self.log_dir_var = tk.StringVar(value=default_log_dir)
-        self._log_dir_hint_var = tk.StringVar()
-        self._update_log_dir_hint()
-        self.log_dir_var.trace_add("write", lambda *_: self._on_log_dir_var_changed())
         self._record_timer_var = tk.StringVar(value="Recording time: --:--:--.---")
         self._camera_mode_var = tk.StringVar(value="Camera mode: --")
         self._ethernet_status_var = tk.StringVar(value="Ethernet: --")
@@ -398,38 +395,8 @@ class MainWindow(ctk.CTk):
         styles.style_label(action_title, kind="section")
         action_title.grid(row=0, column=0, sticky="w", padx=pad_x, pady=(pad_y, 4))
 
-        action_hint = ctk.CTkLabel(
-            action_card,
-            text="Start/stop CANoe logging once metadata is ready.",
-        )
-        styles.style_label(action_hint, kind="hint")
-        action_hint.grid(row=1, column=0, sticky="w", padx=pad_x, pady=(0, 4))
-
-        action_btn_row = ctk.CTkFrame(action_card, fg_color="transparent")
-        action_btn_row.grid(row=2, column=0, sticky="ew", padx=pad_x, pady=(pad_y, pad_y // 2))
-        action_btn_row.grid_columnconfigure(0, weight=9)
-        action_btn_row.grid_columnconfigure(1, weight=1)
-
-        self.btn_record = ctk.CTkButton(
-            action_btn_row,
-            text="Start recording",
-            command=self._on_start_stop_click,
-            state="disabled",
-        )
-        styles.style_button(self.btn_record, variant="neutral", size="lg", roundness="lg")
-        self.btn_record.grid(row=0, column=0, sticky="ew", padx=(0, pad_x // 2))
-
-        self.btn_discard = ctk.CTkButton(
-            action_btn_row,
-            text="Discard recording",
-            command=self._on_discard_click,
-            state="disabled",
-        )
-        styles.style_button(self.btn_discard, variant="neutral", size="lg", roundness="lg")
-        self.btn_discard.grid(row=0, column=1, sticky="ew", padx=(pad_x // 2, 0))
-
         log_dir_row = ctk.CTkFrame(action_card, fg_color="transparent")
-        log_dir_row.grid(row=4, column=0, sticky="ew", padx=pad_x, pady=(pad_y // 2, pad_y // 2))
+        log_dir_row.grid(row=1, column=0, sticky="ew", padx=pad_x, pady=(0, 6))
         log_dir_row.grid_columnconfigure(1, weight=1)
 
         log_dir_label = ctk.CTkLabel(log_dir_row, text="Log folder")
@@ -452,12 +419,35 @@ class MainWindow(ctk.CTk):
         styles.style_button(browse_log_btn, variant="neutral", size="sm", roundness="md")
         browse_log_btn.grid(row=0, column=2, sticky="e")
 
-        log_hint = ctk.CTkLabel(
+        action_hint = ctk.CTkLabel(
             action_card,
-            textvariable=self._log_dir_hint_var,
+            text="Start/stop CANoe logging once metadata is ready.",
         )
-        styles.style_label(log_hint, kind="hint")
-        log_hint.grid(row=5, column=0, sticky="w", padx=pad_x, pady=(0, pad_y))
+        styles.style_label(action_hint, kind="hint")
+        action_hint.grid(row=2, column=0, sticky="w", padx=pad_x, pady=(0, 4))
+
+        action_btn_row = ctk.CTkFrame(action_card, fg_color="transparent")
+        action_btn_row.grid(row=3, column=0, sticky="ew", padx=pad_x, pady=(pad_y, pad_y // 2))
+        action_btn_row.grid_columnconfigure(0, weight=9)
+        action_btn_row.grid_columnconfigure(1, weight=1)
+
+        self.btn_record = ctk.CTkButton(
+            action_btn_row,
+            text="Start recording",
+            command=self._on_start_stop_click,
+            state="disabled",
+        )
+        styles.style_button(self.btn_record, variant="neutral", size="lg", roundness="lg")
+        self.btn_record.grid(row=0, column=0, sticky="ew", padx=(0, pad_x // 2))
+
+        self.btn_discard = ctk.CTkButton(
+            action_btn_row,
+            text="Discard recording",
+            command=self._on_discard_click,
+            state="disabled",
+        )
+        styles.style_button(self.btn_discard, variant="neutral", size="lg", roundness="lg")
+        self.btn_discard.grid(row=0, column=1, sticky="ew", padx=(pad_x // 2, 0))
 
         # ---- Recording status ----
         self.status_card = styles.card(self.body)
@@ -629,7 +619,7 @@ class MainWindow(ctk.CTk):
 
     def _create_hint_icon(self, master, text: str) -> ctk.CTkButton:
         """
-        Compact info icon that shows contextual help on hover.
+        Compact info icon that shows contextual help on click.
         """
         btn = ctk.CTkButton(
             master,
@@ -643,9 +633,9 @@ class MainWindow(ctk.CTk):
             font=styles.Fonts.CAPTION,
         )
         btn.configure(border_width=0, width=20, height=20)
-        btn.bind("<Enter>", lambda _e, msg=text, widget=btn: self._show_hint_tooltip(msg, widget))
+        btn.bind("<ButtonPress-1>", lambda _e, msg=text, widget=btn: self._show_hint_tooltip(msg, widget))
+        btn.bind("<ButtonRelease-1>", lambda _e: self._hide_hint_tooltip())
         btn.bind("<Leave>", lambda _e: self._hide_hint_tooltip())
-        btn.bind("<ButtonPress>", lambda _e: self._hide_hint_tooltip())
         return btn
 
     def _show_hint_tooltip(self, text: str, widget: tk.Widget) -> None:
@@ -1062,13 +1052,6 @@ class MainWindow(ctk.CTk):
     def _on_log_dir_entry_commit(self, _event: tk.Event | None = None) -> None:
         """Persist state after manual edits to the log directory."""
         self._persist_state_snapshot()
-
-    def _on_log_dir_var_changed(self, *_args: object) -> None:
-        self._update_log_dir_hint()
-
-    def _update_log_dir_hint(self) -> None:
-        path = (self.log_dir_var.get() or "").strip() or "Not set"
-        self._log_dir_hint_var.set(f"Log output directory → {path}")
 
     def _resolve_log_root(self) -> Path | None:
         raw = (self.log_dir_var.get() or "").strip()
