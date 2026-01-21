@@ -11,7 +11,9 @@
           <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="Rear_Right" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
         </namespace>
         <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="Ethernet" comment="" bitcount="32" isSigned="false" encoding="65001" type="int" startValue="0" />
+        <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="Ethernet_Drops" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
         <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="Flexray" comment="" bitcount="32" isSigned="false" encoding="65001" type="int" startValue="0" />
+        <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="Flexray_Drops" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
       </namespace>
       <namespace name="XCP" comment="" interface="">
         <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="enable_ego_motion_compensation" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />

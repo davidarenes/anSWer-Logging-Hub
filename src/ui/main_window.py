@@ -95,6 +95,8 @@ class MainWindow(ctk.CTk):
         self._camera_mode_var = tk.StringVar(value="Camera mode: --")
         self._ethernet_status_var = tk.StringVar(value="Ethernet: --")
         self._flexray_status_var = tk.StringVar(value="Flexray: --")
+        self._ethernet_drops_var = tk.StringVar(value="Ethernet drops: --")
+        self._flexray_drops_var = tk.StringVar(value="Flexray drops: --")
         self._hint_popup: ctk.CTkToplevel | None = None
         self._theme_mode: str = "neutral"
         self._theme_cards: list[ctk.CTkFrame] = []
@@ -472,6 +474,8 @@ class MainWindow(ctk.CTk):
         status_row.grid_columnconfigure(1, weight=1)
         status_row.grid_columnconfigure(2, weight=1)
         status_row.grid_columnconfigure(3, weight=1)
+        status_row.grid_rowconfigure(0, weight=1)
+        status_row.grid_rowconfigure(1, weight=0)
 
         self.record_timer_label = ctk.CTkLabel(
             status_row,
@@ -507,6 +511,22 @@ class MainWindow(ctk.CTk):
         styles.style_label(self.flexray_status_label, kind="body")
         self.flexray_status_label.configure(font=styles.Fonts.BODY_BOLD)
         self.flexray_status_label.grid(row=0, column=3, sticky="nsew")
+
+        self.ethernet_drops_label = ctk.CTkLabel(
+            status_row,
+            textvariable=self._ethernet_drops_var,
+            anchor="center",
+        )
+        styles.style_label(self.ethernet_drops_label, kind="body")
+        self.ethernet_drops_label.grid(row=1, column=2, sticky="nsew", pady=(2, 0))
+
+        self.flexray_drops_label = ctk.CTkLabel(
+            status_row,
+            textvariable=self._flexray_drops_var,
+            anchor="center",
+        )
+        styles.style_label(self.flexray_drops_label, kind="body")
+        self.flexray_drops_label.grid(row=1, column=3, sticky="nsew", pady=(2, 0))
 
         # ---- Comment workspace ----
         self.comment_card = styles.card(self.body)
@@ -978,6 +998,10 @@ class MainWindow(ctk.CTk):
         self._ethernet_status_var.set(f"Ethernet: {ethernet_status or '--'}")
         flexray_status = self._read_sysvar_value("anSWer_SysVal::Network_Status::Flexray")
         self._flexray_status_var.set(f"Flexray: {flexray_status or '--'}")
+        ethernet_drops = self._read_sysvar_value("anSWer_SysVal::Network_Status::Ethernet_Drops")
+        self._ethernet_drops_var.set(f"Ethernet drops: {ethernet_drops or '--'}")
+        flexray_drops = self._read_sysvar_value("anSWer_SysVal::Network_Status::Flexray_Drops")
+        self._flexray_drops_var.set(f"Flexray drops: {flexray_drops or '--'}")
 
         camera_ok = self._is_expected_status(camera_mode, 4)
         ethernet_ok = self._is_expected_status(ethernet_status, 1)
@@ -990,6 +1014,18 @@ class MainWindow(ctk.CTk):
         self.camera_mode_label.configure(text_color=camera_color)
         self.ethernet_status_label.configure(text_color=ethernet_color)
         self.flexray_status_label.configure(text_color=flexray_color)
+        try:
+            eth_drops_val = int(str(ethernet_drops).strip())
+        except Exception:
+            eth_drops_val = 0
+        eth_drops_color = styles.Palette.CHILL_RED_TEXT if eth_drops_val > 0 else styles.Palette.TEXT
+        self.ethernet_drops_label.configure(text_color=eth_drops_color)
+        try:
+            drops_val = int(str(flexray_drops).strip())
+        except Exception:
+            drops_val = 0
+        drops_color = styles.Palette.CHILL_RED_TEXT if drops_val > 0 else styles.Palette.TEXT
+        self.flexray_drops_label.configure(text_color=drops_color)
 
         overall_ok = camera_ok and ethernet_ok and flexray_ok
         if running and overall_ok:

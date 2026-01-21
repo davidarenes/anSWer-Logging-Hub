@@ -1,26 +1,26 @@
 /*@!Encoding:1252*/
 
-includes
-{
-}
-
 variables
 {
   msTimer tRefresh;
 
   long lastCounter = -1;     // Last observed value of the sysvar counter
   int  isUpdating  = 0;      // 1 if the counter is changing, 0 if frozen
+  int  wasUpdating = 0;      // Previous state (for edge detection)
 }
 
 on start
 {
+  // Reset drops counter at measurement start
+  @sysvar::anSWer_SysVal::Network_Status::Ethernet_Drops = 0;
+
   // Periodic check every 100 ms
   setTimerCyclic(tRefresh, 100);
 }
 
 on timer tRefresh
 {
-  long current;              // Local variable declaration
+  long current;
 
   // Read current counter value from sysvar
   current = @ZIPY_STREAM_P1::counter;
@@ -28,15 +28,25 @@ on timer tRefresh
   // Detect real update (counter changed since last cycle)
   if (current != lastCounter)
   {
-    isUpdating  = 1;         // Stream is alive
-    lastCounter = current;   // Update stored value
+    isUpdating  = 1;
+    lastCounter = current;
   }
   else
   {
-    isUpdating = 0;          // No update detected
+    isUpdating = 0;
   }
 
-  // Write Ethernet network status sysvar
+  // Detect Ethernet drop (UP -> DOWN transition)
+  if (wasUpdating == 1 && isUpdating == 0)
+  {
+    @sysvar::anSWer_SysVal::Network_Status::Ethernet_Drops =
+      @sysvar::anSWer_SysVal::Network_Status::Ethernet_Drops + 1;
+  }
+
+  // Store current state for next cycle
+  wasUpdating = isUpdating;
+
+  // Write Ethernet network status
   @sysvar::anSWer_SysVal::Network_Status::Ethernet = isUpdating;
 }
 

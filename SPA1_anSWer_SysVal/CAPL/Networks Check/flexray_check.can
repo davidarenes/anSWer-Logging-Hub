@@ -8,21 +8,24 @@ variables
 {
   msTimer tRefresh;
 
-  long lastValue = -1;        // Last observed value of the FlexRay signal
-  int  isUpdating = 0;        // 1 if the signal is changing, 0 if frozen
+  long lastValue   = -1;      // Last observed value of the FlexRay signal
+  int  isUpdating  = 0;       // 1 if signal is changing, 0 if frozen
+  int  wasUpdating = 0;       // Previous state (for edge detection)
 }
 
 on start
 {
+  // Reset FlexRay status and drops counter at measurement start
+  @sysvar::anSWer_SysVal::Network_Status::Flexray        = 0;
+  @sysvar::anSWer_SysVal::Network_Status::Flexray_Drops = 0;
+
   // Periodic check every 100 ms
   setTimerCyclic(tRefresh, 100);
-  
-  @sysvar::anSWer_SysVal::Network_Status::Flexray = 0;
 }
 
 on timer tRefresh
 {
-  long current;               // Local variable declaration
+  long current;
 
   // Read current value of the FlexRay signal
   current = $ASDM::SftyGainGroupSafeChks;
@@ -30,25 +33,35 @@ on timer tRefresh
   // Detect real update (value changed since last cycle)
   if (current != lastValue)
   {
-    isUpdating = 1;           // Signal is alive
-    lastValue  = current;     // Store new value
+    isUpdating = 1;
+    lastValue  = current;
   }
   else
   {
-    isUpdating = 0;           // No update detected
+    isUpdating = 0;
   }
 
-  // Write final FlexRay network status sysvar
+  // Detect FlexRay drop (UP -> DOWN transition)
+  if (wasUpdating == 1 && isUpdating == 0)
+  {
+    @sysvar::anSWer_SysVal::Network_Status::Flexray_Drops =
+      @sysvar::anSWer_SysVal::Network_Status::Flexray_Drops + 1;
+  }
+
+  // Store current state for next cycle
+  wasUpdating = isUpdating;
+
+  // Write FlexRay network status
   @sysvar::anSWer_SysVal::Network_Status::Flexray = isUpdating;
 }
 
-// Ensures FlexRay network status is reset to 0 before stopping measurement
+// Ensure FlexRay status is reset before stopping measurement
 on preStop
 {
   @sysvar::anSWer_SysVal::Network_Status::Flexray = 0;
 }
 
-// Additional safety: ensure it is 0 after measurement is fully stopped
+// Additional safety after measurement is fully stopped
 on stopMeasurement
 {
   @sysvar::anSWer_SysVal::Network_Status::Flexray = 0;
