@@ -42,4 +42,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['C:\\Users\\darenes\\Desktop\\SPA1\\anSWer-Logging-Hub\\src\\ico\\CANoe_Logging.ico'],
 )

@@ -14,7 +14,8 @@
     `.\build_exe.ps1 -PyInstaller .\venv\Scripts\pyinstaller.exe`.
 #>
 param(
-    [string]$PyInstaller = "pyinstaller"
+    [string]$PyInstaller = "pyinstaller",
+    [string]$Python = ""
 )
 
 Set-StrictMode -Version Latest
@@ -28,11 +29,21 @@ $distPath = Join-Path $repoRoot "dist"
 $buildPath = Join-Path $repoRoot "build"
 $exeName = "anSWer Logging Hub.exe"
 $finalExePath = Join-Path $srcPath $exeName
+$requirementsPath = Join-Path $repoRoot "requirements.txt"
+$venvDir = Join-Path $repoRoot ".venv"
+if (-not (Test-Path $venvDir)) {
+    $legacyVenv = Join-Path $repoRoot "venv"
+    if (Test-Path $legacyVenv) {
+        $venvDir = $legacyVenv
+    }
+}
+$venvPython = Join-Path $venvDir "Scripts\python.exe"
 
 $arguments = @(
     "--name", "anSWer Logging Hub",
     "--onefile",
     "--windowed",
+    "--icon", (Join-Path $repoRoot "src\ico\CANoe_Logging.ico"),
     "--paths", $srcPath,
     "--collect-submodules", "win32com",
     "--hidden-import=win32com.client",
@@ -40,22 +51,39 @@ $arguments = @(
     "--collect-data", "customtkinter",
     "src/app.py"
 )
-$venvPython = Join-Path $repoRoot "venv\Scripts\python.exe"
 $pyInstallerCommand = $null
 $pyInstallerArgs = $arguments
 
 if ($PyInstaller -eq "pyinstaller") {
-    if (Test-Path $venvPython) {
-        $pyInstallerCommand = $venvPython
-        $pyInstallerArgs = @("-m", "PyInstaller") + $arguments
-    } else {
-        $pyInstallerExecutable = Get-Command $PyInstaller -ErrorAction SilentlyContinue
-        if ($pyInstallerExecutable) {
-            $pyInstallerCommand = $pyInstallerExecutable.Source
-        } else {
-            throw "PyInstaller not found. Install it (e.g. pip install pyinstaller) or pass -PyInstaller with a custom path."
+    if (-not (Test-Path $venvPython)) {
+        $pyLauncher = $null
+        if ($Python) {
+            $pyLauncher = $Python
+        } elseif (Get-Command py -ErrorAction SilentlyContinue) {
+            $pyLauncher = "py -3"
+        } elseif (Get-Command python -ErrorAction SilentlyContinue) {
+            $pyLauncher = "python"
         }
+        if (-not $pyLauncher) {
+            throw "Python not found. Install Python 3 or pass -Python with a full path."
+        }
+
+        Write-Host "Creating venv at $venvDir..."
+        & $pyLauncher -m venv $venvDir
     }
+
+    if (-not (Test-Path $venvPython)) {
+        throw "Virtual environment python not found at $venvPython"
+    }
+
+    if (Test-Path $requirementsPath) {
+        Write-Host "Installing dependencies from requirements.txt..."
+        & $venvPython -m pip install --upgrade pip
+        & $venvPython -m pip install -r $requirementsPath
+    }
+
+    $pyInstallerCommand = $venvPython
+    $pyInstallerArgs = @("-m", "PyInstaller") + $arguments
 } else {
     $pyInstallerCommand = $PyInstaller
 }

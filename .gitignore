@@ -6,3 +6,7 @@ Logs/*
 SPA1_anSWer_SysVal/XCP/*
 !SPA1_anSWer_SysVal/XCP/.gitkeep
 SPA1_anSwer_SysVal/XCP/*.a2l
+
+# Python virtual environments
+venv/
+.venv/
