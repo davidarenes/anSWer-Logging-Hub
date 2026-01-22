@@ -43,7 +43,7 @@ $arguments = @(
     "--name", "anSWer Logging Hub",
     "--onefile",
     "--windowed",
-    "--icon", (Join-Path $repoRoot "src\ico\CANoe_Logging.ico"),
+    "--icon", (Join-Path $repoRoot "src\ico\anSWer_Logging_Hub.ico"),
     "--paths", $srcPath,
     "--collect-submodules", "win32com",
     "--hidden-import=win32com.client",

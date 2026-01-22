@@ -19,6 +19,7 @@
         <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="enable_ego_motion_compensation" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
         <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="p_arbt_enable_errclass_inf" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
         <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="p_arbt_enable_func_actv_cond" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+        <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="p_CTA_Error_Handling" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
       </namespace>
       <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="Camera_Mode" comment="" bitcount="32" isSigned="false" encoding="65001" type="int" />
     </namespace>

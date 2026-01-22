@@ -421,10 +421,13 @@
 &lt;Key&gt;48/VariableSymbols&lt;/Key&gt;
 &lt;NodeTreeProperties&gt;
 &lt;NodeProperties&gt;
-&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/anSWer_SysVal&lt;/NodeKey&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/XCP&lt;/NodeKey&gt;
 &lt;/NodeProperties&gt;
 &lt;NodeProperties&gt;
-&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/anSWer_SysVal/Network_Status&lt;/NodeKey&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/XCP/Params&lt;/NodeKey&gt;
+&lt;/NodeProperties&gt;
+&lt;NodeProperties&gt;
+&lt;NodeKey&gt;{RootSymbolItem/{SysVarGroupItem/XCP/Params/g_rctx_cfg&lt;/NodeKey&gt;
 &lt;/NodeProperties&gt;
 &lt;/NodeTreeProperties&gt;
 &lt;/ViewProperties&gt;

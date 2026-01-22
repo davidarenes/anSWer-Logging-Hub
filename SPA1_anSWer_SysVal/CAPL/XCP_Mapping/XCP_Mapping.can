@@ -23,4 +23,6 @@ on timer tRefresh
   @anSWer_SysVal::XCP::p_arbt_enable_func_actv_cond = @XCP::Params::g_dasi_cfg::spa1_p1_cfg::cfg_arbt::p_arbt_enable_func_actv_cond;
   // enable_ego_motion_compensation
   @anSWer_SysVal::XCP::enable_ego_motion_compensation = @XCP::Params::g_dasi_cfg::adsp_system_cfg::cfg_made::enable_ego_motion_compensation;
+  // p_CTA_Error_Handling
+  @anSWer_SysVal::XCP::p_CTA_Error_Handling = @XCP::Params::g_rctx_cfg::p_CTA_Error_Handling;
 }
