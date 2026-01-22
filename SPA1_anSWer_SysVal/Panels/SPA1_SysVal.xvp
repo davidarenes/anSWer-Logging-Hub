@@ -405,11 +405,18 @@
         <Property Name="Size">106, 47</Property>
         <Property Name="Location">81, 245</Property>
         <Property Name="MaximumSize">100000, 47</Property>
+        <Property Name="Maximum">30</Property>
         <Property Name="DisplayMinMax">True</Property>
-        <Property Name="Minimum">-3</Property>
-        <Property Name="MinimumDouble">-3.402</Property>
-        <Property Name="SymbolConfiguration">
-        </Property>
+        <Property Name="TickFrequency">60</Property>
+        <Property Name="Minimum">-30</Property>
+        <Property Name="SmallChange">60</Property>
+        <Property Name="LargeChange">60</Property>
+        <Property Name="SmallChangeDouble">60</Property>
+        <Property Name="LargeChangeDouble">60</Property>
+        <Property Name="TickFrequencyDouble">60</Property>
+        <Property Name="MaximumDouble">30</Property>
+        <Property Name="MinimumDouble">-30</Property>
+        <Property Name="SymbolConfiguration">8;16;XCP::Params::g_dasi_cfg::spa1_p1_cfg::cfg_xlka;;;p_lka_min_overlay_trq_Nm;2;;;-1;;;;;;0</Property>
         <Property Name="TabIndex">35</Property>
       </Object>
       <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=15.6.6.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl23" Children="Controls" ControlName="Static Text 23">
